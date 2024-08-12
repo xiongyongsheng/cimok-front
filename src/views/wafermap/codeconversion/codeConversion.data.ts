@@ -1,10 +1,28 @@
 import type {BasicColumn, FormSchema} from '@/components/Table'
 import {useRender} from '@/components/Table'
+import { DICT_TYPE, getDictOptions } from '@/utils/dict'
+
+const options = getDictOptions(DICT_TYPE.WAFER_BIN_CODE_COLOR,'string')
+
+
+function previewOptions() {
+  return options.map((option) => {
+    const { value, label } = option
+    if (value === '')
+      return option
+
+    return {
+      label: useRender.renderTag(label, value),
+      value,
+    }
+  })
+}
 
 export const columns: BasicColumn[] = [
         {
           title: 'ID',
           dataIndex: 'id',
+          defaultHidden: true,
           width: 160,
         },
         {
@@ -41,11 +59,16 @@ export const columns: BasicColumn[] = [
           title: '颜色',
           dataIndex: 'binColor',
           width: 160,
+          customRender: ({ text }) => {
+            return useRender.renderTag(text,text)
+          },
         },
+
         {
           title: '部门id',
           dataIndex: 'deptId',
           width: 160,
+          defaultHidden: true
         },
         {
           title: '创建人',
@@ -93,46 +116,7 @@ export const searchFormSchema: FormSchema[] = [
         field: 'waferLot',
           component: 'Input',
         colProps: { span: 8 },
-      },
-      {
-        label: '原始代码',
-        field: 'sourceCode',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '目标代码',
-        field: 'targetCode',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '代码类型',
-        field: 'codeType',
-          component: 'Select',
-          componentProps: {
-              options: [],
-          },
-        colProps: { span: 8 },
-      },
-      {
-        label: '颜色',
-        field: 'binColor',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '部门id',
-        field: 'deptId',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '创建时间',
-        field: 'createTime',
-          component: 'RangePicker',
-        colProps: { span: 8 },
-      },
+      }
 ]
 
 export const createFormSchema: FormSchema[] = [
@@ -172,17 +156,21 @@ export const createFormSchema: FormSchema[] = [
           field: 'codeType',
             component: 'Select',
             componentProps: {
-                options:[],
+              options: getDictOptions(DICT_TYPE.WAFER_BIN_CODE_TYPE,'string'),
             },
         },
         {
           label: '颜色',
           field: 'binColor',
-            component: 'Input',
+          component: 'Select',
+          componentProps: {
+            options: previewOptions(),
+          }
         },
         {
           label: '部门id',
           field: 'deptId',
+          show:false,
             component: 'Input',
         },
 ]
@@ -224,16 +212,20 @@ export const updateFormSchema: FormSchema[] = [
           field: 'codeType',
             component: 'Select',
             componentProps: {
-                options:[],
+              options: getDictOptions(DICT_TYPE.WAFER_BIN_CODE_TYPE,'string'),
             },
         },
         {
           label: '颜色',
           field: 'binColor',
-            component: 'Input',
+          component: 'Select',
+          componentProps: {
+            options: previewOptions(),
+          }
         },
         {
           label: '部门id',
+          show:false,
           field: 'deptId',
             component: 'Input',
         },

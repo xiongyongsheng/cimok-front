@@ -150,4 +150,8 @@ export enum DICT_TYPE {
   PROMOTION_COUPON_TAKE_TYPE = 'promotion_coupon_take_type', // 优惠劵的领取方式
   PROMOTION_ACTIVITY_STATUS = 'promotion_activity_status', // 优惠活动的状态
   PROMOTION_CONDITION_TYPE = 'promotion_condition_type', // 营销的条件类型枚举
+
+  //========== WAFER-MAP ===============
+ WAFER_BIN_CODE_COLOR ='wafer_bin_code_color', //wafer 显示颜色
+ WAFER_BIN_CODE_TYPE ='wafer_bin_code_type', //wafer 显示颜色
 }
