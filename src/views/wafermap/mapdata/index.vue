@@ -57,6 +57,7 @@
 </script>
 <template>
   <div>
+    
     <BasicTable @register="registerTable">
       <template #toolbar>
         <a-button type="primary" v-auth="['wafermap:mapdata:create']" :preIcon="IconEnum.ADD" @click="handleCreate">

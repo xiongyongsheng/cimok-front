@@ -6,9 +6,10 @@ export const columns: BasicColumn[] = [
           title: 'ID',
           dataIndex: 'id',
           width: 160,
+          defaultHidden:true
         },
         {
-          title: '晶圆ID',
+          title: '片号',
           dataIndex: 'waferId',
           width: 160,
         },
