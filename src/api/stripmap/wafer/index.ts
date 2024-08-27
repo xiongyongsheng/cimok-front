@@ -6,7 +6,7 @@ export function getWaferPage(params) {
 }
 
 // 查询Wafer坐标关联详情
-export function getWafer(id: number) {
+export function getWafer(id: string) {
   return defHttp.get({ url: `/stripmap/wafer/get?id=${id}` })
 }
 

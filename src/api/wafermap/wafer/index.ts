@@ -1,3 +1,9 @@
+/*
+ * @Author: 卢靖康
+ * @Date: 2024-08-14 14:42:37
+ * @LastEditTime: 2024-08-27 21:20:38
+ * @LastEditors: 卢靖康
+ */
 import { defHttp } from '@/utils/http/axios'
 
 // 查询晶圆片信息列表
@@ -5,11 +11,20 @@ export function getWaferPage(params) {
   return defHttp.get({ url: '/wafermap/wafer/page', params })
 }
 
+// 导入wafer文件
+export function importWafer(data) {
+   return defHttp.uploadFile({ url: '/wafermap/wafer/import' }, data)
+}
+
+// 验证wafer数据
+export function validateWafer(data) {
+  return defHttp.post({ url: '/wafermap/wafer/validate' ,data} )
+}
+
 // 查询晶圆片信息详情
 export function getWafer(id: number) {
   return defHttp.get({ url: `/wafermap/wafer/get?id=${id}` })
 }
-
 // 新增晶圆片信息
 export function createWafer(data) {
   return defHttp.post({ url: '/wafermap/wafer/create', data })

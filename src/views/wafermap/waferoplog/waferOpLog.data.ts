@@ -1,219 +1,101 @@
-import type {BasicColumn, FormSchema} from '@/components/Table'
-import {useRender} from '@/components/Table'
+/*
+ * @Author: 卢靖康
+ * @Date: 2024-08-14 14:42:37
+ * @LastEditTime: 2024-08-25 11:23:03
+ * @LastEditors: 卢靖康
+ */
+import type { BasicColumn, FormSchema } from "@/components/Table";
+import { useRender } from "@/components/Table";
+import { DICT_TYPE, getDictOptions } from '@/utils/dict';
 
 export const columns: BasicColumn[] = [
-        {
-          title: 'ID',
-          dataIndex: 'id',
-          width: 160,
-        },
-        {
-          title: '晶圆ID',
-          dataIndex: 'waferId',
-          width: 160,
-        },
-        {
-          title: '源',
-          dataIndex: 'source',
-          width: 160,
-        },
-        {
-          title: '目标',
-          dataIndex: 'target',
-          width: 160,
-        },
-        {
-          title: '数据版本',
-          dataIndex: 'mapDataVer',
-          width: 160,
-        },
-        {
-          title: '操作类型',
-          dataIndex: 'opType',
-          width: 160,
-        },
-        {
-          title: '设备号',
-          dataIndex: 'eqptCode',
-          width: 160,
-        },
-        {
-          title: '部门id',
-          dataIndex: 'deptId',
-          width: 160,
-        },
-        {
-          title: '创建人',
-          dataIndex: 'creator',
-          width: 160,
-        },
-        {
-          title: '创建时间',
-          dataIndex: 'createTime',
-          width: 180,
-          customRender: ({ text }) => {
-            return useRender.renderDate(text)
-          },
-        },
-        {
-          title: '更新人',
-          dataIndex: 'updater',
-          width: 160,
-        },
-        {
-          title: '更新时间',
-          dataIndex: 'updateTime',
-          width: 180,
-          customRender: ({ text }) => {
-            return useRender.renderDate(text)
-          },
-        },
-]
+  {
+    title: "片号",
+    dataIndex: "waferId",
+    width: 160,
+  },
+  {
+    title: "批次号",
+    dataIndex: "waferLotId",
+    width: 160,
+  },
+  {
+    title: "设备号",
+    dataIndex: "eqptCode",
+    width: 160,
+  },
+  {
+    title: "操作类型",
+    dataIndex: "opType",
+    width: 160,
+  },
+  {
+    title: "作业站点",
+    dataIndex: "processStep",
+    width: 160,
+  },
+  {
+    title: "总数",
+    dataIndex: "unitCnt",
+    width: 160,
+  },
+  {
+    title: "Good",
+    dataIndex: "goodCnt",
+    width: 160,
+  },
+  {
+    title: "NG",
+    dataIndex: "ngCnt",
+    width: 160,
+  },
+  {
+    title: "操作人",
+    dataIndex: "updater",
+    width: 160,
+  },
+  {
+    title: "操作时间",
+    dataIndex: "updateTime",
+    width: 180,
+    customRender: ({ text }) => {
+      return useRender.renderDate(text);
+    },
+  },
+];
 
 export const searchFormSchema: FormSchema[] = [
-      {
-        label: '晶圆ID',
-        field: 'waferId',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '源',
-        field: 'source',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '目标',
-        field: 'target',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '数据版本',
-        field: 'mapDataVer',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '操作类型',
-        field: 'opType',
-          component: 'Select',
-          componentProps: {
-              options: [],
-          },
-        colProps: { span: 8 },
-      },
-      {
-        label: '设备号',
-        field: 'eqptCode',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '部门id',
-        field: 'deptId',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '创建时间',
-        field: 'createTime',
-          component: 'RangePicker',
-        colProps: { span: 8 },
-      },
-]
-
-export const createFormSchema: FormSchema[] = [
   {
-    label: '编号',
-    field: 'id',
-    show: false,
-    component: 'Input'
+    label: ' ',
+    labelWidth: 15,
+    field: "waferId",
+    component: "Input",
+    componentProps: {
+      "type": "text",
+      "placeholder": "片号"
+    },
+    colProps: { span: 4 },
   },
-        {
-          label: '晶圆ID',
-          field: 'waferId',
-            component: 'Input',
-        },
-        {
-          label: '源',
-          field: 'source',
-            component: 'Input',
-        },
-        {
-          label: '目标',
-          field: 'target',
-            component: 'Input',
-        },
-        {
-          label: '数据版本',
-          field: 'mapDataVer',
-            component: 'Input',
-        },
-        {
-          label: '操作类型',
-          field: 'opType',
-            component: 'Select',
-            componentProps: {
-                options:[],
-            },
-        },
-        {
-          label: '设备号',
-          field: 'eqptCode',
-            component: 'Input',
-        },
-        {
-          label: '部门id',
-          field: 'deptId',
-            component: 'Input',
-        },
-]
-
-export const updateFormSchema: FormSchema[] = [
   {
-    label: '编号',
-    field: 'id',
-    show: false,
-    component: 'Input'
+    label: ' ',
+    labelWidth: 15,
+    field: "eqptCode",
+    component: "Input",
+    componentProps: {
+      "type": "text",
+      "placeholder": "设备号"
+    },
+    colProps: { span: 4 },
   },
-        {
-          label: '晶圆ID',
-          field: 'waferId',
-            component: 'Input',
-        },
-        {
-          label: '源',
-          field: 'source',
-            component: 'Input',
-        },
-        {
-          label: '目标',
-          field: 'target',
-            component: 'Input',
-        },
-        {
-          label: '数据版本',
-          field: 'mapDataVer',
-            component: 'Input',
-        },
-        {
-          label: '操作类型',
-          field: 'opType',
-            component: 'Select',
-            componentProps: {
-                options:[],
-            },
-        },
-        {
-          label: '设备号',
-          field: 'eqptCode',
-            component: 'Input',
-        },
-        {
-          label: '部门id',
-          field: 'deptId',
-            component: 'Input',
-        },
-]
+  {
+    label: " ",
+    labelWidth: 15,
+    field: "opType",
+    component: "Select",
+    componentProps: {
+      placeholder: "操作类型",
+      options: getDictOptions(DICT_TYPE.WAFER_OP_TYPE),
+    },
+    colProps: { span: 4 },
+  },
+];

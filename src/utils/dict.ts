@@ -154,4 +154,13 @@ export enum DICT_TYPE {
   //========== WAFER-MAP ===============
  WAFER_BIN_CODE_COLOR ='wafer_bin_code_color', //wafer 显示颜色
  WAFER_BIN_CODE_TYPE ='wafer_bin_code_type', //wafer 显示颜色
+ WAFER_ORIENTATION ='wafer_orientation', //wafer方向字典
+ WAFER_ROTATION_ANGLE ='wafer_rotation_angle',//wafer旋转角度
+ WAFER_OP_TYPE ='wafer_op_type', //wafer操作类型
+ //类型 process_type
+ PROCESS_TYPE = 'process_type',
+
+
+
+
 }

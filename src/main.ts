@@ -1,6 +1,13 @@
+/*
+ * @Author: 卢靖康
+ * @Date: 2024-08-14 14:42:37
+ * @LastEditTime: 2024-08-25 11:04:28
+ * @LastEditors: 卢靖康
+ */
 import 'uno.css'
 import 'ant-design-vue/dist/reset.css'
 import './design/index.less'
+import 'tdesign-vue-next/es/color-picker/style/index.css'
 
 // Register icon sprite
 import 'virtual:svg-icons-register'
@@ -14,6 +21,8 @@ import { setupStore } from '@/store'
 import { setupGlobDirectives } from '@/directives'
 import { setupI18n } from '@/locales/setupI18n'
 import { registerGlobComp } from '@/components/registerGlobComp'
+import { ColorPicker } from 'tdesign-vue-next';
+
 
 import '@/utils/tongji'
 
@@ -57,6 +66,7 @@ async function bootstrap() {
   // https://next.router.vuejs.org/api/#isready
   // await router.isReady();
 
+  app.use(ColorPicker)
   app.mount('#app')
 }
 

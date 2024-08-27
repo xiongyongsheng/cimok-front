@@ -1,3 +1,9 @@
+/*
+ * @Author: 卢靖康
+ * @Date: 2024-08-14 14:42:37
+ * @LastEditTime: 2024-08-24 23:51:05
+ * @LastEditors: 卢靖康
+ */
 import { getCurrentInstance, ref, unref } from 'vue'
 import type { DescInstance, DescriptionProps, UseDescReturnType } from './typing'
 import { isProdMode } from '@/utils/env'

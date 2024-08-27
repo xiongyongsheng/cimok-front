@@ -1,38 +1,45 @@
 import type { BasicColumn, FormSchema } from '@/components/Table'
 import { useRender } from '@/components/Table'
+import { DICT_TYPE, getDictOptions } from '@/utils/dict'
+
+
 
 export const columns: BasicColumn[] = [
   {
-    title: 'ID',
-    dataIndex: 'id',
+    title: '片号',
+    dataIndex: 'waferId',
     width: 160,
-    defaultHidden: true
   },
   {
-    title: '晶圆批号',
+    title: '批次',
     dataIndex: 'waferLotId',
     width: 160,
   },
   {
-    title: '产品类型',
-    dataIndex: 'deviceCode',
+    title: '客户代码',
+    dataIndex: 'custCode',
     width: 160,
   },
   {
-    title: '文件编号',
-    dataIndex: 'fileIdentId',
+    title: '芯片型号',
+    dataIndex: 'diePart',
     width: 160,
   },
-  {
-    title: '文件名称',
-    dataIndex: 'fileName',
-    width: 160,
-  },
-  {
-    title: '晶圆ID',
-    dataIndex: 'waferId',
-    width: 160,
-  },
+  // {
+  //   title: '产品类型',
+  //   dataIndex: 'deviceCode',
+  //   width: 160,
+  // },
+  // {
+  //   title: '文件编号',
+  //   dataIndex: 'fileIdentId',
+  //   width: 160,
+  // },
+  // {
+  //   title: '文件名称',
+  //   dataIndex: 'fileName',
+  //   width: 160,
+  // },
   {
     title: '行数',
     dataIndex: 'rows',
@@ -44,77 +51,41 @@ export const columns: BasicColumn[] = [
     width: 160,
   },
   {
-    title: '总数',
-    dataIndex: 'unitCnt',
-    width: 160,
-  },
-  {
-    title: '良品数',
+    title: 'Good',
     dataIndex: 'goodCnt',
     width: 160,
   },
   {
-    title: '不良数',
-    dataIndex: 'failCnt',
+    title: 'NG',
+    dataIndex: 'ngCnt',
     width: 160,
   },
   {
     title: '总数',
-    dataIndex: 'totalCnt',
+    dataIndex: 'unitCnt',
     width: 160,
   },
+  // 图档方向
+  // 原始方向
+  // 类型
+  
   {
-    title: '剩余数量',
-    dataIndex: 'usefulLeft',
-    width: 160,
-  },
-  {
-    title: '数据版本',
-    dataIndex: 'mapdataVer',
-    width: 160,
-  },
-  {
-    title: 'Flat/Notch Location',
-    dataIndex: 'fnloc',
-    width: 160,
-  },
-  {
-    title: 'Frame Rotation',
-    dataIndex: 'ffrot',
-    width: 160,
-  },
-  {
-    title: 'Origin原点',
+    title: '图档方向',
     dataIndex: 'orloc',
     width: 160,
   },
   {
-    title: '作业类型(量产/测试)',
+    title: '原始方向',
+    dataIndex: 'ffrot',
+    width: 160,
+  },
+  {
+    title: '类型',
     dataIndex: 'processType',
     width: 160,
-  },
-  {
-    title: '部门id',
-    dataIndex: 'deptId',
-    width: 160,
-  },
-  {
-    title: '创建人',
-    dataIndex: 'creator',
-    width: 160,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    width: 180,
     customRender: ({ text }) => {
-      return useRender.renderDate(text)
+      return useRender.renderDict(text, DICT_TYPE.PROCESS_TYPE)
     },
-  },
-  {
-    title: '更新人',
-    dataIndex: 'updater',
-    width: 160,
   },
   {
     title: '更新时间',
@@ -127,7 +98,17 @@ export const columns: BasicColumn[] = [
 ]
 
 export const searchFormSchema: FormSchema[] = [
-
+  {
+    label: ' ',
+    labelWidth: 15,
+    field: 'waferId',
+    component: 'Input',
+    componentProps: {
+      "type": "text",
+      "placeholder": "片号"
+    },
+    colProps: { span: 3 },
+  },
   {
     label: ' ',
     labelWidth: 15,
@@ -137,7 +118,7 @@ export const searchFormSchema: FormSchema[] = [
       "type": "text",
       "placeholder": "批次号"
     },
-    colProps: { span: 5 },
+    colProps: { span: 3 },
   },
 
   {
@@ -149,7 +130,7 @@ export const searchFormSchema: FormSchema[] = [
       "type": "text",
       "placeholder": "客户代码"
     },
-    colProps: { span: 5 },
+    colProps: { span: 3 },
   },
   {
     label: ' ',
@@ -160,210 +141,19 @@ export const searchFormSchema: FormSchema[] = [
       "type": "text",
       "placeholder": "芯片型号"
     },
-    colProps: { span: 5 },    
-  }
+    colProps: { span: 3 },    
+  },
+  // {
+  //   label: ' ',
+  //   labelWidth: 15,
+  //   field: 'deviceCode',
+  //   component: 'Input',
+  //   componentProps: {
+  //     "type": "text",
+  //     "placeholder": "物料类型"
+  //   },
+  //   colProps: { span: 3 },    
+  // }
 ]
 
-export const createFormSchema: FormSchema[] = [
-  {
-    label: '编号',
-    field: 'id',
-    show: false,
-    component: 'Input'
-  },
-  {
-    label: '晶圆批号',
-    field: 'waferLotId',
-    component: 'Input',
-  },
-  {
-    label: '产品类型',
-    field: 'deviceCode',
-    component: 'Input',
-  },
-  {
-    label: '文件编号',
-    field: 'fileIdentId',
-    component: 'Input',
-  },
-  {
-    label: '文件名称',
-    field: 'fileName',
-    component: 'Input',
-  },
-  {
-    label: '晶圆ID',
-    field: 'waferId',
-    component: 'Input',
-  },
-  {
-    label: '行数',
-    field: 'rows',
-    component: 'Input',
-  },
-  {
-    label: '列数',
-    field: 'cols',
-    component: 'Input',
-  },
-  {
-    label: '总数',
-    field: 'unitCnt',
-    component: 'Input',
-  },
-  {
-    label: '良品数',
-    field: 'goodCnt',
-    component: 'Input',
-  },
-  {
-    label: '不良数',
-    field: 'failCnt',
-    component: 'Input',
-  },
-  {
-    label: '总数',
-    field: 'totalCnt',
-    component: 'Input',
-  },
-  {
-    label: '剩余数量',
-    field: 'usefulLeft',
-    component: 'Input',
-  },
-  {
-    label: '数据版本',
-    field: 'mapdataVer',
-    component: 'Input',
-  },
-  {
-    label: 'Flat/Notch Location',
-    field: 'fnloc',
-    component: 'Input',
-  },
-  {
-    label: 'Frame Rotation',
-    field: 'ffrot',
-    component: 'Input',
-  },
-  {
-    label: 'Origin原点',
-    field: 'orloc',
-    component: 'Input',
-  },
-  {
-    label: '作业类型(量产/测试)',
-    field: 'processType',
-    component: 'Select',
-    componentProps: {
-      options: [],
-    },
-  },
-  {
-    label: '部门id',
-    field: 'deptId',
-    component: 'Input',
-  },
-]
 
-export const updateFormSchema: FormSchema[] = [
-  {
-    label: '编号',
-    field: 'id',
-    show: false,
-    component: 'Input'
-  },
-  {
-    label: '晶圆批号',
-    field: 'waferLotId',
-    component: 'Input',
-  },
-  {
-    label: '产品类型',
-    field: 'deviceCode',
-    component: 'Input',
-  },
-  {
-    label: '文件编号',
-    field: 'fileIdentId',
-    component: 'Input',
-  },
-  {
-    label: '文件名称',
-    field: 'fileName',
-    component: 'Input',
-  },
-  {
-    label: '晶圆ID',
-    field: 'waferId',
-    component: 'Input',
-  },
-  {
-    label: '行数',
-    field: 'rows',
-    component: 'Input',
-  },
-  {
-    label: '列数',
-    field: 'cols',
-    component: 'Input',
-  },
-  {
-    label: '总数',
-    field: 'unitCnt',
-    component: 'Input',
-  },
-  {
-    label: '良品数',
-    field: 'goodCnt',
-    component: 'Input',
-  },
-  {
-    label: '不良数',
-    field: 'failCnt',
-    component: 'Input',
-  },
-  {
-    label: '总数',
-    field: 'totalCnt',
-    component: 'Input',
-  },
-  {
-    label: '剩余数量',
-    field: 'usefulLeft',
-    component: 'Input',
-  },
-  {
-    label: '数据版本',
-    field: 'mapdataVer',
-    component: 'Input',
-  },
-  {
-    label: 'Flat/Notch Location',
-    field: 'fnloc',
-    component: 'Input',
-  },
-  {
-    label: 'Frame Rotation',
-    field: 'ffrot',
-    component: 'Input',
-  },
-  {
-    label: 'Origin原点',
-    field: 'orloc',
-    component: 'Input',
-  },
-  {
-    label: '作业类型(量产/测试)',
-    field: 'processType',
-    component: 'Select',
-    componentProps: {
-      options: [],
-    },
-  },
-  {
-    label: '部门id',
-    field: 'deptId',
-    component: 'Input',
-  },
-]

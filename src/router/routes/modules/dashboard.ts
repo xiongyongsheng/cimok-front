@@ -33,7 +33,7 @@ const dashboard: AppRouteModule = {
         title: t('routes.dashboard.workbench'),
         icon: 'ant-design:appstore-outlined',
       },
-    },
+    }
   ],
 }
 

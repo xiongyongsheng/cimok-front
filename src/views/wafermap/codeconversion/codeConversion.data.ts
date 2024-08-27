@@ -74,7 +74,7 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    label: ' 批次信息',
+    label: ' ',
     labelWidth: 15,
     field: 'custCode',
     component: 'Input',
@@ -82,7 +82,7 @@ export const searchFormSchema: FormSchema[] = [
       "type": "text",
       "placeholder": "客户代码"
     },
-    colProps: { span: 5 },
+    colProps: { span: 4 },
   },
   {
     label: ' ',
@@ -93,7 +93,7 @@ export const searchFormSchema: FormSchema[] = [
       "type": "text",
       "placeholder": "客户代码"
     },
-    colProps: { span: 5 },
+    colProps: { span: 4 },
   },
   {
     label: ' ',
@@ -104,7 +104,7 @@ export const searchFormSchema: FormSchema[] = [
       "type": "text",
       "placeholder": "芯片型号"
     },
-    colProps: { span: 5 },
+    colProps: { span: 4 },
   },
   {
     label: ' ',
@@ -115,7 +115,7 @@ export const searchFormSchema: FormSchema[] = [
       "type": "text",
       "placeholder": "批次号"
     },
-    colProps: { span: 5 },
+    colProps: { span: 4 },
   }
 ]
 

@@ -120,3 +120,5 @@ export type ComponentType =
   | 'Editor'
   | 'FileUpload'
   | 'CronTab'
+  | 'Button'
+  | 'AUpload'

@@ -1,3 +1,9 @@
+/*
+ * @Author: 卢靖康
+ * @Date: 2024-08-14 14:42:37
+ * @LastEditTime: 2024-08-24 23:19:07
+ * @LastEditors: 卢靖康
+ */
 import { defHttp } from '@/utils/http/axios'
 
 // 查询操作记录列表
@@ -6,7 +12,7 @@ export function getWaferOpLogPage(params) {
 }
 
 // 查询操作记录详情
-export function getWaferOpLog(id: number) {
+export function getWaferOpLog(id: string) {
   return defHttp.get({ url: `/wafermap/wafer-op-log/get?id=${id}` })
 }
 
