@@ -1,7 +1,7 @@
 <!--
  * @Author: 卢靖康
  * @Date: 2024-08-14 14:42:37
- * @LastEditTime: 2024-08-27 23:24:43
+ * @LastEditTime: 2024-08-27 23:40:45
  * @LastEditors: 卢靖康
 -->
 <script lang="ts" setup>
@@ -17,6 +17,7 @@ import {
   exportCodeConversion,
   getCodeConversionPage,
 } from "@/api/wafermap/codeconversion";
+import { Switch } from "ant-design-vue";
 
 defineOptions({ name: "CodeConversion" });
 
@@ -86,9 +87,8 @@ async function handleDelete(record: Recordable) {
         </a-button>
       </template>
       <template #bodyCell="{ column, record }">
-        <template>
-
-          
+        <template v-if="column.key === 'status'">
+          <Switch></Switch>
         </template>
 
         <template v-if="column.key === 'action'">
