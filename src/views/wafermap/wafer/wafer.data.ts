@@ -42,12 +42,12 @@ export const columns: BasicColumn[] = [
   // },
   {
     title: '行数',
-    dataIndex: 'rows',
+    dataIndex: 'rowCnt',
     width: 160,
   },
   {
     title: '列数',
-    dataIndex: 'cols',
+    dataIndex: 'colCnt',
     width: 160,
   },
   {
@@ -71,13 +71,19 @@ export const columns: BasicColumn[] = [
   
   {
     title: '图档方向',
-    dataIndex: 'orloc',
+    dataIndex: 'fnloc',
     width: 160,
+    customRender: ({ text }) => {
+      return useRender.renderDict(text, DICT_TYPE.WAFER_ORIENTATION)
+    },
   },
   {
     title: '原始方向',
-    dataIndex: 'ffrot',
+    dataIndex: 'orloc',
     width: 160,
+    customRender: ({ text }) => {
+      return useRender.renderDict(text, DICT_TYPE.WAFER_ORIENTATION)
+    },
   },
   {
     title: '类型',

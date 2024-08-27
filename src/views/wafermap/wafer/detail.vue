@@ -1,7 +1,7 @@
 <!--
  * @Author: 卢靖康
  * @Date: 2024-08-21 16:50:22
- * @LastEditTime: 2024-08-27 22:56:45
+ * @LastEditTime: 2024-08-28 00:16:00
  * @LastEditors: 卢靖康
 -->
 <script lang="ts" setup>
@@ -14,7 +14,8 @@ import { WaferMapDetailInfo } from "@/types/wafer/waferMap";
 import { DICT_TYPE, getDictOptions } from "@/utils/dict";
 import { RouterLink, useRoute } from "vue-router";
 import { getWafer } from "@/api/wafermap/wafer";
-import { Loading } from "/@/components/Loading";
+import { Loading } from "@/components/Loading";
+import { useRender } from "@/components/Table";
 
 defineOptions({ name: "WaferMapDetail" });
 let mapInfoData = ref<WaferMapDetailInfo>();
@@ -81,6 +82,9 @@ const schema: DescItem[] = [
   {
     field: "updateTime",
     label: "更新时间",
+    render: (text) => {
+      return useRender.renderDate(text);
+    },
   },
   {
     span: 1,

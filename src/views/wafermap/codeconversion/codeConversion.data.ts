@@ -94,7 +94,7 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: ' ',
     labelWidth: 15,
-    field: 'deviceCode',
+    field: 'diePart',
     component: 'Input',
     componentProps: {
       "type": "text",
@@ -105,7 +105,7 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: ' ',
     labelWidth: 15,
-    field: 'waferLot',
+    field: 'waferLotId',
     component: 'Input',
     componentProps: {
       "type": "text",
