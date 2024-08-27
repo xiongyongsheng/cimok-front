@@ -1,7 +1,7 @@
 <!--
  * @Author: 卢靖康
  * @Date: 2024-08-21 16:50:22
- * @LastEditTime: 2024-08-27 21:56:03
+ * @LastEditTime: 2024-08-27 22:56:45
  * @LastEditors: 卢靖康
 -->
 <script lang="ts" setup>
@@ -12,8 +12,9 @@ import { BinCodeBlock, BinTable, BinCodeMap } from "@/components/BinCode";
 import { Card, Select } from "ant-design-vue";
 import { WaferMapDetailInfo } from "@/types/wafer/waferMap";
 import { DICT_TYPE, getDictOptions } from "@/utils/dict";
-import { useRoute } from "vue-router";
+import { RouterLink, useRoute } from "vue-router";
 import { getWafer } from "@/api/wafermap/wafer";
+import { Loading } from "/@/components/Loading";
 
 defineOptions({ name: "WaferMapDetail" });
 let mapInfoData = ref<WaferMapDetailInfo>();
@@ -59,15 +60,15 @@ const schema: DescItem[] = [
   {
     field: "waferLotId",
     label: "批次",
-    render: (curVal) => {
-      return h(
-        "a",
-        {
-          href: `/wafer/map/log/detail?waferLotId=${curVal}`,
-        },
-        curVal,
-      );
-    },
+    // render: (curVal) => {
+    //   return h(
+    //     RouterLink,
+    //     {
+    //       to: `/wafer/map/log/detail?waferLotId=${curVal}`,
+    //     },
+    //     curVal,
+    //   );
+    // },
   },
   {
     field: "custCode",
@@ -161,6 +162,9 @@ onMounted(() => {
           />
         </div>
       </Card>
+    </div>
+    <div v-else>
+      <Loading :loading="!dataReady" />
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 /*
  * @Author: 卢靖康
  * @Date: 2024-08-14 14:42:37
- * @LastEditTime: 2024-08-27 21:20:38
+ * @LastEditTime: 2024-08-27 22:14:36
  * @LastEditors: 卢靖康
  */
 import { defHttp } from '@/utils/http/axios'
@@ -22,7 +22,7 @@ export function validateWafer(data) {
 }
 
 // 查询晶圆片信息详情
-export function getWafer(id: number) {
+export function getWafer(id: string) {
   return defHttp.get({ url: `/wafermap/wafer/get?id=${id}` })
 }
 // 新增晶圆片信息

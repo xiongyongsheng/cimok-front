@@ -1,11 +1,11 @@
 <!--
  * @Author: 卢靖康
  * @Date: 2024-08-22 14:31:04
- * @LastEditTime: 2024-08-27 21:53:38
+ * @LastEditTime: 2024-08-27 22:54:46
  * @LastEditors: 卢靖康
 -->
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { Leafer, Group, Rect, Text, Box, Debug, RenderEvent } from "leafer-ui";
 import type { WaferBinCodeListItem } from "../../../types/wafer/waferMap";
 import { Loading, useLoading } from "@/components/Loading";
@@ -21,6 +21,10 @@ const [openWrapLoading, closeWrapLoading] = useLoading({
     absolute: true,
   },
 });
+function openLoading(absolute: boolean) {
+  compState.absolute = absolute;
+  compState.loading = true;
+}
 defineOptions({ name: "BinCodeMap" });
 const binCodeMapId = ref(new Date().getTime().toString());
 let leafer;
@@ -217,7 +221,11 @@ class BinCodeBox {
     }
   }
 }
-
+const compState = reactive({
+  absolute: false,
+  loading: false,
+  tip: "加载中...",
+});
 onMounted(() => {
   leafer = new Leafer({ view: binCodeMapId.value });
 
@@ -230,9 +238,11 @@ onMounted(() => {
   });
   const $binCodeBox = binCodeBox.createBinCodeBox();
   leafer.on(RenderEvent.BEFORE, function () {
+    openLoading(true);
     openWrapLoading();
   });
   leafer.on(RenderEvent.END, function () {
+    compState.loading = false;
     closeWrapLoading();
   });
   // console.log(props.mapData?.length);
@@ -248,6 +258,7 @@ onMounted(() => {
     }"
   >
     <div ref="wrapEl" v-loading="loadingRef"></div>
+    <!-- <Loading :loading="compState.loading" :absolute="compState.absolute" /> -->
   </div>
 </template>
 

@@ -159,12 +159,12 @@ const createFormSchema: FormSchema[] = [
               setFieldsValue({ fileContent: reader.result });
             };
             reader.readAsText(file);
-            importWafer({
-              file,
-            }).then((res) => {
-              importData.value = res;
-              debugger;
-            });
+            // importWafer({
+            //   file,
+            // }).then((res) => {
+            //   importData.value = res;
+            //   debugger;
+            // });
             return false;
           },
         },

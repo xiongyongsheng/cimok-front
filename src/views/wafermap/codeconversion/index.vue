@@ -1,7 +1,7 @@
 <!--
  * @Author: 卢靖康
  * @Date: 2024-08-14 14:42:37
- * @LastEditTime: 2024-08-25 11:13:29
+ * @LastEditTime: 2024-08-27 23:24:43
  * @LastEditors: 卢靖康
 -->
 <script lang="ts" setup>
@@ -86,6 +86,11 @@ async function handleDelete(record: Recordable) {
         </a-button>
       </template>
       <template #bodyCell="{ column, record }">
+        <template>
+
+          
+        </template>
+
         <template v-if="column.key === 'action'">
           <TableAction
             :actions="[

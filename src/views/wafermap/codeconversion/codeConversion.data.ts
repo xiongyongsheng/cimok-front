@@ -1,6 +1,8 @@
 import type { BasicColumn, FormSchema } from '@/components/Table'
 import { useRender } from '@/components/Table'
 import { DICT_TYPE, getDictOptions } from '@/utils/dict'
+import { Switch } from 'ant-design-vue'
+import { h } from 'vue'
 
 const options = getDictOptions(DICT_TYPE.WAFER_BIN_CODE_COLOR, 'string')
 
@@ -12,7 +14,7 @@ function previewOptions() {
       return option
 
     return {
-      label: useRender.renderTag(label, value),
+      label: useRender.renderTag(label, value as string),
       value,
     }
   })
@@ -32,12 +34,12 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '芯片型号',
-    dataIndex: 'deviceCode',
+    dataIndex: 'diePart',
     width: 140,
   },
   {
-    title: '晶圆批号',
-    dataIndex: 'waferLot',
+    title: '批次号',
+    dataIndex: 'waferLotId',
     width: 160,
   },
   {
@@ -63,27 +65,21 @@ export const columns: BasicColumn[] = [
       return useRender.renderTag(text, text)
     },
   },
-
   {
-    title: '部门id',
-    dataIndex: 'deptId',
+    title: '范围',
+    dataIndex: '',
     width: 160,
-    defaultHidden: true
   },
+  {
+    title: '生效',
+    dataIndex: 'status',
+    width: 160,
+    fixed:'right',
+  },
+  
 ]
 
 export const searchFormSchema: FormSchema[] = [
-  {
-    label: ' ',
-    labelWidth: 15,
-    field: 'custCode',
-    component: 'Input',
-    componentProps: {
-      "type": "text",
-      "placeholder": "客户代码"
-    },
-    colProps: { span: 4 },
-  },
   {
     label: ' ',
     labelWidth: 15,
@@ -133,12 +129,12 @@ export const createFormSchema: FormSchema[] = [
   },
   {
     label: '芯片型号',
-    field: 'deviceCode',
+    field: 'diePart',
     component: 'Input',
   },
   {
-    label: '晶圆批号',
-    field: 'waferLot',
+    label: '批次号',
+    field: 'waferLotId',
     component: 'Input',
   },
   {
@@ -189,12 +185,12 @@ export const updateFormSchema: FormSchema[] = [
   },
   {
     label: '芯片型号',
-    field: 'deviceCode',
+    field: 'diePart',
     component: 'Input',
   },
   {
-    label: '晶圆批号',
-    field: 'waferLot',
+    label: '批次号',
+    field: 'waferLotId',
     component: 'Input',
   },
   {
