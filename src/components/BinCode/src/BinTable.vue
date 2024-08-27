@@ -1,7 +1,7 @@
 <!--
  * @Author: 卢靖康
  * @Date: 2024-08-22 14:11:07
- * @LastEditTime: 2024-08-22 21:28:33
+ * @LastEditTime: 2024-08-27 22:02:36
  * @LastEditors: 卢靖康
 -->
 <script lang="ts" setup>
@@ -16,7 +16,7 @@ const props = defineProps({
 
 <template>
   <Table
-    class="absolute w-180px"
+    class="table absolute w-180px"
     bordered
     :pagination="false"
     :dataSource="props.waferBinCodeList"
@@ -52,4 +52,8 @@ const props = defineProps({
   </Table>
 </template>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.table {
+  z-index: 1;
+}
+</style>

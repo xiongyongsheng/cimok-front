@@ -1,7 +1,7 @@
 <!--
  * @Author: 卢靖康
  * @Date: 2024-08-21 16:50:22
- * @LastEditTime: 2024-08-26 22:22:50
+ * @LastEditTime: 2024-08-27 21:56:03
  * @LastEditors: 卢靖康
 -->
 <script lang="ts" setup>
@@ -13,7 +13,7 @@ import { Card, Select } from "ant-design-vue";
 import { WaferMapDetailInfo } from "@/types/wafer/waferMap";
 import { DICT_TYPE, getDictOptions } from "@/utils/dict";
 import { useRoute } from "vue-router";
-import { getWafer } from "@/api/stripmap/wafer";
+import { getWafer } from "@/api/wafermap/wafer";
 
 defineOptions({ name: "WaferMapDetail" });
 let mapInfoData = ref<WaferMapDetailInfo>();

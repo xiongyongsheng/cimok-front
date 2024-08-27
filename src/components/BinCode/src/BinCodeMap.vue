@@ -1,15 +1,26 @@
 <!--
  * @Author: 卢靖康
  * @Date: 2024-08-22 14:31:04
- * @LastEditTime: 2024-08-22 22:21:26
+ * @LastEditTime: 2024-08-27 21:53:38
  * @LastEditors: 卢靖康
 -->
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
-import { Leafer, Group, Rect, Text, Box, Debug } from "leafer-ui";
+import { Leafer, Group, Rect, Text, Box, Debug, RenderEvent } from "leafer-ui";
 import type { WaferBinCodeListItem } from "../../../types/wafer/waferMap";
+import { Loading, useLoading } from "@/components/Loading";
 Debug.enable = true;
 
+const wrapEl = ref(null);
+const loadingRef = ref(false);
+
+const [openWrapLoading, closeWrapLoading] = useLoading({
+  target: wrapEl,
+  props: {
+    // tip: "加载中...",
+    absolute: true,
+  },
+});
 defineOptions({ name: "BinCodeMap" });
 const binCodeMapId = ref(new Date().getTime().toString());
 let leafer;
@@ -101,9 +112,9 @@ class BinCodeBox {
 
   createBinCodeBox() {
     const binCodeBox = new Box({
-      around: "center",
+      around: "top",
       x: leafer.width / 2,
-      y: leafer.height / 2,
+      y: 0,
       // scale:
     });
     this._createBinCodeX(binCodeBox);
@@ -135,6 +146,7 @@ class BinCodeBox {
       binCodeBox.add(this._createBinCodeGroup(binCodeItem));
     }
     this.binCodeBox = binCodeBox;
+
     return binCodeBox;
   }
 
@@ -217,10 +229,14 @@ onMounted(() => {
     rowCnt: props.rowCnt,
   });
   const $binCodeBox = binCodeBox.createBinCodeBox();
-
+  leafer.on(RenderEvent.BEFORE, function () {
+    openWrapLoading();
+  });
+  leafer.on(RenderEvent.END, function () {
+    closeWrapLoading();
+  });
   // console.log(props.mapData?.length);
   leafer.add($binCodeBox);
-
 });
 </script>
 <template>
@@ -230,7 +246,9 @@ onMounted(() => {
       width: props.width,
       height: props.height,
     }"
-  ></div>
+  >
+    <div ref="wrapEl" v-loading="loadingRef"></div>
+  </div>
 </template>
 
 <style lang="less" scoped></style>
