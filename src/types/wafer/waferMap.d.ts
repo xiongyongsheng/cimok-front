@@ -1,7 +1,7 @@
 /*
  * @Author: 卢靖康
  * @Date: 2024-08-22 12:32:33
- * @LastEditTime: 2024-08-22 22:59:52
+ * @LastEditTime: 2024-08-28 21:17:12
  * @LastEditors: 卢靖康
  */
 export interface WaferMapDetailInfo {
@@ -10,7 +10,8 @@ export interface WaferMapDetailInfo {
   custCode: string;
   diePart: string;
   waferLotId: string;
-  orientation: string;
+  fnloc:string;
+  orloc: string;
   unitCnt: string;
   goodCnt: string;
   ngCnt: string;
@@ -38,7 +39,8 @@ export interface WaferMapLogDetailInfo {
   opType: string;
   eqptCode: string;
   processStep: string;
-  orientation: string;
+  ffrot:string;
+  orloc: string;
   unitCnt: string;
   goodCnt: string;
   ngCnt: string;

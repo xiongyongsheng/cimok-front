@@ -1,7 +1,7 @@
 <!--
  * @Author: 卢靖康
  * @Date: 2024-08-21 16:50:22
- * @LastEditTime: 2024-08-28 00:16:00
+ * @LastEditTime: 2024-08-28 21:16:59
  * @LastEditors: 卢靖康
 -->
 <script lang="ts" setup>
@@ -88,7 +88,7 @@ const schema: DescItem[] = [
   },
   {
     span: 1,
-    field: "orientation",
+    field: "ffrot",
     label: "方向",
     render: (curVal) => {
       return h(Select, {
@@ -149,7 +149,7 @@ onMounted(() => {
               <span class="color-#b74248">NG：</span>
               <span>{{ mapInfoData.ngCnt }}</span>
             </div>
-            <div class="">方向：{{ mapInfoData.orientation }}</div>
+            <div class="">方向：{{ mapInfoData.orloc }}</div>
           </div>
         </template>
 

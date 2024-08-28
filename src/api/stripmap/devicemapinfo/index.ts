@@ -1,3 +1,9 @@
+/*
+ * @Author: 卢靖康
+ * @Date: 2024-08-14 14:42:37
+ * @LastEditTime: 2024-08-28 21:20:13
+ * @LastEditors: 卢靖康
+ */
 import { defHttp } from '@/utils/http/axios'
 
 // 查询产品Map信息列表
