@@ -15,7 +15,7 @@
   const [registerModal, { openModal }] = useModal()
 
   const [registerTable, { getForm, reload }] = useTable({
-    title: '操作记录列表',
+    title: '作业记录追溯',
     api: getStripOpLogPage,
     columns,
     formConfig: { labelWidth: 120, schemas: searchFormSchema },

@@ -1,3 +1,9 @@
+<!--
+ * @Author: 卢靖康
+ * @Date: 2024-08-14 14:42:37
+ * @LastEditTime: 2024-08-28 00:29:12
+ * @LastEditors: 卢靖康
+-->
 <script lang="ts" setup>
   import EqptMapinfoModal from './EqptMapinfoModal.vue'
   import { columns, searchFormSchema } from './eqptMapinfo.data'
@@ -15,7 +21,7 @@
   const [registerModal, { openModal }] = useModal()
 
   const [registerTable, { getForm, reload }] = useTable({
-    title: '设备作业的Map信息列表',
+    title: '设备设置',
     api: getEqptMapinfoPage,
     columns,
     formConfig: { labelWidth: 120, schemas: searchFormSchema },

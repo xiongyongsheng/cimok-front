@@ -2,11 +2,11 @@ import type {BasicColumn, FormSchema} from '@/components/Table'
 import {useRender} from '@/components/Table'
 
 export const columns: BasicColumn[] = [
-        {
-          title: 'ID',
-          dataIndex: 'id',
-          width: 160,
-        },
+        // {
+        //   title: 'ID',
+        //   dataIndex: 'id',
+        //   width: 160,
+        // },
         {
           title: '条号',
           dataIndex: 'stripId',

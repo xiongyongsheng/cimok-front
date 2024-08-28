@@ -59,6 +59,9 @@ export const searchFormSchema: FormSchema[] = [
     labelWidth: 15,
     field: "deviceCode",
     component: "Input",
+    componentProps:{
+      placeholder:'产品型号'
+    },
     colProps: { span: 4 },
   },
   {
@@ -66,6 +69,9 @@ export const searchFormSchema: FormSchema[] = [
     labelWidth: 15,
     field: "lotId",
     component: "Input",
+    componentProps:{
+      placeholder:'批次号'
+    },
     colProps: { span: 4 },
   },
 ];
