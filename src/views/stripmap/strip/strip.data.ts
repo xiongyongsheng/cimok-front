@@ -34,12 +34,12 @@ export const columns: BasicColumn[] = [
         },
         {
           title: '行数',
-          dataIndex: 'rows',
+          dataIndex: 'rowQty',
           width: 160,
         },
         {
           title: '列数',
-          dataIndex: 'cols',
+          dataIndex: 'colQty',
           width: 160,
         },
         {

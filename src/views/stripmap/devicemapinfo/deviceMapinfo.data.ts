@@ -24,12 +24,12 @@ export const columns: BasicColumn[] = [
   },
   {
     title: "行数",
-    dataIndex: "rows",
+    dataIndex: "rowQty",
     width: 160,
   },
   {
     title: "列数",
-    dataIndex: "cols",
+    dataIndex: "colQty",
     width: 160,
   },
   {
@@ -95,12 +95,12 @@ export const createFormSchema: FormSchema[] = [
   },
   {
     label: "行数",
-    field: "rows",
+    field: "rowQty",
     component: "Input",
   },
   {
     label: "列数",
-    field: "cols",
+    field: "colQty",
     component: "Input",
   },
   {
@@ -139,12 +139,12 @@ export const updateFormSchema: FormSchema[] = [
   },
   {
     label: "行数",
-    field: "rows",
+    field: "rowQty",
     component: "Input",
   },
   {
     label: "列数",
-    field: "cols",
+    field: "colQty",
     component: "Input",
   },
   {
