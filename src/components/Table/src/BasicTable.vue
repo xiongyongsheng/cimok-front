@@ -303,6 +303,7 @@ emit('register', tableAction, formActions)
       </template>
     </BasicForm>
 
+    <slot name='tableTopBody'/>
     <Table
       v-show="getEmptyDataIsShowTable"
       ref="tableElRef"
