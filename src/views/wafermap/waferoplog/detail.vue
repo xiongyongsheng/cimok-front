@@ -14,6 +14,7 @@ import { WaferMapLogDetailInfo } from "@/types/wafer/waferMap";
 import { getWaferOpLog } from "@/api/wafermap/waferoplog";
 import { useRoute } from "vue-router";
 import { Loading, useLoading } from "@/components/Loading";
+import { useRender } from "@/components/Table";
 
 const wrapEl = ref(null);
 const loadingRef = ref(false);
@@ -40,6 +41,9 @@ const schema: DescItem[] = [
   {
     field: "createTime",
     label: "操作时间",
+    render: ({ text }) => {
+      return useRender.renderDate(text);
+    },
   },
   {
     field: "creator",
@@ -80,23 +84,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col h-full p-10px"
-    ref="wrapEl"
-    v-loading="loadingRef"
-    loading-tip="加载中..."
-  >
+  <div class="flex flex-col h-full p-10px" ref="wrapEl" v-loading="loadingRef" loading-tip="加载中...">
     <div v-if="dataReady && mapInfoData">
       <Card :title="mapInfoData.waferId">
         <Description @register="register" />
       </Card>
-      <Card
-        class="mt-10px"
-        :headStyle="{
-          paddingTop: '10px',
-          paddingBottom: '10px',
-        }"
-      >
+      <Card class="mt-10px" :headStyle="{
+        paddingTop: '10px',
+        paddingBottom: '10px',
+      }">
         <template #title>
           <div>{{ mapInfoData.waferId }}</div>
           <div class="mt-10px flex font-400 font-size-14px">
@@ -114,15 +110,9 @@ onMounted(() => {
 
         <div class="h-700px">
           <BinTable :waferBinCodeList="mapInfoData.waferBinCodeList" />
-          <BinCodeMap
-            :colCnt="mapInfoData.colCnt"
-            :rowCnt="mapInfoData.rowCnt"
-            :waferBinCodeList="mapInfoData.waferBinCodeList"
-            :binCodeLength="mapInfoData.binCodeLength"
-            :width="'100%'"
-            :height="'700px'"
-            :mapData="mapInfoData.mapData"
-          />
+          <BinCodeMap :colCnt="mapInfoData.colCnt" :rowCnt="mapInfoData.rowCnt"
+            :waferBinCodeList="mapInfoData.waferBinCodeList" :binCodeLength="mapInfoData.binCodeLength" :width="'100%'"
+            :height="'700px'" :mapData="mapInfoData.mapData" />
         </div>
       </Card>
     </div>

@@ -1,6 +1,8 @@
 import type { BasicColumn, FormSchema } from '@/components/Table'
 import { useRender } from '@/components/Table'
 import { DICT_TYPE, getDictOptions } from '@/utils/dict'
+import { h } from 'vue'
+import { RouterLink } from 'vue-router'
 
 export const columns: BasicColumn[] = [
   // {
@@ -12,6 +14,9 @@ export const columns: BasicColumn[] = [
     title: '条号',
     dataIndex: 'stripId',
     width: 160,
+    customRender: ({ record }) => {
+      return h(RouterLink, { to: '/stripmap/search/strip-op-log/detail?id=' + record.id }, record.stripId)
+    },
   },
   {
     title: '条号明码',

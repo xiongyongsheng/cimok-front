@@ -100,8 +100,8 @@ class BinCodeBox {
   private realWidth: number = 0;
   private realHeight: number = 0;
 
-  private binWidth: number = 30;
-  private binHeight: number = 30;
+  binWidth: number = 30;
+  binHeight: number = 30;
 
   constructor(params) {
     this.mapData = params.mapData;
@@ -109,6 +109,12 @@ class BinCodeBox {
     this.waferBinCodeList = params.waferBinCodeList;
     this.colCnt = params.colCnt;
     this.rowCnt = params.rowCnt;
+    if (params.binWidth) {
+      this.binWidth = params.binWidth;
+    }
+    if (params.binHeight) {
+      this.binHeight = params.binHeight;
+    }
     this.codeMap = new Map(this.waferBinCodeList.map((item) => [item.binCode, item]));
     this.realWidth = this.binWidth * (this.colCnt + 1);
     this.realHeight = this.binHeight * (this.rowCnt + 1);
@@ -154,14 +160,14 @@ class BinCodeBox {
     return binCodeBox;
   }
 
-  resize() {}
+  resize() { }
   /**
    * 创建单个BinCode
    */
   private _createBinCodeGroup(binCodeItem: BinCocdeItemGroup) {
     const rect = new Rect({
-      width: 28,
-      height: 28,
+      width: this.binWidth * 0.9,
+      height: this.binHeight * 0.9,
       fill: binCodeItem.binColor,
     });
     // code
@@ -189,7 +195,7 @@ class BinCodeBox {
   private _createBinCodeX(binCodeBox) {
     for (let i = 0; i < this.colCnt; i++) {
       const text = new Text({
-        width: 30,
+        width: this.binWidth,
         height: this.binHeight,
         text: `${i + 1}`,
         textAlign: "center",
@@ -208,7 +214,7 @@ class BinCodeBox {
   private _createBinCodeY(binCodeBox) {
     for (let i = 0; i < this.rowCnt; i++) {
       const text = new Text({
-        width: 30,
+        width: this.binWidth,
         height: this.binHeight,
         text: `${i + 1}`,
         textAlign: "center",
@@ -250,13 +256,10 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div
-    :id="binCodeMapId"
-    :style="{
-      width: props.width,
-      height: props.height,
-    }"
-  >
+  <div :id="binCodeMapId" :style="{
+    width: props.width,
+    height: props.height,
+  }">
     <div ref="wrapEl" v-loading="loadingRef"></div>
     <!-- <Loading :loading="compState.loading" :absolute="compState.absolute" /> -->
   </div>
