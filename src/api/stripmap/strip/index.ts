@@ -34,3 +34,8 @@ export function exportStrip(params) {
 export function createBatch(data) {
   return defHttp.post({ url: '/stripmap/strip/createBatch', data })
 }
+
+// 获取子批subLot次下所有strip信息 /stripmap/strip/getAllStripWithCon
+export function getAllStripWithCon(data) {
+  return defHttp.post({ url: '/stripmap/strip/getAllStripWithCon', data })
+}

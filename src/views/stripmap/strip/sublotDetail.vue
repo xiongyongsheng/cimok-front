@@ -1,14 +1,16 @@
 <script lang="ts" setup>
 import { BinCodeBlock } from "@/components/BinCode";
-import { useDescription } from "@/components/Description";
+import { useDescription, Description, DescItem } from "@/components/Description";
 import { Card } from "ant-design-vue";
-import { h, ref } from "vue";
+import { h, onMounted, ref } from "vue";
+import { getAllStripWithCon } from "@/api/stripmap/strip";
+import { useRoute } from "vue-router";
 defineOptions({ name: "SublotDetail" });
 
 const detailData = ref();
 
-const schema = [
-{
+const schema: DescItem[] = [
+  {
     field: "goodCnt",
     label: "Good",
     render: (curVal) => {
@@ -26,7 +28,33 @@ const schema = [
     label: "NG",
     render: (curVal) => {
       return h(BinCodeBlock, {
-        backgroundColor: "#b74248",
+        backgroundColor: "#f58402",
+        text: curVal,
+        style: {
+          marginRight: "10px",
+        },
+      });
+    },
+  },
+  {
+    field: "X-OUT",
+    label: "NG",
+    render: (curVal) => {
+      return h(BinCodeBlock, {
+        backgroundColor: "#0f01f5",
+        text: curVal,
+        style: {
+          marginRight: "10px",
+        },
+      });
+    },
+  },
+  {
+    field: "空",
+    label: "NG",
+    render: (curVal) => {
+      return h(BinCodeBlock, {
+        backgroundColor: "#aaaaaa",
         text: curVal,
         style: {
           marginRight: "10px",
@@ -43,16 +71,27 @@ const [register] = useDescription({
   size: "middle",
 });
 
+const dataReady = ref(false);
+const { query } = useRoute();
+
+onMounted(() => {
+  getAllStripWithCon({ subLot: query.subLot }).then((res) => {
+    debugger
+  });
+  // detailData.value = res.data;
+  // dataReady.value = true;
+});
+
 
 </script>
 
 <template>
-   <div class="flex flex-col h-full p-10px">
+  <div class="flex flex-col h-full p-10px">
     <div>
-      <Card>
+      <Card title="Sublot Detail">
         <Description @register="register" />
       </Card>
-    
+
     </div>
   </div>
 </template>

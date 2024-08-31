@@ -292,7 +292,11 @@ const [registerUploadForm, { }] = useForm({
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'stripId'">
-          <router-link to="">{{ record.stripId }}</router-link>
+          <router-link :to="`/stripmap/search/strip/detail?id=${record.id}`">{{ record.stripId }}</router-link>
+        </template>
+        <template v-if="column.key === 'subLot'">
+          <router-link :to="`/stripmap/search/strip/sublotDetail?subLot=${record.subLot}`">{{ record.subLot
+            }}</router-link>
         </template>
         <template v-if="column.key === 'action'">
           <TableAction :actions="[
