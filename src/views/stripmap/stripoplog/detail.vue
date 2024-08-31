@@ -90,6 +90,12 @@ const getDictLabel = (dictType: string, value: string) => {
   <div class="flex flex-col h-full p-10px">
     <div v-if="dataReady">
       <Card>
+        <template #title>
+          <div class="flex items-center">
+            <div class="text-lg font-bold">{{ detailData.stripId }}</div>
+            <div class="text-sm text-gray-500 ml-20px">{{ detailData.subLot }}</div>
+          </div>
+        </template>
         <Description @register="register" />
       </Card>
       <Card class="mt-10px" v-for="item in mapdataList" :key="item.id"
@@ -99,7 +105,7 @@ const getDictLabel = (dictType: string, value: string) => {
             binCode: key,
             binColor: item.binColorColl[key],
           }
-        })" height="400px" :binCodeLength='item.binCodeLen' :colCnt='detailData.colQty' :rowCnt='detailData.rowQty' />
+        })" height="350px" :binCodeLength='item.binCodeLen' :colCnt='detailData.colQty' :rowCnt='detailData.rowQty' />
       </Card>
     </div>
   </div>
