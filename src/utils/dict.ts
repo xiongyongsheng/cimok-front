@@ -165,7 +165,8 @@ export enum DICT_TYPE {
  STRIP_MAPDATA_TYPE = 'strip_mapdata_type',
  // strip来源数据字典：strip_source
  STRIP_SOURCE = 'strip_source',
-
+ // strip_bin_code_color
+ STRIP_BIN_CODE_COLOR = 'strip_bin_code_color', // strip 颜色
  CODE_CONVERSION_STATUS = 'code_conversion_status', 
 
 
