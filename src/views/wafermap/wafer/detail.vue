@@ -7,12 +7,12 @@
 <script lang="ts" setup>
 import { DescItem } from "@/components/Description/src/typing";
 import { Description, useDescription } from "@/components/Description";
-import { h, onMounted, reactive, ref } from "vue";
+import { h, onMounted, ref } from "vue";
 import { BinCodeBlock, BinTable, BinCodeMap } from "@/components/BinCode";
 import { Card, Select } from "ant-design-vue";
 import { WaferMapDetailInfo } from "@/types/wafer/waferMap";
 import { DICT_TYPE, getDictOptions } from "@/utils/dict";
-import { RouterLink, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 import { getWafer } from "@/api/wafermap/wafer";
 import { Loading } from "@/components/Loading";
 import { useRender } from "@/components/Table";

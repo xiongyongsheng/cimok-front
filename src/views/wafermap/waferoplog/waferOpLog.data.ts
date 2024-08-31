@@ -28,6 +28,9 @@ export const columns: BasicColumn[] = [
     title: "操作类型",
     dataIndex: "opType",
     width: 160,
+    customRender: ({ text }) => {
+      return useRender.renderDict(text, DICT_TYPE.WAFER_OP_TYPE)
+    },  
   },
   {
     title: "作业站点",
