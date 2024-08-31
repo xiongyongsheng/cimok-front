@@ -159,6 +159,14 @@ export enum DICT_TYPE {
  WAFER_OP_TYPE ='wafer_op_type', //wafer操作类型
  //类型 process_type
  PROCESS_TYPE = 'process_type',
+ 
+ //========== strip ===============
+ // 作业前后数据字典 strip_mapdata_type
+ STRIP_MAPDATA_TYPE = 'strip_mapdata_type',
+ // strip来源数据字典：strip_source
+ STRIP_SOURCE = 'strip_source',
+
+ CODE_CONVERSION_STATUS = 'code_conversion_status', 
 
 
 

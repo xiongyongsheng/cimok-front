@@ -29,3 +29,8 @@ export function deleteStrip(id: number) {
 export function exportStrip(params) {
   return defHttp.download({ url: '/stripmap/strip/export-excel', params }, '条号信息.xls')
 }
+
+// 批量新增 
+export function createBatch(data) {
+  return defHttp.post({ url: '/stripmap/strip/createBatch', data })
+}

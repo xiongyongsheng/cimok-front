@@ -1,7 +1,6 @@
 import type { BasicColumn, FormSchema } from "@/components/Table";
 import { useRender } from "@/components/Table";
-import { h } from 'vue';
-import { RouterLink } from 'vue-router';
+import { DICT_TYPE } from '@/utils/dict';
 
 export const columns: BasicColumn[] = [
   {
@@ -11,17 +10,17 @@ export const columns: BasicColumn[] = [
   },
   {
     title: "条号明码",
-    dataIndex: "",
+    dataIndex: "visibleStripId",
     width: 160,
   },
   {
     title: "工单号",
-    dataIndex: "",
+    dataIndex: "workOrder",
     width: 160,
   },
   {
     title: "批次号",
-    dataIndex: "",
+    dataIndex: "subLot",
     width: 160,
   },
   {
@@ -36,7 +35,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: "总数",
-    dataIndex: "",
+    dataIndex: "unitCnt",
     width: 160,
   },
   {
@@ -61,12 +60,12 @@ export const columns: BasicColumn[] = [
   },
   {
     title: "作业状态",
-    dataIndex: "",
+    dataIndex: "processState",
     width: 160,
   },
   {
     title: "最后作业站点",
-    dataIndex: "",
+    dataIndex: "currentProcessStep",
     width: 160,
   },
   {
@@ -76,12 +75,16 @@ export const columns: BasicColumn[] = [
   },
   {
     title: "设置站点",
-    dataIndex: "",
+    dataIndex: "setProcessStep",
     width: 160,
   },
   {
-    title: "类型",
-    dataIndex: "dataType",
+    title: "类型",  
+    dataIndex: "processType",
+    width: 160,
+    customRender: ({ value }) => {
+      return useRender.renderDict(value, DICT_TYPE.PROCESS_TYPE)
+    },
   },
 ];
 
@@ -220,6 +223,7 @@ export const createFormSchema: FormSchema[] = [
     component: "Input",
   },
 ];
+
 
 export const updateFormSchema: FormSchema[] = [
   {

@@ -74,6 +74,7 @@ const getColumns = computed(() => {
       customRender: ({ record }) => record[SUMMARY_ROW_KEY],
     })
   }
+  
   return columns as unknown as ColumnType[]
 })
 </script>

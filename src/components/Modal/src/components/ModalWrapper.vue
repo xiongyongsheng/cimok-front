@@ -28,7 +28,7 @@ const minRealHeightRef = ref(0)
 
 const realHeight = ref(0)
 
-const stopElResizeFn: Fn = () => {}
+const stopElResizeFn: Fn = () => { }
 
 useWindowSizeFn(setModalHeight.bind(null))
 
@@ -50,6 +50,8 @@ createModalContext({
 const spinStyle = computed((): CSSProperties => {
   return {
     minHeight: `${props.minHeight}px`,
+    display: 'flex',
+    flexDirection: 'column',
     [props.fullScreen ? 'height' : 'maxHeight']: `${unref(realHeightRef)}px`,
   }
 })
@@ -83,7 +85,7 @@ async function scrollTop() {
     const wrapperRefDom = unref(wrapperRef)
     if (!wrapperRefDom)
       return
-    ;(wrapperRefDom as any)?.scrollTo?.(0)
+        ; (wrapperRefDom as any)?.scrollTo?.(0)
   })
 }
 
