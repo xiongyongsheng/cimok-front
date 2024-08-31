@@ -17,7 +17,17 @@ import { getDictDatas, DICT_TYPE } from "@/utils/dict";
 
 defineOptions({ name: 'StripOpLogDetail' })
 const detailData = ref();
-const mapdataList = ref([]);
+const mapdataList = ref<MapItem[]>([]);
+
+interface MapItem {
+  id: string;
+  dataType: string;
+  mapData: string;
+  binColorColl: any;
+  binCodeLen: number;
+  colQty: number;
+  rowQty: number;
+}
 const schema: DescItem[] = [
 
   {
@@ -61,12 +71,11 @@ onMounted(() => {
   // getStripOpLog(query.id as string)
   //   .then((res) => {
 
-
   //   })
   //   .finally(() => {
   //     dataReady.value = true;
-  //   });
-
+  // });
+  dataReady.value = true;
 });
 
 const getDictLabel = (dictType: string, value: string) => {
@@ -79,14 +88,18 @@ const getDictLabel = (dictType: string, value: string) => {
 
 <template>
   <div class="flex flex-col h-full p-10px">
-    <div>
+    <div v-if="dataReady">
       <Card>
         <Description @register="register" />
       </Card>
       <Card class="mt-10px" v-for="item in mapdataList" :key="item.id"
         :title="getDictLabel(DICT_TYPE.STRIP_MAPDATA_TYPE, item.dataType)">
-        <!-- <BinCodeMap :binWidth="60" :binHeight="30" :mapData="item.mapData" :waferBinCodeList="item.waferBinCodeList"
-          :binCodeLength="item.binCodeLen" :height="400" /> -->
+        <BinCodeMap :binWidth="60" :binHeight="30" :mapData="item.mapData" :waferBinCodeList="Object.keys(item.binColorColl).map(key => {
+          return {
+            binCode: key,
+            binColor: item.binColorColl[key],
+          }
+        })" height="400px" :binCodeLength='item.binCodeLen' :colCnt='detailData.colQty' :rowCnt='detailData.rowQty' />
       </Card>
     </div>
   </div>

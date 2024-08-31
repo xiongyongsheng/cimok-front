@@ -6,7 +6,7 @@ export function getStripOpLogPage(params) {
 }
 
 // 查询操作记录详情
-export function getStripOpLog(id: number) {
+export function getStripOpLog(id: string) {
   return defHttp.get({ url: `/stripmap/strip-op-log/get?id=${id}` })
 }
 

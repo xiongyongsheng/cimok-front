@@ -64,6 +64,14 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  binWidth: {
+    type: Number,
+    default: 30
+  },
+  binHeight: {
+    type: Number,
+    default: 30
+  }
 });
 
 interface BinCocdeItemGroup {
@@ -220,7 +228,7 @@ class BinCodeBox {
         textAlign: "center",
         verticalAlign: "middle",
         fill: "#000",
-        y: this.binWidth * (i + 1),
+        y: this.binHeight * (i + 1),
         x: 0,
       });
       binCodeBox.add(text);
@@ -241,6 +249,8 @@ onMounted(() => {
     waferBinCodeList: props.waferBinCodeList,
     colCnt: props.colCnt,
     rowCnt: props.rowCnt,
+    binWidth: props.binWidth,
+    binHeight: props.binHeight,
   });
   const $binCodeBox = binCodeBox.createBinCodeBox();
   leafer.on(RenderEvent.BEFORE, function () {
