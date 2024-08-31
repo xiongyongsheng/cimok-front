@@ -126,26 +126,41 @@ export const createFormSchema: FormSchema[] = [
     label: '客户代码',
     field: 'custCode',
     component: 'Input',
+    componentProps: {
+      placeholder: '请输入客户代码',
+    },
   },
   {
     label: '芯片型号',
     field: 'diePart',
     component: 'Input',
+    componentProps: {
+      placeholder: '请输入芯片型号',
+    },
   },
   {
     label: '批次号',
     field: 'waferLotId',
     component: 'Input',
+    componentProps: {
+      placeholder: '请输入批次号',
+    },
   },
   {
     label: '原始代码',
     field: 'sourceCode',
     component: 'Input',
+    componentProps: {
+      placeholder: '请输入原始代码',
+    },
   },
   {
     label: '目标代码',
     field: 'targetCode',
     component: 'Input',
+    componentProps: {
+      placeholder: '请输入目标代码',
+    },
   },
   {
     label: '代码类型',
@@ -153,6 +168,7 @@ export const createFormSchema: FormSchema[] = [
     component: 'Select',
     componentProps: {
       options: getDictOptions(DICT_TYPE.WAFER_BIN_CODE_TYPE, 'string'),
+      placeholder: '请选择代码类型',
     },
   },
   {
@@ -161,6 +177,7 @@ export const createFormSchema: FormSchema[] = [
     component: 'Select',
     componentProps: {
       options: previewOptions(),
+      placeholder: '请选择颜色',
     }
   },
   {
