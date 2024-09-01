@@ -36,6 +36,6 @@ export function createBatch(data) {
 }
 
 // 获取子批subLot次下所有strip信息 /stripmap/strip/getAllStripWithCon
-export function getAllStripWithCon(data) {
-  return defHttp.post({ url: '/stripmap/strip/getAllStripWithCon', data })
+export function getAllStripWithCon(subLot: string) {
+  return defHttp.get({ url: `/stripmap/strip/getAllStripWithCon?subLot=${subLot}` })
 }

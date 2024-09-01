@@ -113,10 +113,10 @@ class BinCodeBox {
 
   constructor(params) {
     this.mapData = params.mapData;
-    this.binCodeLength = params.binCodeLength;
+    this.binCodeLength = params.binCodeLength || 1;
     this.waferBinCodeList = params.waferBinCodeList;
-    this.colCnt = params.colCnt;
-    this.rowCnt = params.rowCnt;
+    this.colCnt = Number(params.colCnt);
+    this.rowCnt = Number(params.rowCnt);
     if (params.binWidth) {
       this.binWidth = params.binWidth;
     }
@@ -140,7 +140,8 @@ class BinCodeBox {
     const leaferW = leafer.width;
     const leaferH = leafer.height;
     // 算出缩放比例
-    binCodeBox.scale = Math.min(leaferW / this.realWidth, leaferH / this.realHeight);
+    const scale = Math.min(leaferW / this.realWidth, leaferH / this.realHeight);
+    binCodeBox.scale = scale > 1.5 ? 1.5 : scale;
 
     let x = 0,
       y = 1;
@@ -177,6 +178,8 @@ class BinCodeBox {
       width: this.binWidth * 0.9,
       height: this.binHeight * 0.9,
       fill: binCodeItem.binColor,
+      x: this.binWidth * 0.05,
+      y: this.binHeight * 0.05,
     });
     // code
     const text = new Text({
@@ -188,11 +191,11 @@ class BinCodeBox {
       verticalAlign: "middle",
     });
     // 计算容器实际坐标
-    const group = new Group({
+    const group = new Box({
       x: binCodeItem.x * this.binWidth,
       y: binCodeItem.y * this.binHeight,
       children: [rect, text],
-      fill: "#fff",
+      // fill: "#f00",
     });
     return group;
   }

@@ -139,7 +139,7 @@ onMounted(() => {
         }"
       >
         <template #title>
-          <div>{{ mapInfoData.waferId }}</div>
+          <div class="text-md font-bold">{{ mapInfoData.waferId }}</div>
           <div class="mt-10px flex font-400 font-size-14px">
             <div class="mr-30px">
               <span class="color-#71b605">Goods：</span>
