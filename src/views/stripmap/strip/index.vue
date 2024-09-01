@@ -16,6 +16,7 @@ import { deleteStrip, exportStrip, getStripPage } from "@/api/stripmap/strip";
 import { Divider, Select, Button, Upload } from "ant-design-vue";
 import { BasicForm, useComponentRegister, useForm } from "@/components/Form";
 import { h, ref } from "vue";
+import { useRouter } from "vue-router";
 defineOptions({ name: "Strip" });
 
 useComponentRegister("Button", Button);
@@ -23,7 +24,7 @@ useComponentRegister("AUpload", Upload);
 const { t } = useI18n();
 const { createConfirm, createMessage } = useMessage();
 const [registerModal, { openModal }] = useModal();
-
+const router = useRouter()
 const [registerTable, { getForm, reload }] = useTable({
   title: "批次查询",
   api: getStripPage,
@@ -304,7 +305,9 @@ const [registerUploadForm, { }] = useForm({
               icon: IconEnum.EDIT,
               label: t('action.edit'),
               auth: 'stripmap:mapdata:update',
-              onClick: handleEdit.bind(null, record),
+              onClick: () => {
+                router.push(`/stripmap/search/strip/detail?id=${record.id}&edit=true`)
+              },
             },
             {
               icon: IconEnum.DELETE,
