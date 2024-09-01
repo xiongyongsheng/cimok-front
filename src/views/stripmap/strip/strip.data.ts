@@ -63,12 +63,12 @@ export const columns: BasicColumn[] = [
     dataIndex: "processState",
     width: 160,
     customRender: ({ value }) => {
-      return useRender.renderDict(value, DICT_TYPE.STRIP_MAPDATA_TYPE)
+      return useRender.renderDict(value, DICT_TYPE.STRIP_PROCESS_STATUS)
     },
   },
   {
     title: "最后作业站点",
-    dataIndex: "currentProcessStep",
+    dataIndex: "lastProcessStep",
     width: 160,
   },
   {
@@ -82,11 +82,11 @@ export const columns: BasicColumn[] = [
     width: 160,
   },
   {
-    title: "类型",  
+    title: "类型",
     dataIndex: "processType",
     width: 160,
     customRender: ({ value }) => {
-      return useRender.renderDict(value, DICT_TYPE.PROCESS_TYPE)
+      return useRender.renderDict(value, DICT_TYPE.STRIP_PROCESS_TYPE)
     },
   },
 ];
@@ -94,81 +94,83 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     label: "批次信息",
-    labelWidth:80,
+    labelWidth: 80,
     field: "",
     component: "Input",
-    componentProps:{
-      style:{
-        display:'none'
+    componentProps: {
+      style: {
+        display: 'none'
       }
     },
-    colProps: { style:{
-      width:100
-    } },
-    
+    colProps: {
+      style: {
+        width: 100
+      }
+    },
+
   },
   {
     label: " ",
-    labelWidth:15,
+    labelWidth: 15,
     field: "stripId",
     component: "Input",
-    componentProps:{
-      placeholder:'条号'
+    componentProps: {
+      placeholder: '条号'
     },
     colProps: { span: 3 },
   },
   {
     label: " ",
-    labelWidth:15,
+    labelWidth: 15,
     field: "subLot",
     component: "Input",
-    componentProps:{
-      placeholder:'批次号'
+    componentProps: {
+      placeholder: '批次号'
     },
     colProps: { span: 3 },
   },
   {
     label: " ",
-    labelWidth:15,
+    labelWidth: 15,
     field: "workOrder",
     component: "Input",
-    componentProps:{
-      placeholder:'工单号'
+    componentProps: {
+      placeholder: '工单号'
     },
     colProps: { span: 3 },
   },
   {
     label: " ",
-    labelWidth:15,
+    labelWidth: 15,
     field: "",
     component: "Input",
-    componentProps:{
-      placeholder:'晶圆ID'
+    componentProps: {
+      placeholder: '晶圆ID'
     },
     colProps: { span: 3 },
   },
   {
     label: " ",
-    labelWidth:15,
+    labelWidth: 15,
     field: "processState",
     component: "Select",
-    componentProps:{
-      placeholder:'作业状态',
-      options: getDictOptions(DICT_TYPE.STRIP_MAPDATA_TYPE, 'string'),
+    componentProps: {
+      placeholder: '作业状态',
+      options: getDictOptions(DICT_TYPE.STRIP_PROCESS_STATUS, 'string'),
     },
     colProps: { span: 3 },
   },
   {
     label: " ",
-    labelWidth:15,
+    labelWidth: 15,
     field: "",
     component: "Input",
-    componentProps:{
-      placeholder:'物料类型'
+    componentProps: {
+      placeholder: '物料类型'
     },
     colProps: { span: 3 },
   },
-  
+
 ];
 
 export const createFormSchema: FormSchema[] = [
@@ -177,8 +179,8 @@ export const createFormSchema: FormSchema[] = [
     field: "workOrder",
     required: true,
     component: "Input",
-    componentProps:{
-      placeholder:'请输入工单号'
+    componentProps: {
+      placeholder: '请输入工单号'
     },
     colProps: { span: 12 },
   },
@@ -186,8 +188,8 @@ export const createFormSchema: FormSchema[] = [
     label: "批号",
     field: "subLot",
     component: "Input",
-    componentProps:{
-      placeholder:'请输入批号'
+    componentProps: {
+      placeholder: '请输入批号'
     },
     required: true,
     colProps: { span: 12 },
@@ -196,9 +198,9 @@ export const createFormSchema: FormSchema[] = [
     label: "条数",
     field: "stripCnt",
     component: "Input",
-    componentProps:{
-      placeholder:'请输入条数',
-      type:'number',
+    componentProps: {
+      placeholder: '请输入条数',
+      type: 'number',
       min: 1,
     },
     required: true,
@@ -208,9 +210,9 @@ export const createFormSchema: FormSchema[] = [
     label: "位数",
     field: "digit",
     component: "Input",
-    componentProps:{
-      placeholder:'请输入位数',
-      type:'number',
+    componentProps: {
+      placeholder: '请输入位数',
+      type: 'number',
       min: 1,
     },
     required: true,
@@ -220,8 +222,8 @@ export const createFormSchema: FormSchema[] = [
     label: "连接符",
     field: "connectChar",
     component: "Input",
-    componentProps:{
-      placeholder:'请输入连接符'
+    componentProps: {
+      placeholder: '请输入连接符'
     },
     required: true,
     colProps: { span: 12 },
@@ -231,7 +233,7 @@ export const createFormSchema: FormSchema[] = [
     field: "processType",
     component: "Select",
     componentProps: {
-      placeholder:'请选择类型',
+      placeholder: '请选择类型',
       options: getDictOptions(DICT_TYPE.PROCESS_TYPE, 'string'),
     },
     required: true,

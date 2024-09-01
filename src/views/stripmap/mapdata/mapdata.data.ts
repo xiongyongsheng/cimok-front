@@ -1,6 +1,6 @@
 import type { BasicColumn, FormSchema } from "@/components/Table";
 import { useRender } from "@/components/Table";
-import { DICT_TYPE } from '@/utils/dict';
+import { DICT_TYPE, getDictOptions } from '@/utils/dict';
 
 export const columns: BasicColumn[] = [
   {
@@ -62,10 +62,13 @@ export const columns: BasicColumn[] = [
     title: "作业状态",
     dataIndex: "processState",
     width: 160,
+    customRender: ({ value }) => {
+      return useRender.renderDict(value, DICT_TYPE.STRIP_PROCESS_STATUS)
+    },
   },
   {
     title: "最后作业站点",
-    dataIndex: "currentProcessStep",
+    dataIndex: "lastProcessStep",
     width: 160,
   },
   {
@@ -79,7 +82,7 @@ export const columns: BasicColumn[] = [
     width: 160,
   },
   {
-    title: "类型",  
+    title: "类型",
     dataIndex: "processType",
     width: 160,
     customRender: ({ value }) => {
@@ -91,80 +94,83 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     label: "批次信息",
-    labelWidth:80,
+    labelWidth: 80,
     field: "",
     component: "Input",
-    componentProps:{
-      style:{
-        display:'none'
+    componentProps: {
+      style: {
+        display: 'none'
       }
     },
-    colProps: { style:{
-      width:100
-    } },
-    
+    colProps: {
+      style: {
+        width: 100
+      }
+    },
+
   },
   {
     label: " ",
-    labelWidth:15,
+    labelWidth: 15,
     field: "stripId",
     component: "Input",
-    componentProps:{
-      placeholder:'条号'
+    componentProps: {
+      placeholder: '条号'
     },
     colProps: { span: 3 },
   },
   {
     label: " ",
-    labelWidth:15,
+    labelWidth: 15,
     field: "",
     component: "Input",
-    componentProps:{
-      placeholder:'批次号'
+    componentProps: {
+      placeholder: '批次号'
     },
     colProps: { span: 3 },
   },
   {
     label: " ",
-    labelWidth:15,
+    labelWidth: 15,
     field: "",
     component: "Input",
-    componentProps:{
-      placeholder:'工单号'
+    componentProps: {
+      placeholder: '工单号'
     },
     colProps: { span: 3 },
   },
   {
     label: " ",
-    labelWidth:15,
+    labelWidth: 15,
     field: "",
     component: "Input",
-    componentProps:{
-      placeholder:'晶圆ID'
+    componentProps: {
+      placeholder: '晶圆ID'
     },
     colProps: { span: 3 },
   },
   {
     label: " ",
-    labelWidth:15,
+    labelWidth: 15,
     field: "",
-    component: "Input",
-    componentProps:{
-      placeholder:'作业状态'
+    component: "Select",
+    componentProps: {
+      placeholder: '作业状态',
+      options: getDictOptions(DICT_TYPE.STRIP_PROCESS_STATUS, 'string'),
     },
     colProps: { span: 3 },
   },
   {
     label: " ",
-    labelWidth:15,
+    labelWidth: 15,
     field: "",
     component: "Input",
-    componentProps:{
-      placeholder:'物料类型'
+    componentProps: {
+      placeholder: '物料类型'
     },
     colProps: { span: 3 },
   },
-  
+
 ];
 
 export const createFormSchema: FormSchema[] = [

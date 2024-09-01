@@ -6,7 +6,7 @@
 -->
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from "vue";
-import { Leafer, Group, Rect, Text, Box, Debug, RenderEvent } from "leafer-ui";
+import { Leafer, Group, Rect, Text, Box, Debug, RenderEvent, PointerEvent } from "leafer-ui";
 import type { WaferBinCodeListItem } from "../../../types/wafer/waferMap";
 import { Loading, useLoading } from "@/components/Loading";
 Debug.enable = true;
@@ -87,6 +87,8 @@ interface BinCocdeItemGroup {
   _x?: number;
   // 容器实际y坐标
   _y?: number;
+  // 激活状态
+  active?: boolean;
 }
 
 class BinCodeBox {
@@ -110,6 +112,8 @@ class BinCodeBox {
 
   binWidth: number = 30;
   binHeight: number = 30;
+  // 边距
+  marginSize: number = 2;
 
   constructor(params) {
     this.mapData = params.mapData;
@@ -175,11 +179,13 @@ class BinCodeBox {
    */
   private _createBinCodeGroup(binCodeItem: BinCocdeItemGroup) {
     const rect = new Rect({
-      width: this.binWidth * 0.9,
-      height: this.binHeight * 0.9,
+      width: this.binWidth,
+      height: this.binHeight,
       fill: binCodeItem.binColor,
-      x: this.binWidth * 0.05,
-      y: this.binHeight * 0.05,
+      x: this.marginSize,
+      y: this.marginSize,
+      // strokeWidth: 1,
+      // stroke: '#fff',
     });
     // code
     const text = new Text({
@@ -189,14 +195,43 @@ class BinCodeBox {
       text: binCodeItem.binCode,
       textAlign: "center",
       verticalAlign: "middle",
+      x: this.marginSize,
+      y: this.marginSize,
     });
     // 计算容器实际坐标
+
+    
     const group = new Box({
-      x: binCodeItem.x * this.binWidth,
-      y: binCodeItem.y * this.binHeight,
+      width: this.binWidth + this.marginSize * 2,
+      height: this.binHeight + this.marginSize * 2,
+      x: binCodeItem.x * this.binWidth + (this.marginSize * (binCodeItem.x - 1)),
+      y: binCodeItem.y * this.binHeight + (this.marginSize * (binCodeItem.y - 1)),
       children: [rect, text],
-      // fill: "#f00",
+      strokeWidth: 2,
+      stroke: '#fff',
+      data: binCodeItem,
+      event: {
+        [PointerEvent.TAP]: function (e: PointerEvent) {
+          const $box = e.current as Box
+          if (binCodeItem.active) {
+            $box.stroke = '#fff'
+            $box.zIndex = 1
+            $box.data.active = false
+          } else {
+            $box.stroke = '#000'
+            $box.zIndex = 999
+            $box.data.active = true
+          }
+        },
+        // [PointerEvent.LEAVE]: function (e: PointerEvent) {
+        //   const $box = e.current as Box
+        //   $box.stroke = '#fff'
+        //   $box.zIndex = 1
+        // }
+      }
     });
+
+
     return group;
   }
 
@@ -212,7 +247,7 @@ class BinCodeBox {
         textAlign: "center",
         verticalAlign: "middle",
         fill: "#000",
-        x: this.binWidth * (i + 1),
+        x: this.binWidth * (i + 1) + this.marginSize * (i + 1),
         y: 0,
       });
       binCodeBox.add(text);
@@ -231,7 +266,7 @@ class BinCodeBox {
         textAlign: "center",
         verticalAlign: "middle",
         fill: "#000",
-        y: this.binHeight * (i + 1),
+        y: this.binHeight * (i + 1) + this.marginSize * (i + 1),
         x: 0,
       });
       binCodeBox.add(text);

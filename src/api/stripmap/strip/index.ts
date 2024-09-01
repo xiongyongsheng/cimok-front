@@ -6,7 +6,7 @@ export function getStripPage(params) {
 }
 
 // 查询条号信息详情
-export function getStrip(id: number) {
+export function getStrip(id: string) {
   return defHttp.get({ url: `/stripmap/strip/get?id=${id}` })
 }
 

@@ -152,22 +152,33 @@ export enum DICT_TYPE {
   PROMOTION_CONDITION_TYPE = 'promotion_condition_type', // 营销的条件类型枚举
 
   //========== WAFER-MAP ===============
- WAFER_BIN_CODE_COLOR ='wafer_bin_code_color', //wafer 显示颜色
- WAFER_BIN_CODE_TYPE ='wafer_bin_code_type', //wafer 显示颜色
- WAFER_ORIENTATION ='wafer_orientation', //wafer方向字典
- WAFER_ROTATION_ANGLE ='wafer_rotation_angle',//wafer旋转角度
- WAFER_OP_TYPE ='wafer_op_type', //wafer操作类型
- //类型 process_type
- PROCESS_TYPE = 'process_type',
- 
- //========== strip ===============
- // 作业前后数据字典 strip_mapdata_type
- STRIP_MAPDATA_TYPE = 'strip_mapdata_type',
- // strip来源数据字典：strip_source
- STRIP_SOURCE = 'strip_source',
- // strip_bin_code_color
- STRIP_BIN_CODE_COLOR = 'strip_bin_code_color', // strip 颜色
- CODE_CONVERSION_STATUS = 'code_conversion_status', 
+  WAFER_BIN_CODE_COLOR = 'wafer_bin_code_color', //wafer 显示颜色
+  WAFER_BIN_CODE_TYPE = 'wafer_bin_code_type', //wafer 显示颜色
+  WAFER_ORIENTATION = 'wafer_orientation', //wafer方向字典
+  WAFER_ROTATION_ANGLE = 'wafer_rotation_angle',//wafer旋转角度
+  WAFER_OP_TYPE = 'wafer_op_type', //wafer操作类型
+  //类型 process_type
+  PROCESS_TYPE = 'process_type',
+
+  //========== strip ===============
+  // 作业前后数据字典 strip_mapdata_type
+  STRIP_MAPDATA_TYPE = 'strip_mapdata_type',
+  // strip来源数据字典：strip_source
+  STRIP_SOURCE = 'strip_source',
+  // strip_bin_code_color
+  STRIP_BIN_CODE_COLOR = 'strip_bin_code_color', // strip 颜色
+  // 状态字典：code_conversion_status 
+  CODE_CONVERSION_STATUS = 'code_conversion_status',
+  // 范围字典：code_conversion_use_scope
+  CODE_CONVERSION_USE_SCOPE = 'code_conversion_use_scope',
+  // strip作业类型数据字典：strip_process_type
+  STRIP_PROCESS_TYPE = 'strip_process_type',
+  // strip作业状态 strip_process_status
+  STRIP_PROCESS_STATUS = 'strip_process_status',
+  // strip站点 strip_process_step
+  STRIP_PROCESS_STEP = 'strip_process_step'
+  
+
 
 
 
