@@ -69,7 +69,7 @@ const createFormSchema: FormSchema[] = [
   },
   {
     label: "旋转角度",
-    field: "ffrot",
+    field: "rotationAngle",
     component: "Select",
     componentProps: {
       options: getDictOptions(DICT_TYPE.WAFER_ROTATION_ANGLE, "string"),
@@ -103,6 +103,13 @@ const createFormSchema: FormSchema[] = [
     componentProps: {
       options: getDictOptions(DICT_TYPE.PROCESS_TYPE, "string"),
     },
+    colProps: { span: 12 },
+  },
+  {
+    label: "mapdata",
+    field: "waferData",
+    component: "Input",
+    required: true,
     colProps: { span: 12 },
   },
   {
@@ -152,7 +159,7 @@ const createFormSchema: FormSchema[] = [
       return h(
         Upload,
         {
-          accept: ".csv,.xlsx,.xls,.txt",
+          accept: ".csv,.xlsx,.xls,.txt,.xml",
           beforeUpload(file) {
             var reader = new FileReader();
             reader.onload = () => {
@@ -203,7 +210,7 @@ const handleValide = () => {
   validateFields(["fileContent"]).then(() => {
     const data = getFieldsValue();
     validateWafer(data).then((res) => {
-      debugger;
+      setFieldsValue({...res,waferData:res.mapData})
     });
   });
 };

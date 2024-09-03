@@ -12,7 +12,7 @@ import { useMessage } from "@/hooks/web/useMessage";
 import { useModal, BasicModal } from "@/components/Modal";
 import { IconEnum } from "@/enums/appEnum";
 import { BasicTable, FormSchema, TableAction, useTable } from "@/components/Table";
-import { deleteStrip, exportStrip, getStripPage } from "@/api/stripmap/strip";
+import { deleteStrip, exportStrip, getStripPage, uploadStripXml,uploadStripManual } from "@/api/stripmap/strip";
 import { Divider, Select, Button, Upload } from "ant-design-vue";
 import { BasicForm, useComponentRegister, useForm } from "@/components/Form";
 import { h, ref } from "vue";
@@ -200,7 +200,10 @@ const uploadSchemas: FormSchema[] = [
             {
               type: "primary",
               onClick: () => {
-
+                const data = getFieldsValue();
+                console.log(data)
+                uploadStripManual(data)
+                createMessage.success(t("common.saveSuccessText"));
               },
             },
             "验证",
@@ -211,7 +214,7 @@ const uploadSchemas: FormSchema[] = [
   },
   {
     label: "数据",
-    field: "fileContent",
+    field: "xmlData",
     required: true,
     component: "InputTextArea",
     componentProps: {
@@ -230,13 +233,18 @@ const uploadSchemas: FormSchema[] = [
       return h(
         Upload,
         {
-          accept: ".csv,.xlsx,.xls,.txt",
+          accept: ".csv,.xlsx,.xls,.txt,.xml",
+          resultField:(e)=>{},
           beforeUpload(file) {
             var reader = new FileReader();
-            reader.onload = () => {
+            reader.onload = (e) => {
               // TODO 验证数据
             };
             reader.readAsText(file);
+            uploadStripXml({file:file}).then(res=>{
+              console.log(res)
+              setFieldsValue({stripId:res.data.data.stripId,xmlData:res.data.data.xmlData})
+            })
             return false;
           },
         },
@@ -253,7 +261,7 @@ const uploadSchemas: FormSchema[] = [
     },
   },
 ]
-const [registerUploadForm, { }] = useForm({
+const [registerUploadForm, {setFieldsValue,getFieldsValue,validate, validateFields }] = useForm({
   labelWidth: 80,
   baseColProps: { span: 24 },
   schemas: uploadSchemas,

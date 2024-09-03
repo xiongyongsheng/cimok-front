@@ -39,3 +39,10 @@ export function createBatch(data) {
 export function getAllStripWithCon(subLot: string) {
   return defHttp.get({ url: `/stripmap/strip/getAllStripWithCon?subLot=${subLot}` })
 }
+//upload文件
+export function uploadStripXml(data) {
+  return defHttp.uploadFile({ url: '/dev-api/stripmap/strip/parseStripXml' }, data)
+}
+export function uploadStripManual(data) {
+  return defHttp.post({ url: '/stripmap/strip/uploadStripManual' ,data} )
+}
