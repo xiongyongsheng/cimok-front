@@ -98,6 +98,6 @@ export const searchFormSchema: FormSchema[] = [
     componentProps: {
       options: getDictOptions(DICT_TYPE.WAFER_OP_TYPE,'string'),
     },
-    colProps: { span: 8 },
+    colProps: { span: 4 },
   }
 ];
