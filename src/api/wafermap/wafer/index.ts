@@ -34,6 +34,14 @@ export function createWafer(data) {
 export function updateWafer(data) {
   return defHttp.put({ url: '/wafermap/wafer/update', data })
 }
+// 修改晶圆片信息
+export function updateWaferDirection(id:string , ffrot) {
+  const data = {
+    id,
+    ffrot,
+  }
+  return defHttp.put({ url: '/wafermap/wafer/update-direction', data })
+}
 
 // 删除晶圆片信息
 export function deleteWafer(id: number) {

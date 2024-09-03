@@ -71,7 +71,7 @@ export const columns: BasicColumn[] = [
   
   {
     title: '图档方向',
-    dataIndex: 'fnloc',
+    dataIndex: 'orloc',
     width: 160,
     customRender: ({ text }) => {
       return useRender.renderDict(text, DICT_TYPE.WAFER_ORIENTATION)
@@ -79,7 +79,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '原始方向',
-    dataIndex: 'orloc',
+    dataIndex: 'fnloc',
     width: 160,
     customRender: ({ text }) => {
       return useRender.renderDict(text, DICT_TYPE.WAFER_ORIENTATION)

@@ -14,12 +14,15 @@ import { WaferMapDetailInfo } from "@/types/wafer/waferMap";
 import { DICT_TYPE, getDictOptions } from "@/utils/dict";
 import { useRoute } from "vue-router";
 import { getWafer } from "@/api/wafermap/wafer";
+import { updateWaferDirection } from "@/api/wafermap/wafer";
 import { Loading } from "@/components/Loading";
 import { useRender } from "@/components/Table";
+import { useMessage } from '@/hooks/web/useMessage'
+import { Options } from "@zxcvbn-ts/core";
+
 
 defineOptions({ name: "WaferMapDetail" });
 let mapInfoData = ref<WaferMapDetailInfo>();
-
 const schema: DescItem[] = [
   {
     field: "goodCnt",
@@ -87,19 +90,43 @@ const schema: DescItem[] = [
     },
   },
   {
-    span: 1,
-    field: "ffrot",
-    label: "方向",
-    render: (curVal) => {
-      return h(Select, {
-        options: getDictOptions(DICT_TYPE.WAFER_ORIENTATION, "string") as [],
-        style: {
-          width: "100%",
-        },
-        value: curVal,
-      });
-    },
+  span: 1,
+  field: "fnloc",
+  label: "方向",
+  render: (curVal, record) => {
+    const valueRef = ref(curVal);  // 使用 ref 跟踪值
+
+    return h(Select, {
+      options: getDictOptions(DICT_TYPE.WAFER_ORIENTATION, "string") as [],
+      style: {
+        width: "100%",
+      },
+      value: valueRef.value ?? "", // 绑定 ref 值
+      onChange: (newVal) => {
+        // 更新 ref 值
+        valueRef.value = newVal as string;
+
+        // 更新状态，回填到当前字段
+        record.fnloc = newVal as string;
+
+        // 调用后台接口更新数据
+        updateWaferDirection(record.id, newVal as string)
+          .then(() => {
+            // 成功提示
+            const { createMessage } = useMessage();
+            createMessage.success("方向已成功更新");
+          })
+          .catch(() => {
+            // 失败提示
+            const { createMessage } = useMessage();
+            createMessage.error("方向更新失败");
+          });
+      },
+    });
   },
+}
+
+
 ];
 
 const [register] = useDescription({
