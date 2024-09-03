@@ -86,13 +86,13 @@ export const columns: BasicColumn[] = [
         record.pendingStatus = false
 
       return h(Switch, {
-        checked: record.status === 1,
+        checked: record.status === 0,
         checkedChildren: '生效',
         unCheckedChildren: '失效',
         loading: record.pendingStatus,
         onChange(checked: boolean) {
           record.pendingStatus = true
-          const newStatus = checked ? 1 : 0
+          const newStatus = checked ? 0 : 1
           const { createMessage } = useMessage()
           updateCodeConversionStatus(record.id, newStatus)
             .then(() => {

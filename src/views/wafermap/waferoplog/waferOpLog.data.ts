@@ -91,14 +91,13 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 4 },
   },
   {
-    label: " ",
+    label: ' ',
     labelWidth: 15,
-    field: "opType",
-    component: "Select",
+    field: 'opType',
+    component: 'Select',
     componentProps: {
-      placeholder: "操作类型",
-      options: getDictOptions(DICT_TYPE.WAFER_OP_TYPE),
+      options: getDictOptions(DICT_TYPE.WAFER_OP_TYPE,'string'),
     },
-    colProps: { span: 4 },
-  },
+    colProps: { span: 8 },
+  }
 ];

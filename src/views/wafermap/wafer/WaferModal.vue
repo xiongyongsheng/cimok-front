@@ -69,7 +69,7 @@ const createFormSchema: FormSchema[] = [
   },
   {
     label: "旋转角度",
-    field: "ffrot",
+    field: "rotationAngle",
     component: "Select",
     componentProps: {
       options: getDictOptions(DICT_TYPE.WAFER_ROTATION_ANGLE, "string"),
