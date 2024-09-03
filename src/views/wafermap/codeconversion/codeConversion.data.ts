@@ -1,8 +1,10 @@
 import type { BasicColumn, FormSchema } from '@/components/Table'
 import { useRender } from '@/components/Table'
+import { useMessage } from '@/hooks/web/useMessage'
 import { DICT_TYPE, getDictOptions } from '@/utils/dict'
 import { Switch } from 'ant-design-vue'
 import { h } from 'vue'
+import { updateCodeConversionStatus } from "@/api/wafermap/codeconversion";
 
 const options = getDictOptions(DICT_TYPE.WAFER_BIN_CODE_COLOR, 'string')
 
@@ -66,15 +68,46 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '范围',
-    dataIndex: '',
+    title: '适用范围',
+    dataIndex: 'useScope',
     width: 160,
+    customRender: ({ text }) => {
+      return useRender.renderDict(text, DICT_TYPE.CODE_CONVERSION_USE_SCOPE)
+    },
+    
   },
   {
     title: '生效',
     dataIndex: 'status',
     width: 160,
     fixed:'right',
+    customRender: ({ record }) => {
+      if (!Reflect.has(record, 'pendingStatus'))
+        record.pendingStatus = false
+
+      return h(Switch, {
+        checked: record.status === 1,
+        checkedChildren: '生效',
+        unCheckedChildren: '失效',
+        loading: record.pendingStatus,
+        onChange(checked: boolean) {
+          record.pendingStatus = true
+          const newStatus = checked ? 1 : 0
+          const { createMessage } = useMessage()
+          updateCodeConversionStatus(record.id, newStatus)
+            .then(() => {
+              record.status = newStatus
+              createMessage.success('已成功修改状态')
+            })
+            .catch(() => {
+              createMessage.error('修改状态失败')
+            })
+            .finally(() => {
+              record.pendingStatus = false
+            })
+        },
+      })
+    },
   },
   
 ]
@@ -172,6 +205,15 @@ export const createFormSchema: FormSchema[] = [
     },
   },
   {
+    label: '适用范围',
+    field: 'useScope',
+    component: 'Select',
+    componentProps: {
+      options: getDictOptions(DICT_TYPE.CODE_CONVERSION_USE_SCOPE, 'string'),
+      placeholder: '请选择范围类型',
+    },
+  },
+  {
     label: '颜色',
     field: 'binColor',
     component: 'Select',
@@ -226,6 +268,14 @@ export const updateFormSchema: FormSchema[] = [
     component: 'Select',
     componentProps: {
       options: getDictOptions(DICT_TYPE.WAFER_BIN_CODE_TYPE, 'string'),
+    },
+  },
+  {
+    label: '适用范围',
+    field: 'useScope',
+    component: 'Select',
+    componentProps: {
+      options: getDictOptions(DICT_TYPE.CODE_CONVERSION_USE_SCOPE, 'string'),
     },
   },
   {

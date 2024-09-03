@@ -20,6 +20,15 @@ export function updateCodeConversion(data) {
   return defHttp.put({ url: '/wafermap/code-conversion/update', data })
 }
 
+// 状态修改
+export function updateCodeConversionStatus(id: number, status: number) {
+  const data = {
+    id,
+    status,
+  }
+  return defHttp.put({ url: '/wafermap/code-conversion/update-status', data })
+
+}
 // 删除转换定义
 export function deleteCodeConversion(id: number) {
   return defHttp.delete({ url: `/wafermap/code-conversion/delete?id=${id}` })
