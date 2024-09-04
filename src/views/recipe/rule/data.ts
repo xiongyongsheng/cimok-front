@@ -8,62 +8,39 @@ import { Input, Table } from 'ant-design-vue';
 
 export const columns: BasicColumn[] = [
   {
-    title: 'ID',
+    title: '参数规则',
     dataIndex: 'id',
     width: 160,
   },
   {
-    title: 'Recipe名称',
+    title: '版本号',
     dataIndex: 'rcpName',
     width: 160,
   },
   {
-    title: '版本类型',
+    title: 'Recipe名称',
     dataIndex: 'rcpHisId',
     width: 160,
   },
   {
-    title: '版本号',
+    title: '关联Recipe数量',
     dataIndex: 'paramName',
     width: 160,
   },
   {
-    title: '参数校验',
+    title: '创建人员',
     dataIndex: 'paramCode',
     width: 160,
   },
   {
-    title: '规则版本',
+    title: '状态',
     dataIndex: 'paramNick',
     width: 160,
   },
   {
-    title: '来源设备',
+    title: '创建时间',
     dataIndex: 'realVal',
     width: 160,
-  },
-  {
-    title: '适用设备',
-    dataIndex: 'sortCode',
-    width: 160,
-  },
-  {
-    title: '创建人员',
-    dataIndex: 'deptId',
-    width: 160,
-  },
-  {
-    title: '状态',
-    dataIndex: 'deptId',
-    width: 160,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    width: 180,
-    customRender: ({ text }) => {
-      return useRender.renderDate(text);
-    },
   },
 ];
 
@@ -75,7 +52,7 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 8 },
   },
   {
-    label: '类型',
+    label: '规则名称',
     field: 'rcpHisId',
     component: 'Input',
     colProps: { span: 8 },
@@ -83,18 +60,6 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '设备类型',
     field: 'paramName',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '设备号',
-    field: 'paramCode',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '审批状态',
-    field: 'paramNick',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -189,6 +154,7 @@ export const createFormSchema: FormSchema[] = [
     label: '设备型号',
     field: 'id',
     component: 'Input',
+    required: true,
   },
   {
     label: '设置参数',
@@ -214,39 +180,33 @@ export const createFormSchema: FormSchema[] = [
             },
             {
               align: 'center',
-              title: '参数值',
-              dataIndex: '3',
-              key: '3',
-            },
-            {
-              align: 'center',
               title: '参考范围-低',
               dataIndex: '4',
               key: '4',
+              renderType: 'input',
             },
             {
               align: 'center',
               title: '参考范围-高',
               dataIndex: '5',
               key: '5',
+              renderType: 'input',
             },
           ],
           dataSource: createTableDataSource.value,
         },
         {
           bodyCell: ({ column, text, record, index }) => {
-            if (column.key === '3') {
+            if (column.renderType === 'input') {
               return h(Input, {
                 value: text,
-                // @ts-ignore
-                status:
-                  text >= record['4'] && text <= record['5'] ? ' ' : 'warning',
                 style: {
                   width: '80px',
                 },
                 onChange: (e) => {
                   // @ts-ignore
-                  createTableDataSource.value[index]['3'] = e.target.value;
+                  createTableDataSource.value[index][column.dataIndex] =
+                    e.target.value;
                 },
               });
             } else {

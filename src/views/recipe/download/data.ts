@@ -8,62 +8,50 @@ import { Input, Table } from 'ant-design-vue';
 
 export const columns: BasicColumn[] = [
   {
-    title: 'ID',
-    dataIndex: 'id',
+    title: 'Recipe名称',
+    dataIndex: 'rcpHisId',
     width: 160,
+    key: 'name',
   },
   {
-    title: 'Recipe名称',
+    title: '版本类型',
     dataIndex: 'rcpName',
     width: 160,
   },
   {
-    title: '版本类型',
-    dataIndex: 'rcpHisId',
-    width: 160,
-  },
-  {
     title: '版本号',
-    dataIndex: 'paramName',
+    dataIndex: 'rcpName',
     width: 160,
   },
   {
     title: '参数校验',
-    dataIndex: 'paramCode',
-    width: 160,
-  },
-  {
-    title: '规则版本',
-    dataIndex: 'paramNick',
+    dataIndex: 'paramName',
     width: 160,
   },
   {
     title: '来源设备',
-    dataIndex: 'realVal',
+    dataIndex: 'paramCode',
     width: 160,
   },
   {
     title: '适用设备',
-    dataIndex: 'sortCode',
+    dataIndex: 'paramNick',
     width: 160,
   },
   {
     title: '创建人员',
-    dataIndex: 'deptId',
+    dataIndex: 'realVal',
     width: 160,
   },
   {
     title: '状态',
-    dataIndex: 'deptId',
+    dataIndex: 'realVal',
     width: 160,
   },
   {
     title: '创建时间',
-    dataIndex: 'createTime',
-    width: 180,
-    customRender: ({ text }) => {
-      return useRender.renderDate(text);
-    },
+    dataIndex: 'realVal',
+    width: 160,
   },
 ];
 
@@ -81,20 +69,8 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 8 },
   },
   {
-    label: '设备类型',
+    label: '作业站点',
     field: 'paramName',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '设备号',
-    field: 'paramCode',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '审批状态',
-    field: 'paramNick',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -186,83 +162,38 @@ const createTableDataSource = ref([
 ]);
 export const createFormSchema: FormSchema[] = [
   {
-    label: '设备型号',
+    label: '工单号',
     field: 'id',
     component: 'Input',
+    required: true,
+    labelWidth: 140,
   },
   {
-    label: '设置参数',
+    label: '设备号',
     field: 'rcpHisId',
     component: 'Input',
-
-    render: (renderCallbackParams, opts) => {
-      return h(
-        Table,
-        {
-          columns: [
-            {
-              align: 'center',
-              title: '参数代码',
-              dataIndex: '1',
-              key: '1',
-            },
-            {
-              align: 'center',
-              title: '参数名称',
-              dataIndex: '2',
-              key: '2',
-            },
-            {
-              align: 'center',
-              title: '参数值',
-              dataIndex: '3',
-              key: '3',
-            },
-            {
-              align: 'center',
-              title: '参考范围-低',
-              dataIndex: '4',
-              key: '4',
-            },
-            {
-              align: 'center',
-              title: '参考范围-高',
-              dataIndex: '5',
-              key: '5',
-            },
-          ],
-          dataSource: createTableDataSource.value,
-        },
-        {
-          bodyCell: ({ column, text, record, index }) => {
-            if (column.key === '3') {
-              return h(Input, {
-                value: text,
-                // @ts-ignore
-                status:
-                  text >= record['4'] && text <= record['5'] ? ' ' : 'warning',
-                style: {
-                  width: '80px',
-                },
-                onChange: (e) => {
-                  // @ts-ignore
-                  createTableDataSource.value[index]['3'] = e.target.value;
-                },
-              });
-            } else {
-              return text;
-            }
-          },
-        }
-      );
-    },
     required: true,
+    labelWidth: 140,
   },
   {
-    label: 'Recipe名称',
+    label: '工步(自动)',
     field: 'rcpName',
     component: 'Input',
     required: true,
+    labelWidth: 140,
+    componentProps: {
+      disabled: true,
+    },
+  },
+  {
+    label: 'Recipe名称(自动)',
+    field: 'rcpName',
+    component: 'Input',
+    required: true,
+    labelWidth: 140,
+    componentProps: {
+      disabled: true,
+    },
   },
 ];
 

@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import CreateModal from './createModal.vue';
-import UploadModal from './uploadModal.vue';
-import ScopeOfUseModal from './scopeOfUseModal.vue';
 import VersionModal from './versionModal.vue';
 import { columns, searchFormSchema } from './data';
 import { useI18n } from '@/hooks/web/useI18n';
@@ -17,16 +15,15 @@ import {
   exportRcpParam,
   getRcpParamPage,
 } from '@/api/base/rcpparam';
-import { getPage } from '@/api/base/recipe';
 
-defineOptions({ name: 'RecipeQuery' });
+defineOptions({ name: 'RecipeRule' });
 
 const { t } = useI18n();
 const { createConfirm, createMessage } = useMessage();
 const [registerModal, { openModal }] = useModal();
 
 const [registerTable, { getForm, reload }] = useTable({
-  title: 'Recipe列表',
+  title: '参数规则管理',
   api: list,
   // api: getPage,
   columns,
@@ -34,7 +31,7 @@ const [registerTable, { getForm, reload }] = useTable({
   useSearchForm: true,
   showTableSetting: true,
   actionColumn: {
-    width: 200,
+    width: 100,
     title: t('common.action'),
     dataIndex: 'action',
     fixed: 'right',
@@ -43,10 +40,6 @@ const [registerTable, { getForm, reload }] = useTable({
 
 function handleCreate() {
   openModal(true, { isUpdate: false });
-}
-
-function handleEdit(record: Recordable) {
-  openModal(true, { record, isUpdate: true });
 }
 
 async function handleExport() {
@@ -66,57 +59,15 @@ async function handleDelete(record: Recordable) {
   createMessage.success(t('common.delSuccessText'));
   reload();
 }
-
-const [uploadModal, { openModal: openUploadModal }] = useModal();
-function handleUpload() {
-  openUploadModal(true, { isUpdate: false });
-}
-const [scopeOfUseModal, { openModal: openScopeOfUseModal }] = useModal();
-function handleScopeOfUse() {
-  openScopeOfUseModal(true, { isUpdate: false });
-}
 const [versionModal, { openModal: openVersionModalModal }] = useModal();
 function handleVersion() {
   openVersionModalModal(true, { isUpdate: false });
-}
-
-import { useRouter } from 'vue-router';
-const router = useRouter();
-function handleUpgrade(record: Recordable) {
-  router.push({
-    name: 'RecipeQueryUpgrade',
-    query: {
-      id: record.id,
-    },
-  });
-}
-
-function handleActionLog(record: Recordable) {
-  console.log(
-    '%c [ record ]-95',
-    'font-size:13px; background:pink; color:#bf2c9f;',
-    record
-  );
-  router.push({
-    name: 'RecipeActionLog',
-    query: {
-      id: record.id,
-    },
-  });
 }
 </script>
 <template>
   <div>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <a-button
-          type="primary"
-          v-auth="['base:rcp-param:create']"
-          :preIcon="IconEnum.UPLOAD"
-          @click="handleUpload"
-        >
-          设备上传
-        </a-button>
         <a-button
           v-auth="['base:rcp-param:create']"
           :preIcon="IconEnum.ADD"
@@ -127,16 +78,15 @@ function handleActionLog(record: Recordable) {
         <a-button
           v-auth="['base:rcp-param:create']"
           :preIcon="IconEnum.VIEW"
-          @click="handleScopeOfUse"
-        >
-          使用范围
-        </a-button>
-        <a-button
-          v-auth="['base:rcp-param:create']"
-          :preIcon="IconEnum.PREVIEW"
           @click="handleVersion"
         >
           版本对比
+        </a-button>
+        <a-button
+          v-auth="['base:rcp-param:create']"
+          :preIcon="IconEnum.ADD_FOLD"
+        >
+          导入数据
         </a-button>
       </template>
       <template #bodyCell="{ column, record }">
@@ -145,26 +95,13 @@ function handleActionLog(record: Recordable) {
             :actions="[
               {
                 // icon: IconEnum.EDIT,
-                label: '锁定',
+                label: '提交',
                 auth: 'base:rcp-param:update',
                 popConfirm: {
-                  title: '是否确定锁定Recipe?',
+                  title: '是否确定审批通过xxx规则？',
                   placement: 'left',
                   confirm: handleDelete.bind(null, record),
                 },
-              },
-              {
-                // icon: IconEnum.DELETE,
-                danger: true,
-                label: '升级',
-                auth: 'base:rcp-param:delete',
-                onClick: handleUpgrade.bind(null, record),
-              },
-              {
-                // icon: IconEnum.DELETE,
-                label: '查看记录',
-                auth: 'base:rcp-param:update',
-                onClick: handleActionLog.bind(null, record),
               },
             ]"
           />
@@ -172,12 +109,6 @@ function handleActionLog(record: Recordable) {
       </template>
     </BasicTable>
     <CreateModal @register="registerModal" @success="reload()" />
-    <UploadModal title="设备上传" @register="uploadModal" @success="reload()" />
-    <ScopeOfUseModal
-      title="选择设备"
-      @register="scopeOfUseModal"
-      @success="reload()"
-    />
     <VersionModal
       title="版本对比"
       @register="versionModal"
