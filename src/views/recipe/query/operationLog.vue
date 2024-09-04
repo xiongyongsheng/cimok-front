@@ -19,7 +19,7 @@ import {
 } from '@/api/base/rcpparam';
 import { getPage } from '@/api/base/recipe';
 
-defineOptions({ name: 'RecipeQuery' });
+defineOptions({ name: 'RecipeOperationLog' });
 
 const { t } = useI18n();
 const { createConfirm, createMessage } = useMessage();
