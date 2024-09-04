@@ -65,13 +65,19 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '类型',
     field: 'rcpHisId',
-    component: 'Input',
+    component: 'Select',
+    componentProps: {
+      options: getDictOptions(DICT_TYPE.RECIPE_VERSION_TYPE),
+    },
     colProps: { span: 8 },
   },
   {
     label: '作业站点',
     field: 'paramName',
-    component: 'Input',
+    component: 'Select',
+    componentProps: {
+      options: getDictOptions(DICT_TYPE.RECIPE_SITE),
+    },
     colProps: { span: 8 },
   },
   //@ts-ignore
@@ -141,7 +147,7 @@ export const actionLogSearchFormSchema: FormSchema[] = [
   {
     label: '操作时间',
     field: 'paramCode',
-    component: 'DatePicker',
+    component: 'RangePicker',
     colProps: { span: 8 },
   },
   //@ts-ignore

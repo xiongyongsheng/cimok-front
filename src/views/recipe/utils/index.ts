@@ -5,6 +5,9 @@ export function handleSearchFormSchema(item: FormSchema) {
       placeholder: item.label || '请输入',
       type: 'text',
     };
+  } else {
+    // @ts-ignore
+    item.componentProps.placeholder = item.label || '请输入';
   }
   item.label = ' ';
   item.labelWidth = 15;

@@ -141,7 +141,7 @@ export const actionLogSearchFormSchema: FormSchema[] = [
   {
     label: '操作时间',
     field: 'paramCode',
-    component: 'DatePicker',
+    component: 'DateR',
     colProps: { span: 8 },
   },
   //@ts-ignore

@@ -8,11 +8,6 @@ import { Input, Table } from 'ant-design-vue';
 
 export const columns: BasicColumn[] = [
   {
-    title: 'ID',
-    dataIndex: 'id',
-    width: 160,
-  },
-  {
     title: 'Recipe名称',
     dataIndex: 'rcpName',
     width: 160,
@@ -77,13 +72,19 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '类型',
     field: 'rcpHisId',
-    component: 'Input',
+    component: 'Select',
+    componentProps: {
+      options: getDictOptions(DICT_TYPE.RECIPE_VERSION_TYPE),
+    },
     colProps: { span: 8 },
   },
   {
     label: '设备类型',
     field: 'paramName',
-    component: 'Input',
+    component: 'Select',
+    componentProps: {
+      options: getDictOptions(DICT_TYPE.RECIPE_DEVICE_TYPE),
+    },
     colProps: { span: 8 },
   },
   {
@@ -95,7 +96,10 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '审批状态',
     field: 'paramNick',
-    component: 'Input',
+    component: 'Select',
+    componentProps: {
+      options: getDictOptions(DICT_TYPE.RECIPE_APPROVAL_STATUS),
+    },
     colProps: { span: 8 },
   },
   //@ts-ignore
@@ -165,7 +169,7 @@ export const actionLogSearchFormSchema: FormSchema[] = [
   {
     label: '操作时间',
     field: 'paramCode',
-    component: 'DatePicker',
+    component: 'RangePicker',
     colProps: { span: 8 },
   },
   //@ts-ignore

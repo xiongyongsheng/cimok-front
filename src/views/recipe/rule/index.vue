@@ -69,6 +69,7 @@ function handleVersion() {
     <BasicTable @register="registerTable">
       <template #toolbar>
         <a-button
+          type="primary"
           v-auth="['base:rcp-param:create']"
           :preIcon="IconEnum.ADD"
           @click="handleCreate"

@@ -9,7 +9,7 @@ import { Input, Table } from 'ant-design-vue';
 export const columns: BasicColumn[] = [
   {
     title: '参数规则',
-    dataIndex: 'id',
+    dataIndex: 'rcpName',
     width: 160,
   },
   {
@@ -60,7 +60,10 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '设备类型',
     field: 'paramName',
-    component: 'Input',
+    component: 'Select',
+    componentProps: {
+      options: getDictOptions(DICT_TYPE.RECIPE_DEVICE_TYPE),
+    },
     colProps: { span: 8 },
   },
   //@ts-ignore
@@ -130,7 +133,7 @@ export const actionLogSearchFormSchema: FormSchema[] = [
   {
     label: '操作时间',
     field: 'paramCode',
-    component: 'DatePicker',
+    component: 'RangePicker',
     colProps: { span: 8 },
   },
   //@ts-ignore

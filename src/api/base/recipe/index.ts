@@ -2,7 +2,17 @@ import { defHttp } from '@/utils/http/axios';
 
 // 查询Recipe参数列表
 export function getPage(params) {
-  return defHttp.get({ url: '/admin-api/base/rcp-op-log/page', params });
+  return defHttp.get({ url: '/base/rcp-param/page', params });
+}
+
+// 查询Recipe参数列表
+export function getPageLog(params) {
+  return defHttp.get({ url: '/base/rcp-op-log/page', params });
+}
+
+// 获得RCP操作的详情分页
+export function getPageDetail(params) {
+  return defHttp.get({ url: '/base/rcp-op-detail/page', params });
 }
 
 // 查询Recipe参数详情

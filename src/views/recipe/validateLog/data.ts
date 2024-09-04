@@ -60,7 +60,10 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '核验类型',
     field: 'rcpHisId',
-    component: 'Input',
+    component: 'Select',
+    componentProps: {
+      options: getDictOptions(DICT_TYPE.RECIPE_VERIFICATION_TYPE),
+    },
     colProps: { span: 8 },
   },
   {
@@ -72,7 +75,7 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '选择时间',
     field: 'paramName',
-    component: 'DatePicker',
+    component: 'RangePicker',
     colProps: { span: 8 },
   },
   //@ts-ignore
@@ -142,7 +145,7 @@ export const actionLogSearchFormSchema: FormSchema[] = [
   {
     label: '操作时间',
     field: 'paramCode',
-    component: 'DatePicker',
+    component: 'RangePicker',
     colProps: { span: 8 },
   },
   //@ts-ignore

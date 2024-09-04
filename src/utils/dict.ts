@@ -1,9 +1,9 @@
 /**
  * 数据字典工具类
  */
-import { useDictStoreWithOut } from '@/store/modules/dict'
+import { useDictStoreWithOut } from '@/store/modules/dict';
 
-const dictStore = useDictStoreWithOut()
+const dictStore = useDictStoreWithOut();
 
 /**
  * 获取 dictType 对应的数据字典数组
@@ -12,16 +12,16 @@ const dictStore = useDictStoreWithOut()
  * @returns {*|Array} 数据字典数组
  */
 export interface DictDataType {
-  dictType: string
-  label: string
-  value: string | number | boolean
-  key?: any
-  colorType: string
-  cssClass: string
+  dictType: string;
+  label: string;
+  value: string | number | boolean;
+  key?: any;
+  colorType: string;
+  cssClass: string;
 }
 
 export function getDictDatas(dictType: string) {
-  return dictStore.getDictMap[dictType] || []
+  return dictStore.getDictMap[dictType] || [];
 }
 
 export function getDictOpts(dictType: string) {
@@ -36,12 +36,15 @@ export function getDictOpts(dictType: string) {
         })
      原来的这种写法是造成页面卡死的原因
    */
-  return getDictDatas(dictType)
+  return getDictDatas(dictType);
 }
 
-export function getDictOptions(dictType: string, valueType?: 'string' | 'number' | 'boolean') {
-  const dictOption: DictDataType[] = []
-  const dictOptions: DictDataType[] = getDictDatas(dictType)
+export function getDictOptions(
+  dictType: string,
+  valueType?: 'string' | 'number' | 'boolean'
+) {
+  const dictOption: DictDataType[] = [];
+  const dictOptions: DictDataType[] = getDictDatas(dictType);
   if (dictOptions && dictOptions.length > 0) {
     dictOptions.forEach((dict: DictDataType) => {
       dictOption.push({
@@ -53,26 +56,30 @@ export function getDictOptions(dictType: string, valueType?: 'string' | 'number'
             : valueType === 'boolean'
               ? `${dict.value}` === 'true'
               : Number.parseInt(`${dict.value}`),
-      })
-    })
+      });
+    });
   }
-  return dictOption
+  return dictOption;
 }
 
 export function getDictObj(dictType: string, value: any) {
-  const dictOptions: DictDataType[] = getDictDatas(dictType)
+  const dictOptions: DictDataType[] = getDictDatas(dictType);
   if (dictOptions) {
     dictOptions.forEach((dict: DictDataType) => {
-      if (dict.value === value.toString())
-        return dict
-    })
-  }
-  else {
-    return null
+      if (dict.value === value.toString()) return dict;
+    });
+  } else {
+    return null;
   }
 }
 
 export enum DICT_TYPE {
+  RECIPE_VERIFICATION_TYPE = 'recipe_verification_type',
+  RECIPE_ACTION_TYPE = 'recipe_action_type',
+  RECIPE_SITE = 'recipe_site',
+  RECIPE_APPROVAL_STATUS = 'recipe_approval_status',
+  RECIPE_VERSION_TYPE = 'recipe_version_type',
+  RECIPE_DEVICE_TYPE = 'recipe_device_type',
   USER_TYPE = 'user_type',
   COMMON_STATUS = 'common_status',
   SYSTEM_TENANT_PACKAGE_ID = 'system_tenant_package_id',
@@ -155,7 +162,7 @@ export enum DICT_TYPE {
   WAFER_BIN_CODE_COLOR = 'wafer_bin_code_color', //wafer 显示颜色
   WAFER_BIN_CODE_TYPE = 'wafer_bin_code_type', //wafer 显示颜色
   WAFER_ORIENTATION = 'wafer_orientation', //wafer方向字典
-  WAFER_ROTATION_ANGLE = 'wafer_rotation_angle',//wafer旋转角度
+  WAFER_ROTATION_ANGLE = 'wafer_rotation_angle', //wafer旋转角度
   WAFER_OP_TYPE = 'wafer_op_type', //wafer操作类型
   //类型 process_type
   PROCESS_TYPE = 'process_type',
@@ -167,7 +174,7 @@ export enum DICT_TYPE {
   STRIP_SOURCE = 'strip_source',
   // strip_bin_code_color
   STRIP_BIN_CODE_COLOR = 'strip_bin_code_color', // strip 颜色
-  // 状态字典：code_conversion_status 
+  // 状态字典：code_conversion_status
   CODE_CONVERSION_STATUS = 'code_conversion_status',
   // 范围字典：code_conversion_use_scope
   CODE_CONVERSION_USE_SCOPE = 'code_conversion_use_scope',
@@ -176,11 +183,5 @@ export enum DICT_TYPE {
   // strip作业状态 strip_process_status
   STRIP_PROCESS_STATUS = 'strip_process_status',
   // strip站点 strip_process_step
-  STRIP_PROCESS_STEP = 'strip_process_step'
-  
-
-
-
-
-
+  STRIP_PROCESS_STEP = 'strip_process_step',
 }

@@ -17,7 +17,7 @@ import {
   exportRcpParam,
   getRcpParamPage,
 } from '@/api/base/rcpparam';
-import { getPage } from '@/api/base/recipe';
+import { getPage, getPageLog, getPageDetail } from '@/api/base/recipe';
 
 defineOptions({ name: 'RecipeQuery' });
 
@@ -27,8 +27,8 @@ const [registerModal, { openModal }] = useModal();
 
 const [registerTable, { getForm, reload }] = useTable({
   title: 'Recipe列表',
-  api: list,
-  // api: getPage,
+  // api: list,
+  api: getPage,
   columns,
   formConfig: { labelWidth: 120, schemas: searchFormSchema },
   useSearchForm: true,
