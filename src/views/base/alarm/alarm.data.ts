@@ -1,17 +1,18 @@
-import type {BasicColumn, FormSchema} from '@/components/Table'
-import {useRender} from '@/components/Table'
+import type { BasicColumn, FormSchema } from '@/components/Table'
+import { useRender } from '@/components/Table'
+import { h } from 'vue'
+import { RouterLink } from 'vue-router'
 
 export const columns: BasicColumn[] = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    width: 160,
-    defaultHidden: true
-  },
   {
     title: 'Alarm代码',
     dataIndex: 'alid',
     width: 160,
+    customRender: ({ record }) => {
+      return h(RouterLink, {
+        to: '/emm/alarm-rule',
+      }, record.alid)
+    }
   },
   {
     title: '报警CODE',
@@ -31,7 +32,7 @@ export const columns: BasicColumn[] = [
     defaultHidden: true
   },
   {
-    title: '设备类型 ',
+    title: '设备类型',
     dataIndex: 'eqptTypeCode',
     width: 160,
   },
@@ -51,6 +52,7 @@ export const columns: BasicColumn[] = [
     title: '启用状态',
     dataIndex: 'enable',
     width: 160,
+    defaultHidden: true
   },
   {
     title: '是否管控',
@@ -72,7 +74,7 @@ export const columns: BasicColumn[] = [
     title: '创建时间',
     dataIndex: 'createTime',
     width: 180,
-    customRender: ({text}) => {
+    customRender: ({ text }) => {
       return useRender.renderDate(text)
     },
   },
@@ -85,7 +87,7 @@ export const columns: BasicColumn[] = [
     title: '更新时间',
     dataIndex: 'updateTime',
     width: 180,
-    customRender: ({text}) => {
+    customRender: ({ text }) => {
       return useRender.renderDate(text)
     },
   },
@@ -93,119 +95,77 @@ export const columns: BasicColumn[] = [
 ]
 
 export const searchFormSchema: FormSchema[] = [
+
   {
-    label: '报警ID',
+    label: ' ',
+    labelWidth: 15,
     field: 'alid',
     component: 'Input',
-    colProps: {span: 8},
+    componentProps: {
+      placeholder: 'Alarm代码',
+    },
+    colProps: { span: 5 },
   },
   {
-    label: '报警CODE',
-    field: 'alcd',
-    component: 'Input',
-    colProps: {span: 8},
+    label: ' ',
+    labelWidth: 15,
+    field: 'isControlled',
+    component: 'Select',
+    componentProps: {
+      placeholder: '是否管控',
+    },
+    colProps: { span: 5 },
   },
   {
-    label: '报警信息',
-    field: 'altx',
-    component: 'Input',
-    colProps: {span: 8},
-  },
-  {
-    label: '设备类型ID',
-    field: 'eqpTypeId',
-    component: 'Input',
-    colProps: {span: 8},
-  },
-  {
-    label: '设备类型代码',
+    label: ' ',
+    labelWidth: 15,
     field: 'eqptTypeCode',
-    component: 'Input',
-    colProps: {span: 8},
-  },
-  {
-    label: '设备类型名称',
-    field: 'eqptTypeName',
-    component: 'Input',
-    colProps: {span: 8},
-  },
-  {
-    label: '备注',
-    field: 'remarks',
-    component: 'Input',
-    colProps: {span: 8},
-  },
-  {
-    label: '是否启用',
-    field: 'enable',
-    component: 'Input',
-    colProps: {span: 8},
-  },
-  {
-    label: '部门id',
-    field: 'deptId',
-    component: 'Input',
-    colProps: {span: 8},
-  },
-  {
-    label: '创建时间',
-    field: 'createTime',
-    component: 'RangePicker',
-    colProps: {span: 8},
+    component: 'Select',
+    componentProps: {
+      placeholder: '设备类型',
+    },
+    colProps: { span: 5 },
   },
 ]
 
 export const createFormSchema: FormSchema[] = [
   {
-    label: '编号',
-    field: 'id',
-    show: false,
-    component: 'Input'
+    label: '设备型号',
+    field: 'eqpTypeId',
+    component: 'Select',
+    required: true,
+    componentProps: {
+      placeholder: '请选择设备型号',
+    },
   },
   {
-    label: '报警ID',
+    label: 'AlarmID',
     field: 'alid',
     component: 'Input',
+    required: true,
+    componentProps: {
+      placeholder: '请输入AlarmID',
+    },
   },
   {
-    label: '报警CODE',
+    label: 'AlarmCode',
     field: 'alcd',
     component: 'Input',
+    required: true,
+    componentProps: {
+      placeholder: '请输入AlarmCode',
+    },
   },
   {
-    label: '报警信息',
+    label: 'AlarmName',
     field: 'altx',
-    component: 'Input',
-  },
-  {
-    label: '设备类型ID',
-    field: 'eqpTypeId',
-    component: 'Input',
-  },
-  {
-    label: '设备类型代码',
-    field: 'eqptTypeCode',
-    component: 'Input',
-  },
-  {
-    label: '设备类型名称',
-    field: 'eqptTypeName',
-    component: 'Input',
-  },
-  {
-    label: '备注',
-    field: 'remarks',
-    component: 'Input',
-  },
-  {
-    label: '是否启用',
-    field: 'enable',
-    component: 'Input',
-  },
-  {
-    label: '部门id',
-    field: 'deptId',
-    component: 'Input',
+    component: 'InputTextArea',
+    required: true,
+    componentProps: {
+      maxLength: 200,
+      rows: 5,
+      placeholder: '请输入AlarmName',
+    },
   },
 ]
 
@@ -217,48 +177,41 @@ export const updateFormSchema: FormSchema[] = [
     component: 'Input'
   },
   {
-    label: '报警ID',
+    label: '设备型号',
+    field: 'eqpTypeId',
+    component: 'Select',
+    required: true,
+    componentProps: {
+      placeholder: '请选择设备型号',
+    },
+  },
+  {
+    label: 'AlarmID',
     field: 'alid',
     component: 'Input',
+    required: true,
+    componentProps: {
+      placeholder: '请输入AlarmID',
+    },
   },
   {
-    label: '报警CODE',
+    label: 'AlarmCode',
     field: 'alcd',
     component: 'Input',
+    required: true,
+    componentProps: {
+      placeholder: '请输入AlarmCode',
+    },
   },
   {
-    label: '报警信息',
+    label: 'AlarmName',
     field: 'altx',
-    component: 'Input',
-  },
-  {
-    label: '设备类型ID',
-    field: 'eqpTypeId',
-    component: 'Input',
-  },
-  {
-    label: '设备类型代码',
-    field: 'eqptTypeCode',
-    component: 'Input',
-  },
-  {
-    label: '设备类型名称',
-    field: 'eqptTypeName',
-    component: 'Input',
-  },
-  {
-    label: '备注',
-    field: 'remarks',
-    component: 'Input',
-  },
-  {
-    label: '是否启用',
-    field: 'enable',
-    component: 'Input',
-  },
-  {
-    label: '部门id',
-    field: 'deptId',
-    component: 'Input',
+    component: 'InputTextArea',
+    required: true,
+    componentProps: {
+      maxLength: 200,
+      rows: 5,
+      placeholder: '请输入AlarmName',
+    },
   },
 ]
