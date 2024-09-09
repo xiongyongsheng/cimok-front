@@ -5,7 +5,7 @@ import { useI18n } from '@/hooks/web/useI18n'
 import { useMessage } from '@/hooks/web/useMessage'
 import { BasicForm, useForm } from '@/components/Form'
 import { BasicModal, useModalInner } from '@/components/Modal'
-import { createCodeConversion, getCodeConversion, updateCodeConversion } from '@/api/wafermap/codeconversion'
+import { createBincodeDefine, getBincodeDefine, updateBincodeDefine } from '@/api/stripmap/bincodedefine'
 
 defineOptions({ name: 'StripBinCodeModal' })
 
@@ -29,7 +29,7 @@ const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data
   isUpdate.value = !!data?.isUpdate
   if (unref(isUpdate)) {
     // resetSchema(updateFormSchema)
-    const res = await getCodeConversion(data.record.id)
+    const res = await getBincodeDefine(data.record.id)
     setFieldsValue({ ...res })
   }
 })
@@ -39,9 +39,9 @@ async function handleSubmit() {
     const values = await validate()
     setModalProps({ confirmLoading: true })
     if (unref(isUpdate))
-      await updateCodeConversion(values)
+      await updateBincodeDefine(values)
     else
-      await createCodeConversion(values)
+      await createBincodeDefine(values)
 
     closeModal()
     emit('success')

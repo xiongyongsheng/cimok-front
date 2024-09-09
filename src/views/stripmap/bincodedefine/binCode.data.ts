@@ -44,11 +44,17 @@ export const columns: BasicColumn[] = [
     title: '场景',
     dataIndex: 'usingScene',
     width: 160,
+    customRender: ({ text }) => {
+      return useRender.renderDict(text, DICT_TYPE.STRIP_BIN_CODE_SCENE)
+    },
   },
   {
     title: 'Code类型',
     dataIndex: 'binType',
     width: 140,
+    customRender: ({ text }) => {
+      return useRender.renderDict(text, DICT_TYPE.STRIP_BIN_CODE_TYPE)
+    },
   },
   {
     title: '展示颜色',
@@ -61,10 +67,13 @@ export const columns: BasicColumn[] = [
   {
     title: '生效',
     dataIndex: 'status',
+    customRender: ({ text }) => {
+      return useRender.renderDict(text, DICT_TYPE.INFRA_BOOLEAN_STRING)
+    },
     width: 160,
-    fixed:'right',
+    // fixed: 'right',
   },
-  
+
 ]
 
 export const searchFormSchema: FormSchema[] = [
@@ -106,14 +115,14 @@ export const searchFormSchema: FormSchema[] = [
 // 根据列表字段创建
 export const createFormSchema: FormSchema[] = [
   {
-  label: '设备厂商',
-  field: 'eqptTypeId',
-  component: 'Input',
-  componentProps: {
-    "type": "text",
-    "placeholder": "请输入设备厂商"
-  },
-  colProps: { span: 12 },
+    label: '设备厂商',
+    field: 'eqptTypeId',
+    component: 'Input',
+    componentProps: {
+      "type": "text",
+      "placeholder": "请输入设备厂商"
+    },
+    colProps: { span: 12 },
   },
   {
     label: '设备类型',
@@ -132,16 +141,16 @@ export const createFormSchema: FormSchema[] = [
     componentProps: {
       "type": "text",
       "placeholder": "请输入binCode"
-    },  
+    },
     colProps: { span: 12 },
   },
   {
     label: '场景',
     field: 'usingScene',
-    component: 'Input',
-    componentProps: { 
-      "type": "text",
-      "placeholder": "请输入场景"
+    component: 'Select',
+    componentProps: {
+      "placeholder": "请选择场景",
+      options: getDictOptions(DICT_TYPE.STRIP_BIN_CODE_SCENE, 'string'),
     },
     colProps: { span: 12 },
   },
@@ -154,7 +163,7 @@ export const createFormSchema: FormSchema[] = [
       "placeholder": "请输入Code类型"
     },
     colProps: { span: 12 },
-  },  
+  },
   {
     label: '展示颜色',
     field: 'binColor',
@@ -168,8 +177,11 @@ export const createFormSchema: FormSchema[] = [
   {
     label: '是否生效',
     field: 'status',
-    component: 'Switch',
+    component: 'Select',
     componentProps: {
+      "placeholder": "请选择是否生效",
+      options: getDictOptions(DICT_TYPE.INFRA_BOOLEAN_STRING, 'string'),
+
     },
     colProps: { span: 12 },
   },
