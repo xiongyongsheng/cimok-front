@@ -1,59 +1,59 @@
 <script lang="ts" setup>
-  import AlarmRecordModal from './AlarmRecordModal.vue'
-  import { columns, searchFormSchema } from './alarmRecord.data'
-  import { useI18n } from '@/hooks/web/useI18n'
-  import { useMessage } from '@/hooks/web/useMessage'
-  import { useModal } from '@/components/Modal'
-  import { IconEnum } from '@/enums/appEnum'
-  import { BasicTable, TableAction, useTable } from '@/components/Table'
-  import { deleteAlarmRecord, exportAlarmRecord, getAlarmRecordPage } from '@/api/base/alarmrecord'
+import AlarmRecordModal from './AlarmRecordModal.vue'
+import { columns, searchFormSchema } from './alarmRecord.data'
+import { useI18n } from '@/hooks/web/useI18n'
+import { useMessage } from '@/hooks/web/useMessage'
+import { useModal } from '@/components/Modal'
+import { IconEnum } from '@/enums/appEnum'
+import { BasicTable, TableAction, useTable } from '@/components/Table'
+import { deleteAlarmRecord, exportAlarmRecord, getAlarmRecordPage } from '@/api/base/alarmrecord'
 
-  defineOptions({ name: 'AlarmRecord' })
+defineOptions({ name: 'AlarmRecord' })
 
-  const { t } = useI18n()
-  const { createConfirm, createMessage } = useMessage()
-  const [registerModal, { openModal }] = useModal()
+const { t } = useI18n()
+const { createConfirm, createMessage } = useMessage()
+const [registerModal, { openModal }] = useModal()
 
-  const [registerTable, { getForm, reload }] = useTable({
-    title: '设备报警记录列表',
-    api: getAlarmRecordPage,
-    columns,
-    formConfig: { labelWidth: 120, schemas: searchFormSchema },
-    useSearchForm: true,
-    showTableSetting: true,
-    actionColumn: {
-      width: 140,
-      title: t('common.action'),
-      dataIndex: 'action',
-      fixed: 'right',
-    }
+const [registerTable, { getForm, reload }] = useTable({
+  title: 'Alarm记录',
+  api: getAlarmRecordPage,
+  columns,
+  formConfig: { labelWidth: 120, schemas: searchFormSchema },
+  useSearchForm: true,
+  showTableSetting: true,
+  actionColumn: {
+    width: 140,
+    title: t('common.action'),
+    dataIndex: 'action',
+    fixed: 'right',
+  }
+})
+
+function handleCreate() {
+  openModal(true, { isUpdate: false })
+}
+
+function handleEdit(record: Recordable) {
+  openModal(true, { record, isUpdate: true })
+}
+
+async function handleExport() {
+  createConfirm({
+    title: t('common.exportTitle'),
+    iconType: 'warning',
+    content: t('common.exportMessage'),
+    async onOk() {
+      await exportAlarmRecord(getForm().getFieldsValue())
+      createMessage.success(t('common.exportSuccessText'))
+    },
   })
+}
 
-  function handleCreate() {
-    openModal(true, { isUpdate: false })
-  }
-
-  function handleEdit(record: Recordable) {
-    openModal(true, { record, isUpdate: true })
-  }
-
-  async function handleExport() {
-    createConfirm({
-      title: t('common.exportTitle'),
-      iconType: 'warning',
-      content: t('common.exportMessage'),
-      async onOk() {
-        await exportAlarmRecord(getForm().getFieldsValue())
-        createMessage.success(t('common.exportSuccessText'))
-      },
-    })
-  }
-
-  async function handleDelete(record: Recordable) {
-    await deleteAlarmRecord(record.id)
-    createMessage.success(t('common.delSuccessText'))
-    reload()
-  }
+async function handleDelete(record: Recordable) {
+  await deleteAlarmRecord(record.id)
+  createMessage.success(t('common.delSuccessText'))
+  reload()
+}
 </script>
 <template>
   <div>
@@ -68,22 +68,20 @@
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
-          <TableAction
-                  :actions="[
-                          { icon: IconEnum.EDIT, label: t('action.edit'), auth: 'base:alarm-record:update', onClick: handleEdit.bind(null, record) },
-                          {
-                          icon: IconEnum.DELETE,
-                          danger: true,
-                          label: t('action.delete'),
-                          auth: 'base:alarm-record:delete',
-                          popConfirm: {
-                          title: t('common.delMessage'),
-                          placement: 'left',
-                          confirm: handleDelete.bind(null, record),
-                          },
-                          },
-                          ]"
-          />
+          <TableAction :actions="[
+            { icon: IconEnum.EDIT, label: t('action.edit'), auth: 'base:alarm-record:update', onClick: handleEdit.bind(null, record) },
+            {
+              icon: IconEnum.DELETE,
+              danger: true,
+              label: t('action.delete'),
+              auth: 'base:alarm-record:delete',
+              popConfirm: {
+                title: t('common.delMessage'),
+                placement: 'left',
+                confirm: handleDelete.bind(null, record),
+              },
+            },
+          ]" />
         </template>
       </template>
     </BasicTable>

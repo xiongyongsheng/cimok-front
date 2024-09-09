@@ -29,3 +29,7 @@ export function deleteAlarm(id: number) {
 export function exportAlarm(params) {
   return defHttp.download({ url: '/base/alarm/export-excel', params }, '报警基础信息.xls')
 }
+
+export function getEqptTypeList() {
+  return defHttp.get({ url: '/base/eqpt-type/get-simple-list' })
+}
