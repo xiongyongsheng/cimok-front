@@ -184,4 +184,8 @@ export enum DICT_TYPE {
   STRIP_PROCESS_STATUS = 'strip_process_status',
   // strip站点 strip_process_step
   STRIP_PROCESS_STEP = 'strip_process_step',
+  // 场景字典:strip_bin_code_scene
+  STRIP_BIN_CODE_SCENE = 'strip_bin_code_scene',
+  // BIN类型字典: strip_bin_code_type
+  STRIP_BIN_CODE_TYPE = 'strip_bin_code_type',
 }
