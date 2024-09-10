@@ -5,7 +5,7 @@ import { useI18n } from '@/hooks/web/useI18n'
 import { useMessage } from '@/hooks/web/useMessage'
 import { BasicForm, useForm } from '@/components/Form'
 import { BasicModal, useModalInner } from '@/components/Modal'
-import { createAlarm, getAlarm, updateAlarm } from '@/api/base/alarm'
+import { createAlarm, getAlarm, getEqptTypeList, updateAlarm } from '@/api/base/alarm'
 
 defineOptions({ name: 'AlarmModal' })
 
@@ -15,7 +15,7 @@ const { t } = useI18n()
 const { createMessage } = useMessage()
 const isUpdate = ref(true)
 
-const [registerForm, { setFieldsValue, resetFields, resetSchema, validate }] = useForm({
+const [registerForm, { setFieldsValue, resetFields, resetSchema, validate, setProps }] = useForm({
   labelWidth: 120,
   baseColProps: { span: 24 },
   schemas: createFormSchema,
@@ -25,6 +25,21 @@ const [registerForm, { setFieldsValue, resetFields, resetSchema, validate }] = u
 
 const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
   resetFields()
+  let eqptTypeList = [];
+  await getEqptTypeList().then((res) => {
+    eqptTypeList = res.map((item) => ({
+      label: item.eqptTypeName,
+      value: item.eqptTypeCode,
+    }))
+  });
+  createFormSchema.map((item) => {
+    if (item.field === 'eqpTypeId') {
+      item.componentProps = {
+        options: eqptTypeList
+      }
+    }
+  })
+  resetSchema(createFormSchema)
   setModalProps({ confirmLoading: false })
   isUpdate.value = !!data?.isUpdate
   if (unref(isUpdate)) {

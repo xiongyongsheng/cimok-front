@@ -33,26 +33,8 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '设备类型',
-    dataIndex: 'eqptTypeCode',
-    width: 160,
-  },
-  {
-    title: '设备类型名称',
     dataIndex: 'eqptTypeName',
     width: 160,
-    defaultHidden: true
-  },
-  {
-    title: '备注',
-    dataIndex: 'remarks',
-    width: 160,
-    defaultHidden: true
-  },
-  {
-    title: '启用状态',
-    dataIndex: 'enable',
-    width: 160,
-    defaultHidden: true
   },
   {
     title: '是否管控',
@@ -78,55 +60,9 @@ export const columns: BasicColumn[] = [
       return useRender.renderDate(text)
     },
   },
-  {
-    title: '更新人',
-    dataIndex: 'updater',
-    width: 160,
-  },
-  {
-    title: '更新时间',
-    dataIndex: 'updateTime',
-    width: 180,
-    customRender: ({ text }) => {
-      return useRender.renderDate(text)
-    },
-  },
-
 ]
 
-export const searchFormSchema: FormSchema[] = [
 
-  {
-    label: ' ',
-    labelWidth: 15,
-    field: 'alid',
-    component: 'Input',
-    componentProps: {
-      placeholder: 'Alarm代码',
-    },
-    colProps: { span: 5 },
-  },
-  {
-    label: ' ',
-    labelWidth: 15,
-    field: 'isControlled',
-    component: 'Select',
-    componentProps: {
-      placeholder: '是否管控',
-    },
-    colProps: { span: 5 },
-  },
-  {
-    label: ' ',
-    labelWidth: 15,
-    field: 'eqptTypeCode',
-    component: 'Select',
-    componentProps: {
-      placeholder: '设备类型',
-    },
-    colProps: { span: 5 },
-  },
-]
 
 export const createFormSchema: FormSchema[] = [
   {

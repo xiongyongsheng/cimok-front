@@ -1,18 +1,45 @@
 <script lang="ts" setup>
 import AlarmRuleModal from './AlarmRuleModal.vue'
-import { columns, searchFormSchema } from './alarmRule.data'
+import { columns } from './alarmRule.data'
 import { useI18n } from '@/hooks/web/useI18n'
 import { useMessage } from '@/hooks/web/useMessage'
 import { useModal } from '@/components/Modal'
 import { IconEnum } from '@/enums/appEnum'
-import { BasicTable, TableAction, useTable } from '@/components/Table'
+import { BasicTable, FormSchema, TableAction, useTable } from '@/components/Table'
 import { deleteAlarmRule, exportAlarmRule, getAlarmRulePage } from '@/api/base/alarmrule'
+import { onMounted, ref } from 'vue'
+import { getEqptTypeList } from '@/api/base/alarm'
 
 defineOptions({ name: 'AlarmRule' })
 
 const { t } = useI18n()
 const { createConfirm, createMessage } = useMessage()
 const [registerModal, { openModal }] = useModal()
+const eqptTypeList = ref([])
+const searchFormSchema: FormSchema[] = [
+  {
+    label: ' ',
+    labelWidth: 15,
+    field: 'alid',
+    component: 'Input',
+    componentProps: {
+      placeholder: 'Alarm代码',
+    },
+    colProps: { span: 5 },
+  },
+  {
+    label: ' ',
+    labelWidth: 15,
+    field: 'eqptTypeCode',
+    component: 'Select',
+    componentProps: {
+      placeholder: '设备类型',
+      options: eqptTypeList,
+    },
+    colProps: { span: 5 },
+  },
+]
+
 
 const [registerTable, { getForm, reload }] = useTable({
   title: 'Alarm管控规则列表',
@@ -28,6 +55,15 @@ const [registerTable, { getForm, reload }] = useTable({
     fixed: 'right',
   }
 })
+
+onMounted(() => {
+  getEqptTypeList().then((res) => {
+    eqptTypeList.value = res.map((item) => ({
+      label: item.eqptTypeName,
+      value: item.eqptTypeCode,
+    }))
+  });
+});
 
 function handleCreate() {
   openModal(true, { isUpdate: false })

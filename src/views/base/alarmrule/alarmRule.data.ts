@@ -10,7 +10,7 @@ export const columns: BasicColumn[] = [
   // },
   {
     title: 'Alarm代码',
-    dataIndex: '',
+    dataIndex: 'alid',
     width: 160,
   },
   {
@@ -20,7 +20,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '设备类型',
-    dataIndex: '',
+    dataIndex: 'eqptTypeCode',
     width: 160,
   },
   {
@@ -65,6 +65,7 @@ export const columns: BasicColumn[] = [
     },
   },
 ]
+
 
 export const createFormSchema: FormSchema[] = [
   {
