@@ -87,6 +87,7 @@ interface BinCocdeItemGroup {
   _x?: number;
   // 容器实际y坐标
   _y?: number;
+  id: string;
   // 激活状态
   active?: boolean;
 }
@@ -165,6 +166,7 @@ class BinCodeBox {
         ...this.codeMap.get(this.mapData.slice(i, end))!,
         x: x,
         y: y,
+        id: x + '-' + y
       };
       binCodeBox.add(this._createBinCodeGroup(binCodeItem));
     }
@@ -200,7 +202,7 @@ class BinCodeBox {
     });
     // 计算容器实际坐标
 
-    
+
     const group = new Box({
       width: this.binWidth + this.marginSize * 2,
       height: this.binHeight + this.marginSize * 2,

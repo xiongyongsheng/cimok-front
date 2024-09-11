@@ -56,62 +56,6 @@ export const columns: BasicColumn[] = [
   },
 ]
 
-export const searchFormSchema: FormSchema[] = [
-  {
-    label: '报警ID',
-    field: 'alid',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '报警代码',
-    field: 'alcd',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '报警信息',
-    field: 'altx',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '发生时间',
-    field: 'occrTime',
-    component: 'RangePicker',
-    colProps: { span: 8 },
-  },
-  {
-    label: '清除时间',
-    field: 'clearTime',
-    component: 'RangePicker',
-    colProps: { span: 8 },
-  },
-  {
-    label: '持续时长',
-    field: 'duration',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '管控措施ID',
-    field: 'actiongSn',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '部门id',
-    field: 'deptId',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '创建时间',
-    field: 'createTime',
-    component: 'RangePicker',
-    colProps: { span: 8 },
-  },
-]
 
 export const createFormSchema: FormSchema[] = [
   {

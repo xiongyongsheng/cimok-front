@@ -1,18 +1,64 @@
 <script lang="ts" setup>
 import AlarmRecordModal from './AlarmRecordModal.vue'
-import { columns, searchFormSchema } from './alarmRecord.data'
+import { columns } from './alarmRecord.data'
 import { useI18n } from '@/hooks/web/useI18n'
 import { useMessage } from '@/hooks/web/useMessage'
 import { useModal } from '@/components/Modal'
 import { IconEnum } from '@/enums/appEnum'
-import { BasicTable, TableAction, useTable } from '@/components/Table'
+import { BasicTable, FormSchema, TableAction, useTable } from '@/components/Table'
 import { deleteAlarmRecord, exportAlarmRecord, getAlarmRecordPage } from '@/api/base/alarmrecord'
+import { onMounted, ref } from 'vue'
+import { getEqptTypeList } from '@/api/base/alarm'
 
 defineOptions({ name: 'AlarmRecord' })
 
 const { t } = useI18n()
 const { createConfirm, createMessage } = useMessage()
 const [registerModal, { openModal }] = useModal()
+
+const eqptTypeList = ref([]);
+const searchFormSchema: FormSchema[] = [
+  {
+    label: ' ',
+    labelWidth: 15,
+    field: 'alid',
+    component: 'Input',
+    componentProps: {
+      placeholder: 'Alarm代码',
+    },
+    colProps: { span: 5 },
+  },
+  {
+    label: ' ',
+    labelWidth: 15,
+    field: '',
+    component: 'Input',
+    componentProps: {
+      placeholder: '设备号',
+    },
+    colProps: { span: 5 },
+  },
+  {
+    label: ' ',
+    labelWidth: 15,
+    field: 'eqptTypeCode',
+    component: 'Select',
+    componentProps: {
+      placeholder: '设备类型',
+      options: eqptTypeList,
+    },
+    colProps: { span: 5 },
+  },
+]
+
+onMounted(async () => {
+  getEqptTypeList().then((res) => {
+    eqptTypeList.value = res.map((item) => ({
+      label: item.eqptTypeName,
+      value: item.eqptTypeCode,
+    }))
+  });
+})
 
 const [registerTable, { getForm, reload }] = useTable({
   title: 'Alarm记录',
@@ -21,12 +67,6 @@ const [registerTable, { getForm, reload }] = useTable({
   formConfig: { labelWidth: 120, schemas: searchFormSchema },
   useSearchForm: true,
   showTableSetting: true,
-  actionColumn: {
-    width: 140,
-    title: t('common.action'),
-    dataIndex: 'action',
-    fixed: 'right',
-  }
 })
 
 function handleCreate() {
@@ -58,14 +98,14 @@ async function handleDelete(record: Recordable) {
 <template>
   <div>
     <BasicTable @register="registerTable">
-      <template #toolbar>
+      <!-- <template #toolbar>
         <a-button type="primary" v-auth="['base:alarm-record:create']" :preIcon="IconEnum.ADD" @click="handleCreate">
           {{ t('action.create') }}
         </a-button>
         <a-button v-auth="['base:alarm-record:export']" :preIcon="IconEnum.EXPORT" @click="handleExport">
           {{ t('action.export') }}
         </a-button>
-      </template>
+      </template> -->
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
           <TableAction :actions="[
