@@ -204,6 +204,7 @@ class BinCodeBox {
 
 
     const group = new Box({
+      id: binCodeItem.id,
       width: this.binWidth + this.marginSize * 2,
       height: this.binHeight + this.marginSize * 2,
       x: binCodeItem.x * this.binWidth + (this.marginSize * (binCodeItem.x - 1)),
