@@ -128,7 +128,7 @@ const schema: DescItem[] = [
 
 
 ];
-
+const selectedItems = ref([])
 const [register] = useDescription({
   data: mapInfoData,
   schema: schema,
@@ -190,6 +190,7 @@ onMounted(() => {
             :width="'100%'"
             :height="'700px'"
             :mapData="mapInfoData.mapData"
+            :selectedItems = "selectedItems"
           />
         </div>
       </Card>

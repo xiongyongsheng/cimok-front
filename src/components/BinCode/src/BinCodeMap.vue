@@ -5,7 +5,7 @@
  * @LastEditors: 卢靖康
 -->
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref,watch } from "vue";
 import { Leafer, Group, Rect, Text, Box, Debug, RenderEvent, PointerEvent } from "leafer-ui";
 import type { WaferBinCodeListItem } from "../../../types/wafer/waferMap";
 import { Loading, useLoading } from "@/components/Loading";
@@ -26,10 +26,16 @@ function openLoading(absolute: boolean) {
   compState.loading = true;
 }
 defineOptions({ name: "BinCodeMap" });
+
 const binCodeMapId = ref(new Date().getTime().toString());
 let leafer;
 
 const props = defineProps({
+   // 完整的mapString信息
+   mapName: {
+    type: String,
+    default:'map'
+  },
   // 容器宽度
   width: {
     type: [String, Number],
@@ -71,9 +77,38 @@ const props = defineProps({
   binHeight: {
     type: Number,
     default: 30
-  }
+  },
+  selectedItems: {
+    type: Array,
+    default: () => [],
+  },
 });
+watch(
+  ()=>props.selectedItems,
+  (val) => {
+    console.log(val)
+    val.forEach(element => {
+      console.log(element.id)
+        let boxTs = leafer.findOne({id:element.id})
+        // let boxTs = leafer.findOne(13636)
 
+        console.log('--------------')
+        console.log(boxTs)
+        if(boxTs){
+        boxTs.stroke = '#000'
+        boxTs.set({fill:'#000000'})
+        boxTs.set({zIndex:999})
+        let rect:Rect = boxTs.children[0]
+        console.log(rect)
+        rect.set({fill:'#000000'})
+        boxTs.forceUpdate()
+        // console.log(boxTs.flowAlign)
+        }
+       
+      })
+  },
+  // { deep: true },
+)
 interface BinCocdeItemGroup {
   binCode: string;
   binCodeType: string;
@@ -166,7 +201,7 @@ class BinCodeBox {
         ...this.codeMap.get(this.mapData.slice(i, end))!,
         x: x,
         y: y,
-        id: x + '-' + y
+        id: props.mapName+'-'+ x + '-' + y
       };
       binCodeBox.add(this._createBinCodeGroup(binCodeItem));
     }
@@ -216,6 +251,7 @@ class BinCodeBox {
       event: {
         [PointerEvent.TAP]: function (e: PointerEvent) {
           const $box = e.current as Box
+          console.log($box)
           if (binCodeItem.active) {
             $box.stroke = '#fff'
             $box.zIndex = 1

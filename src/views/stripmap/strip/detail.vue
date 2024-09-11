@@ -165,7 +165,7 @@ const defectCacuColumns = [
     },
 ];
 
-
+const selectedItems = ref([])
 
 onMounted(() => {
     dataReady.value = false;
@@ -175,6 +175,12 @@ onMounted(() => {
     }).finally(() => {
         dataReady.value = true
     });
+    setTimeout(()=>{
+    selectedItems.value = [{id:'MPD255-12.EMT-31-6'}]
+  },4000)
+  setTimeout(()=>{
+    selectedItems.value.push({id:'MPD255-12.EMT-44-6'})
+  },6000)
 });
 
 </script>
@@ -237,15 +243,15 @@ onMounted(() => {
                         binColor: stripInfo.binColorColl[key],
                     }
                 })" height="300px" :binCodeLength='stripInfo.binCodeLen' :colCnt='stripInfo.colQty'
-                    :rowCnt='stripInfo.rowQty' />
+                    :rowCnt='stripInfo.rowQty' mapName="maptop"/>
             </Card>
 
             <Card class="mt-10px" v-for="(item, index) in detailData.waferInfoList" :key="index">
                 <template #title>
                     <div class="text-md font-bold">{{ item.waferId }}</div>
                 </template>
-                <BinCodeMap :binCodeLength='item.binCodeLength' :colCnt='item.colCnt' :rowCnt='item.rowCnt'
-                    :mapData="item.mapData" :waferBinCodeList="item.waferBinCodeList" />
+                <BinCodeMap :binCodeLength='item.binCodeLength' :colCnt='item.colCnt' :rowCnt='item.rowCnt' :mapName="item.waferId"
+                    :mapData="item.mapData" :waferBinCodeList="item.waferBinCodeList" :selectedItems="selectedItems"/>
             </Card>
         </div>
     </div>
