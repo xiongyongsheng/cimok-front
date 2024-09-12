@@ -1,8 +1,43 @@
 import { defHttp } from '@/utils/http/axios';
 
-// 查询Recipe参数列表
+export function rcpLimitRuleGet(params) {
+  return defHttp.get({ url: '/base/rcp-limit-rule/get', params });
+}
+export function rcpLimitRulePage(params) {
+  return defHttp.get({ url: '/base/rcp-limit-rule/page', params });
+}
+export function rcpOpLogPage(params) {
+  return defHttp.get({ url: '/base/rcp-op-log/page', params });
+}
+export function rcpIndexUpgrade(data) {
+  return defHttp.post({ url: '/base/rcp-index/upgrade', data });
+}
+export function rcpIndexUpdateStatus(data) {
+  return defHttp.put({ url: '/base/rcp-index/update-status', data });
+}
+export function rcpIndexGetRuleParam(params) {
+  return defHttp.get({ url: '/base/rcp-index/get/rule/param', params });
+}
+export function rcpIndexGet(params) {
+  return defHttp.get({ url: '/base/rcp-index/get', params });
+}
+export function rcpIndexSuitEqpt(params) {
+  return defHttp.get({ url: '/base/rcp-index/suit/eqpt', params });
+}
+export function eapUploadRecipe(params) {
+  return defHttp.post({ url: '/base/rcp-index/eap/upload/recipe', params });
+}
+export function eqptRecipeList(params) {
+  return defHttp.get({ url: '/base/rcp-index/eqpt/recipe/list', params });
+}
+export function simpleList(params) {
+  return defHttp.get({ url: '/base/eqpt/simple-list', params });
+}
+export function getSimpleList() {
+  return defHttp.get({ url: '/base/eqpt-type/get-simple-list' });
+}
 export function getPage(params) {
-  return defHttp.get({ url: '/base/rcp-param/page', params });
+  return defHttp.get({ url: '/base/rcp-index/page', params });
 }
 
 // 查询Recipe参数列表

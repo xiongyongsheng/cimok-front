@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import CreateModal from './createModal.vue';
 import VersionModal from './versionModal.vue';
+import ParamsDetailModal from './paramDetailModal.vue';
 import { columns, searchFormSchema } from './data';
 import { useI18n } from '@/hooks/web/useI18n';
 import { useMessage } from '@/hooks/web/useMessage';
@@ -15,6 +16,7 @@ import {
   exportRcpParam,
   getRcpParamPage,
 } from '@/api/base/rcpparam';
+import { rcpLimitRulePage } from '@/api/base/recipe';
 
 defineOptions({ name: 'RecipeRule' });
 
@@ -24,8 +26,7 @@ const [registerModal, { openModal }] = useModal();
 
 const [registerTable, { getForm, reload }] = useTable({
   title: '参数规则管理',
-  api: list,
-  // api: getPage,
+  api: rcpLimitRulePage,
   columns,
   formConfig: { labelWidth: 120, schemas: searchFormSchema },
   useSearchForm: true,
@@ -63,6 +64,13 @@ const [versionModal, { openModal: openVersionModalModal }] = useModal();
 function handleVersion() {
   openVersionModalModal(true, { isUpdate: false });
 }
+
+const [paramDetailModal, { openModal: openParamDetailModal }] = useModal();
+function handleParamDetail(record) {
+  openParamDetailModal(true, {
+    record: record,
+  });
+}
 </script>
 <template>
   <div>
@@ -90,7 +98,10 @@ function handleVersion() {
           导入数据
         </a-button>
       </template>
-      <template #bodyCell="{ column, record }">
+      <template #bodyCell="{ text, column, record }">
+        <template v-if="column.key === 'limitRuleId'">
+          <a @click="handleParamDetail(record)">{{ text }}</a>
+        </template>
         <template v-if="column.key === 'action'">
           <TableAction
             :actions="[
@@ -113,6 +124,11 @@ function handleVersion() {
     <VersionModal
       title="版本对比"
       @register="versionModal"
+      @success="reload()"
+    />
+    <ParamsDetailModal
+      title="参数列表"
+      @register="paramDetailModal"
       @success="reload()"
     />
   </div>

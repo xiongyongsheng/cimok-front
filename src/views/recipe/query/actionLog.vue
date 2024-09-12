@@ -9,25 +9,15 @@ import { useModal } from '@/components/Modal';
 import { IconEnum } from '@/enums/appEnum';
 import { BasicTable, TableAction, useTable } from '@/components/Table';
 
-import { list } from '@/views/recipe/mock/api/query';
-
-import {
-  deleteRcpParam,
-  exportRcpParam,
-  getRcpParamPage,
-} from '@/api/base/rcpparam';
-import { getPage } from '@/api/base/recipe';
+import { rcpOpLogPage } from '@/api/base/recipe';
 
 defineOptions({ name: 'RecipeActionLog' });
 
 const { t } = useI18n();
-const { createConfirm, createMessage } = useMessage();
-const [registerModal, { openModal }] = useModal();
 
-const [registerTable, { getForm, reload }] = useTable({
+const [registerTable] = useTable({
   title: 'Recipe操作记录',
-  api: list,
-  // api: getPage,
+  api: rcpOpLogPage,
   columns,
   formConfig: { labelWidth: 120, schemas: searchFormSchema },
   useSearchForm: true,

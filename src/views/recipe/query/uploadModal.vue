@@ -10,6 +10,7 @@ import {
   getRcpParam,
   updateRcpParam,
 } from '@/api/base/rcpparam';
+import { eapUploadRecipe } from '@/api/base/recipe';
 
 defineOptions({ name: 'uploadModel' });
 
@@ -48,9 +49,9 @@ async function handleSubmit() {
   try {
     const values = await validate();
     setModalProps({ confirmLoading: true });
-    if (unref(isUpdate)) await updateRcpParam(values);
-    else await createRcpParam(values);
-
+    // if (unref(isUpdate)) await updateRcpParam(values);
+    // else await createRcpParam(values);
+    await eapUploadRecipe(values);
     closeModal();
     emit('success');
     createMessage.success(t('common.saveSuccessText'));

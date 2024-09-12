@@ -1,46 +1,55 @@
-import type { BasicColumn, FormSchema } from '@/components/Table';
-import { useRender } from '@/components/Table';
+import {
+  useRender,
+  type BasicColumn,
+  type FormSchema,
+} from '@/components/Table';
 import { handleSearchFormSchema } from '@/views/recipe/utils/index';
-import { selectOptions } from '../mock/api/common';
 import { DICT_TYPE, getDictOptions } from '@/utils/dict';
 import { h, ref, unref } from 'vue';
 import { Input, Table } from 'ant-design-vue';
+import { getSimpleList } from '@/api/base/recipe';
 
 export const columns: BasicColumn[] = [
   {
     title: '参数规则',
-    dataIndex: 'rcpName',
+    dataIndex: 'limitRuleId',
     width: 160,
   },
   {
     title: '版本号',
-    dataIndex: 'rcpName',
+    dataIndex: 'ruleVerCode',
     width: 160,
   },
   {
     title: 'Recipe名称',
-    dataIndex: 'rcpHisId',
+    dataIndex: 'rcpName',
     width: 160,
   },
   {
     title: '关联Recipe数量',
-    dataIndex: 'paramName',
+    dataIndex: 'rcpLimitRuleDetailDOList',
     width: 160,
+    customRender: ({ text }) => {
+      return useRender.renderText(String(text?.length || 0), '台');
+    },
   },
   {
     title: '创建人员',
-    dataIndex: 'paramCode',
+    dataIndex: '',
     width: 160,
   },
   {
     title: '状态',
-    dataIndex: 'paramNick',
+    dataIndex: '',
     width: 160,
   },
   {
     title: '创建时间',
-    dataIndex: 'realVal',
+    dataIndex: 'createTime',
     width: 160,
+    customRender: ({ text }) => {
+      return useRender.renderDate(text);
+    },
   },
 ];
 
@@ -60,89 +69,17 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '设备类型',
     field: 'paramName',
-    component: 'Select',
+    component: 'ApiSelect',
     componentProps: {
-      options: getDictOptions(DICT_TYPE.RECIPE_DEVICE_TYPE),
+      api: () => getSimpleList(),
+      labelField: 'eqptTypeName',
+      valueField: 'eqptTypeCode',
     },
     colProps: { span: 8 },
   },
   //@ts-ignore
 ].map(handleSearchFormSchema);
 
-export const actionLogColumns: BasicColumn[] = [
-  {
-    title: 'Recipe名称',
-    dataIndex: 'rcpName',
-    width: 160,
-  },
-  {
-    title: 'Recipe类型',
-    dataIndex: 'rcpHisId',
-    width: 160,
-  },
-  {
-    title: '文件标识',
-    dataIndex: 'paramName',
-    width: 160,
-  },
-  {
-    title: '操作类型',
-    dataIndex: 'paramCode',
-    width: 160,
-  },
-  {
-    title: '时间',
-    dataIndex: 'paramNick',
-    width: 160,
-  },
-  {
-    title: 'Source',
-    dataIndex: 'realVal',
-    width: 160,
-  },
-  {
-    title: 'Target',
-    dataIndex: 'sortCode',
-    width: 160,
-  },
-  {
-    title: '结果',
-    dataIndex: 'deptId',
-    width: 160,
-  },
-];
-export const actionLogSearchFormSchema: FormSchema[] = [
-  {
-    label: 'Recipe名称',
-    field: 'rcpName',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '操作类型',
-    field: 'rcpHisId',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '设备号',
-    field: 'paramName',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
-    label: '操作时间',
-    field: 'paramCode',
-    component: 'RangePicker',
-    colProps: { span: 8 },
-  },
-  //@ts-ignore
-].map(handleSearchFormSchema);
-
-const createTablerowSelection = ref({
-  // checkStrictly: false,
-  selectedRowKeys: [],
-});
 const createTableDataSource = ref([
   {
     '1': 'TEMP',
@@ -277,81 +214,6 @@ export const updateFormSchema: FormSchema[] = [
     component: 'Input',
   },
 ];
-
-interface DataItem {
-  key: number;
-  name: string;
-  age: number;
-  address: string;
-  children?: DataItem[];
-}
-
-const rowSelection = ref({
-  // checkStrictly: false,
-  selectedRowKeys: [],
-});
-export const uploadFormSchema: FormSchema[] = [
-  {
-    label: '设备型号',
-    field: 'id',
-    component: 'Select',
-    componentProps: {
-      options: getDictOptions(DICT_TYPE.INFRA_JOB_STATUS),
-    },
-    required: true,
-  },
-  {
-    label: '设备号',
-    field: 'rcpName',
-    component: 'Select',
-    componentProps: {
-      options: getDictOptions(DICT_TYPE.INFRA_JOB_STATUS),
-    },
-    required: true,
-  },
-  {
-    label: 'Recipe列表',
-    field: 'rcpHisId',
-    component: 'Input',
-    render: (renderCallbackParams, opts) => {
-      let dataSource: any = [];
-      if (
-        renderCallbackParams.model.id !== undefined &&
-        renderCallbackParams.model.rcpName !== undefined
-      ) {
-        dataSource = [
-          {
-            id: '1',
-          },
-        ];
-      }
-
-      return h(Table, {
-        rowSelection: {
-          ...unref(rowSelection),
-          onChange: (
-            selectedRowKeys: (string | number)[],
-            selectedRows: DataItem[]
-          ) => {
-            renderCallbackParams.model[renderCallbackParams.field] =
-              // @ts-ignore
-              rowSelection.value.selectedRowKeys = selectedRowKeys;
-          },
-        },
-        columns: [
-          {
-            title: '编号',
-            dataIndex: 'id',
-            key: 'id',
-          },
-        ],
-        dataSource,
-      });
-    },
-    required: true,
-  },
-];
-
 const scopeOfUseDataSource = ref([
   {
     '1': 'TEMP',

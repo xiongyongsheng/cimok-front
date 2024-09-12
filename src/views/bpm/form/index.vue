@@ -33,7 +33,7 @@ const [registerTable, { reload }] = useTable({
 })
 
 function handleCreate() {
-  // openModal(true, { isUpdate: false })
+  openModal(true, { isUpdate: false })
 }
 
 function openForm(record: Recordable) {

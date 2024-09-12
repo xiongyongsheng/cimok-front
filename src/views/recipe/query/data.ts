@@ -5,6 +5,8 @@ import { selectOptions } from '../mock/api/common';
 import { DICT_TYPE, getDictOptions } from '@/utils/dict';
 import { h, ref, unref } from 'vue';
 import { Input, Table } from 'ant-design-vue';
+import { eqptRecipeList, getSimpleList, simpleList } from '@/api/base/recipe';
+import { ApiSelect } from '@/components/Form';
 
 export const columns: BasicColumn[] = [
   {
@@ -14,42 +16,45 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '版本类型',
-    dataIndex: 'rcpHisId',
+    dataIndex: 'rcpVerType',
     width: 160,
   },
   {
     title: '版本号',
-    dataIndex: 'paramName',
+    dataIndex: 'rcpVerCode',
     width: 160,
   },
   {
     title: '参数校验',
-    dataIndex: 'paramCode',
+    dataIndex: 'rcpLimitRuleId',
     width: 160,
   },
   {
     title: '规则版本',
-    dataIndex: 'paramNick',
+    dataIndex: 'rcpLimitRuleCode',
     width: 160,
   },
   {
     title: '来源设备',
-    dataIndex: 'realVal',
+    dataIndex: 'eqptTypeName',
     width: 160,
   },
   {
     title: '适用设备',
-    dataIndex: 'sortCode',
+    dataIndex: 'rcpEqptSuitDOList',
     width: 160,
+    customRender: ({ text }) => {
+      return useRender.renderText(String(text?.length || 0), '台');
+    },
   },
   {
     title: '创建人员',
-    dataIndex: 'deptId',
+    dataIndex: 'creator',
     width: 160,
   },
   {
     title: '状态',
-    dataIndex: 'deptId',
+    dataIndex: 'status',
     width: 160,
   },
   {
@@ -74,31 +79,33 @@ export const searchFormSchema: FormSchema[] = [
     field: 'rcpHisId',
     component: 'Select',
     componentProps: {
-      options: getDictOptions(DICT_TYPE.RECIPE_VERSION_TYPE),
+      options: getDictOptions(DICT_TYPE.RECIPE_VERSION_TYPE, 'string'),
     },
     colProps: { span: 8 },
   },
   {
     label: '设备类型',
     field: 'paramName',
-    component: 'Select',
+    component: 'ApiSelect',
     componentProps: {
-      options: getDictOptions(DICT_TYPE.RECIPE_DEVICE_TYPE),
+      api: () => getSimpleList(),
+      labelField: 'eqptTypeName',
+      valueField: 'eqptTypeCode',
     },
     colProps: { span: 8 },
   },
   {
     label: '设备号',
-    field: 'paramCode',
+    field: 'eqptCode',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
     label: '审批状态',
-    field: 'paramNick',
+    field: 'status',
     component: 'Select',
     componentProps: {
-      options: getDictOptions(DICT_TYPE.RECIPE_APPROVAL_STATUS),
+      options: getDictOptions(DICT_TYPE.RECIPE_APPROVAL_STATUS, 'string'),
     },
     colProps: { span: 8 },
   },
@@ -191,14 +198,20 @@ const createTableDataSource = ref([
 export const createFormSchema: FormSchema[] = [
   {
     label: '设备型号',
-    field: 'id',
-    component: 'Input',
+    field: 'eqptTypeCode',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getSimpleList,
+      labelField: 'eqptTypeName',
+      valueField: 'eqptTypeCode',
+      immediate: false,
+    },
+    required: true,
   },
   {
     label: '设置参数',
     field: 'rcpHisId',
     component: 'Input',
-
     render: (renderCallbackParams, opts) => {
       return h(
         Table,
@@ -334,19 +347,36 @@ const rowSelection = ref({
 export const uploadFormSchema: FormSchema[] = [
   {
     label: '设备型号',
-    field: 'id',
-    component: 'Select',
+    field: 'eqptTypeCode',
+    component: 'ApiSelect',
     componentProps: {
-      options: getDictOptions(DICT_TYPE.INFRA_JOB_STATUS),
+      api: getSimpleList,
+      labelField: 'eqptTypeName',
+      valueField: 'eqptTypeCode',
+      immediate: false,
     },
     required: true,
   },
   {
     label: '设备号',
-    field: 'rcpName',
-    component: 'Select',
-    componentProps: {
-      options: getDictOptions(DICT_TYPE.INFRA_JOB_STATUS),
+    field: 'eqptCode',
+    component: 'ApiSelect',
+    render: (renderCallbackParams, opts) => {
+      return h(ApiSelect, {
+        api: () => {
+          return simpleList({
+            id: renderCallbackParams.model.id,
+          });
+        },
+        onChange: (value) => {
+          renderCallbackParams.model[renderCallbackParams.field] = value;
+        },
+        disabled: !renderCallbackParams.model.eqptTypeCode,
+        labelField: 'id',
+        valueField: 'eqptCode',
+        placeholder: '请选择',
+        immediate: false,
+      });
     },
     required: true,
   },
@@ -354,17 +384,21 @@ export const uploadFormSchema: FormSchema[] = [
     label: 'Recipe列表',
     field: 'rcpHisId',
     component: 'Input',
+    // ifShow(renderCallbackParams) {
+    //   return renderCallbackParams.model.eqptCode!== undefined && renderCallbackParams.model.eqptTypeCode!== undefined;
+    // },
     render: (renderCallbackParams, opts) => {
-      let dataSource: any = [];
+      let dataSource: any = ref([]);
       if (
-        renderCallbackParams.model.id !== undefined &&
-        renderCallbackParams.model.rcpName !== undefined
+        renderCallbackParams.model.eqptTypeCode !== undefined &&
+        renderCallbackParams.model.eqptCode !== undefined
       ) {
-        dataSource = [
-          {
-            id: '1',
-          },
-        ];
+        eqptRecipeList({
+          eqptCode: renderCallbackParams.model.eqptCode,
+          eqptTypeCode: renderCallbackParams.model.eqptTypeCode,
+        }).then((res) => {
+          dataSource.value = res.data;
+        });
       }
 
       return h(Table, {
@@ -386,22 +420,14 @@ export const uploadFormSchema: FormSchema[] = [
             key: 'id',
           },
         ],
-        dataSource,
+        dataSource: unref(dataSource),
       });
     },
     required: true,
   },
 ];
 
-const scopeOfUseDataSource = ref([
-  {
-    '1': 'TEMP',
-    '2': '温度',
-    '3': 3,
-    '4': 1,
-    '5': 5,
-  },
-]);
+const scopeOfUseDataSource = ref([]);
 const scopeOfUseRowSelection = ref({
   // checkStrictly: false,
   selectedRowKeys: [],
@@ -430,7 +456,7 @@ export const scopeOfUseFormSchema: FormSchema[] = [
             {
               align: 'center',
               title: '设备型号',
-              dataIndex: '1',
+              dataIndex: 'eqptCode',
               key: '1',
             },
           ],

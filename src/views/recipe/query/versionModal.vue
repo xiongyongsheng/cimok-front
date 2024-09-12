@@ -33,14 +33,17 @@ const [registerForm, { setFieldsValue, resetFields, resetSchema, validate }] =
 
 const [registerModal, { setModalProps, closeModal }] = useModalInner(
   async (data) => {
-    resetFields();
-    setModalProps({ confirmLoading: false });
+    // console.log('%c [ data ]-36', 'font-size:13px; background:pink; color:#bf2c9f;', data)
+    // resetFields();
+    // setModalProps({ confirmLoading: false });
     // isUpdate.value = !!data?.isUpdate;
     // if (unref(isUpdate)) {
     //   resetSchema(updateFormSchema);
     //   const res = await getRcpParam(data.record.id);
     //   setFieldsValue({ ...res });
     // }
+    // rcpIndexSuitEqpt()
+    
   }
 );
 
@@ -60,6 +63,7 @@ async function handleSubmit() {
 }
 
 import { Table } from 'ant-design-vue';
+import { rcpIndexSuitEqpt } from '@/api/base/recipe';
 const table = ref({
   columns: [
     {

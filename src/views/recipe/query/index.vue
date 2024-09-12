@@ -3,6 +3,7 @@ import CreateModal from './createModal.vue';
 import UploadModal from './uploadModal.vue';
 import ScopeOfUseModal from './scopeOfUseModal.vue';
 import VersionModal from './versionModal.vue';
+import ParamsDetailModal from './paramDetailModal.vue';
 import { columns, searchFormSchema } from './data';
 import { useI18n } from '@/hooks/web/useI18n';
 import { useMessage } from '@/hooks/web/useMessage';
@@ -17,7 +18,12 @@ import {
   exportRcpParam,
   getRcpParamPage,
 } from '@/api/base/rcpparam';
-import { getPage, getPageLog, getPageDetail } from '@/api/base/recipe';
+import {
+  getPage,
+  getPageLog,
+  getPageDetail,
+  rcpIndexUpdateStatus,
+} from '@/api/base/recipe';
 
 defineOptions({ name: 'RecipeQuery' });
 
@@ -25,16 +31,22 @@ const { t } = useI18n();
 const { createConfirm, createMessage } = useMessage();
 const [registerModal, { openModal }] = useModal();
 
-const [registerTable, { getForm, reload }] = useTable({
+const tableSelectedRows = ref();
+const [registerTable, { getForm, reload, getSelectRows }] = useTable({
   title: 'Recipe列表',
-  // api: list,
   api: getPage,
   columns,
   formConfig: { labelWidth: 120, schemas: searchFormSchema },
   useSearchForm: true,
   showTableSetting: true,
+  rowSelection: {
+    type: 'radio',
+    onChange(record, selectedRows) {
+      tableSelectedRows.value = selectedRows;
+    },
+  },
   actionColumn: {
-    width: 200,
+    width: 250,
     title: t('common.action'),
     dataIndex: 'action',
     fixed: 'right',
@@ -61,8 +73,11 @@ async function handleExport() {
   });
 }
 
-async function handleDelete(record: Recordable) {
-  await deleteRcpParam(record.id);
+async function handleLock(record: Recordable) {
+  await rcpIndexUpdateStatus({
+    id: record.id,
+    // status: record.
+  });
   createMessage.success(t('common.delSuccessText'));
   reload();
 }
@@ -73,14 +88,28 @@ function handleUpload() {
 }
 const [scopeOfUseModal, { openModal: openScopeOfUseModal }] = useModal();
 function handleScopeOfUse() {
-  openScopeOfUseModal(true, { isUpdate: false });
+  openScopeOfUseModal(true, {
+    isUpdate: false,
+    tableSelectedRows: unref(tableSelectedRows),
+  });
 }
 const [versionModal, { openModal: openVersionModalModal }] = useModal();
 function handleVersion() {
-  openVersionModalModal(true, { isUpdate: false });
+  openVersionModalModal(true, {
+    isUpdate: false,
+    tableSelectedRows: unref(tableSelectedRows),
+  });
+}
+const [paramDetailModal, { openModal: openParamDetailModal }] = useModal();
+function handleParamDetail(record) {
+  openParamDetailModal(true, {
+    isUpdate: false,
+    record: record,
+  });
 }
 
 import { useRouter } from 'vue-router';
+import { ref, unref } from 'vue';
 const router = useRouter();
 function handleUpgrade(record: Recordable) {
   router.push({
@@ -92,11 +121,6 @@ function handleUpgrade(record: Recordable) {
 }
 
 function handleActionLog(record: Recordable) {
-  console.log(
-    '%c [ record ]-95',
-    'font-size:13px; background:pink; color:#bf2c9f;',
-    record
-  );
   router.push({
     name: 'RecipeActionLog',
     query: {
@@ -128,6 +152,7 @@ function handleActionLog(record: Recordable) {
           v-auth="['base:rcp-param:create']"
           :preIcon="IconEnum.VIEW"
           @click="handleScopeOfUse"
+          :disabled="!tableSelectedRows?.length"
         >
           使用范围
         </a-button>
@@ -135,33 +160,49 @@ function handleActionLog(record: Recordable) {
           v-auth="['base:rcp-param:create']"
           :preIcon="IconEnum.PREVIEW"
           @click="handleVersion"
+          :disabled="!tableSelectedRows?.length"
         >
           版本对比
         </a-button>
       </template>
-      <template #bodyCell="{ column, record }">
+      <template #bodyCell="{ text, column, record }">
+        <template v-if="column.key === 'rcpName'">
+          <router-link
+            :to="{
+              name: 'RecipeQueryDetail',
+              query: {
+                id: record.id,
+              },
+            }"
+          >
+            {{ text }}
+          </router-link>
+        </template>
+        <template v-if="column.key === 'rcpLimitRuleId'">
+          <a @click="handleParamDetail(record)">{{ text }}</a>
+        </template>
         <template v-if="column.key === 'action'">
           <TableAction
             :actions="[
               {
-                // icon: IconEnum.EDIT,
+                icon: IconEnum.TEST,
                 label: '锁定',
                 auth: 'base:rcp-param:update',
                 popConfirm: {
                   title: '是否确定锁定Recipe?',
                   placement: 'left',
-                  confirm: handleDelete.bind(null, record),
+                  confirm: handleLock.bind(null, record),
                 },
               },
               {
-                // icon: IconEnum.DELETE,
+                icon: IconEnum.SEND,
                 danger: true,
                 label: '升级',
                 auth: 'base:rcp-param:delete',
                 onClick: handleUpgrade.bind(null, record),
               },
               {
-                // icon: IconEnum.DELETE,
+                icon: IconEnum.LOG,
                 label: '查看记录',
                 auth: 'base:rcp-param:update',
                 onClick: handleActionLog.bind(null, record),
@@ -171,7 +212,11 @@ function handleActionLog(record: Recordable) {
         </template>
       </template>
     </BasicTable>
-    <CreateModal @register="registerModal" @success="reload()" />
+    <CreateModal
+      title="新建Recipe"
+      @register="registerModal"
+      @success="reload()"
+    />
     <UploadModal title="设备上传" @register="uploadModal" @success="reload()" />
     <ScopeOfUseModal
       title="选择设备"
@@ -181,6 +226,11 @@ function handleActionLog(record: Recordable) {
     <VersionModal
       title="版本对比"
       @register="versionModal"
+      @success="reload()"
+    />
+    <ParamsDetailModal
+      title="参数列表"
+      @register="paramDetailModal"
       @success="reload()"
     />
   </div>
