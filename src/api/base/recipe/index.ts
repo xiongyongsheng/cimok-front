@@ -1,5 +1,17 @@
 import { defHttp } from '@/utils/http/axios';
 
+export function rcpIndexSuitRecipe(params) {
+  return defHttp.get({
+    url: '/base/rcp-index/suit/recipe',
+    params,
+  });
+}
+export function rcpLimitRuleCompare(params) {
+  return defHttp.get({
+    url: '/base/rcp-limit-rule/recipe/rule/compare',
+    params,
+  });
+}
 export function rcpLimitRuleGet(params) {
   return defHttp.get({ url: '/base/rcp-limit-rule/get', params });
 }

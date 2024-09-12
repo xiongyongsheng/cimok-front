@@ -1,15 +1,13 @@
 <script lang="ts" setup>
+import { rcpOpLogPage } from '@/api/base/recipe';
 import { columns, searchFormSchema } from './data';
 import { BasicTable, TableAction, useTable } from '@/components/Table';
-
-import { list } from '@/views/recipe/mock/api/query';
 
 defineOptions({ name: 'RecipeApproval' });
 
 const [registerTable] = useTable({
   title: 'Recipe操作记录',
-  api: list,
-  // api: getPage,
+  api: rcpOpLogPage,
   columns,
   formConfig: { labelWidth: 120, schemas: searchFormSchema },
   useSearchForm: true,

@@ -5,9 +5,10 @@ import {
 } from '@/components/Table';
 import { handleSearchFormSchema } from '@/views/recipe/utils/index';
 import { DICT_TYPE, getDictOptions } from '@/utils/dict';
-import { h, ref, unref } from 'vue';
-import { Input, Table } from 'ant-design-vue';
+import { h, ref, unref, watch } from 'vue';
+import { Button, Input, Table } from 'ant-design-vue';
 import { getSimpleList } from '@/api/base/recipe';
+import { uniqueId } from 'lodash-es';
 
 export const columns: BasicColumn[] = [
   {
@@ -35,13 +36,16 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '创建人员',
-    dataIndex: '',
+    dataIndex: 'creator',
     width: 160,
   },
   {
     title: '状态',
-    dataIndex: '',
+    dataIndex: 'status',
     width: 160,
+    customRender: ({ text }) => {
+      return useRender.renderDict(text, DICT_TYPE.RECIPE_STATUS_ENUM);
+    },
   },
   {
     title: '创建时间',
@@ -80,28 +84,58 @@ export const searchFormSchema: FormSchema[] = [
   //@ts-ignore
 ].map(handleSearchFormSchema);
 
-const createTableDataSource = ref([
+const createTableDataSource = ref<
   {
-    '1': 'TEMP',
-    '2': '温度',
-    '3': 3,
-    '4': 1,
-    '5': 5,
+    paramCode: string;
+    paramName: string;
+    minVal: string;
+    maxVal: string;
+    errorMessage: string;
+  }[]
+>([]);
+watch(
+  () => createTableDataSource.value,
+  () => {
+    createTableDataSource.value.forEach((item) => {
+      if (
+        Number(item.minVal) > Number(item.maxVal) ||
+        isNaN(Number(item.maxVal)) ||
+        isNaN(Number(item.minVal))
+      ) {
+        item.errorMessage = '参考范围-高必须大于参考范围-低';
+      } else {
+        item.errorMessage = '';
+      }
+    });
   },
-]);
+  { immediate: true, deep: true }
+);
+
 export const createFormSchema: FormSchema[] = [
   {
     label: '设备型号',
-    field: 'id',
-    component: 'Input',
+    field: 'eqptTypeCode',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getSimpleList,
+      labelField: 'eqptTypeName',
+      valueField: 'eqptTypeCode',
+      immediate: false,
+    },
     required: true,
   },
   {
     label: '设置参数',
-    field: 'rcpHisId',
+    field: 'rcpLimitRuleDetailDOList',
     component: 'Input',
-
+    required: true,
     render: (renderCallbackParams, opts) => {
+      if (createTableDataSource.value.length) {
+        renderCallbackParams.model[renderCallbackParams.field] =
+          createTableDataSource.value;
+      } else {
+        renderCallbackParams.model[renderCallbackParams.field] = null;
+      }
       return h(
         Table,
         {
@@ -109,42 +143,51 @@ export const createFormSchema: FormSchema[] = [
             {
               align: 'center',
               title: '参数代码',
-              dataIndex: '1',
-              key: '1',
+              dataIndex: 'paramCode',
+              _input: {
+                type: 'text',
+              },
             },
             {
               align: 'center',
               title: '参数名称',
-              dataIndex: '2',
-              key: '2',
+              dataIndex: 'paramName',
+              _input: {
+                type: 'text',
+              },
             },
             {
               align: 'center',
               title: '参考范围-低',
-              dataIndex: '4',
-              key: '4',
-              renderType: 'input',
+              dataIndex: 'minVal',
+              _input: {
+                type: 'number',
+              },
             },
             {
               align: 'center',
               title: '参考范围-高',
-              dataIndex: '5',
-              key: '5',
-              renderType: 'input',
+              dataIndex: 'maxVal',
+              _input: {
+                type: 'number',
+              },
             },
           ],
           dataSource: createTableDataSource.value,
         },
         {
-          bodyCell: ({ column, text, record, index }) => {
-            if (column.renderType === 'input') {
+          bodyCell: ({ column, text, data, index }) => {
+            if (column._input) {
               return h(Input, {
                 value: text,
+                type: column._input.type ?? 'text',
+                status: createTableDataSource.value[index].errorMessage
+                  ? 'error'
+                  : '',
                 style: {
                   width: '80px',
                 },
                 onChange: (e) => {
-                  // @ts-ignore
                   createTableDataSource.value[index][column.dataIndex] =
                     e.target.value;
                 },
@@ -153,10 +196,26 @@ export const createFormSchema: FormSchema[] = [
               return text;
             }
           },
+          footer: () => {
+            return h(
+              Button,
+              {
+                onClick: () => {
+                  createTableDataSource.value.push({
+                    paramCode: uniqueId('code-'),
+                    paramName: uniqueId('name-'),
+                    minVal: '',
+                    maxVal: '',
+                    errorMessage: '',
+                  });
+                },
+              },
+              '添加规则'
+            );
+          },
         }
       );
     },
-    required: true,
   },
   {
     label: 'Recipe名称',
@@ -214,6 +273,7 @@ export const updateFormSchema: FormSchema[] = [
     component: 'Input',
   },
 ];
+
 const scopeOfUseDataSource = ref([
   {
     '1': 'TEMP',

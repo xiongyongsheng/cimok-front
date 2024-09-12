@@ -56,6 +56,9 @@ export const columns: BasicColumn[] = [
     title: '状态',
     dataIndex: 'status',
     width: 160,
+    customRender: ({ text }) => {
+      return useRender.renderDict(text, DICT_TYPE.RECIPE_STATUS_ENUM);
+    },
   },
   {
     title: '创建时间',

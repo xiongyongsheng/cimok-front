@@ -73,10 +73,15 @@ async function handleExport() {
   });
 }
 
+console.log(
+  '%c [ getDictDatas(DICT_TYPE.RECIPE_STATUS_ENUM) ]-80',
+  'font-size:13px; background:pink; color:#bf2c9f;',
+  getDictDatas(DICT_TYPE.RECIPE_STATUS_ENUM)
+);
 async function handleLock(record: Recordable) {
   await rcpIndexUpdateStatus({
     id: record.id,
-    // status: record.
+    status: '1',
   });
   createMessage.success(t('common.delSuccessText'));
   reload();
@@ -110,6 +115,7 @@ function handleParamDetail(record) {
 
 import { useRouter } from 'vue-router';
 import { ref, unref } from 'vue';
+import { DICT_TYPE, getDictDatas } from '@/utils/dict';
 const router = useRouter();
 function handleUpgrade(record: Recordable) {
   router.push({
@@ -124,7 +130,10 @@ function handleActionLog(record: Recordable) {
   router.push({
     name: 'RecipeActionLog',
     query: {
-      id: record.id,
+      // id: record.id,
+      rcpName: record.rcpName,
+      rcpVerType: record.rcpVerType,
+      rcpVerCode: record.rcpVerCode,
     },
   });
 }

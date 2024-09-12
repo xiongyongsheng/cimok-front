@@ -17,6 +17,7 @@ import {
   getRcpParamPage,
 } from '@/api/base/rcpparam';
 import { rcpLimitRulePage } from '@/api/base/recipe';
+import { ref, unref } from 'vue';
 
 defineOptions({ name: 'RecipeRule' });
 
@@ -24,6 +25,7 @@ const { t } = useI18n();
 const { createConfirm, createMessage } = useMessage();
 const [registerModal, { openModal }] = useModal();
 
+const tableSelectedRows = ref();
 const [registerTable, { getForm, reload }] = useTable({
   title: '参数规则管理',
   api: rcpLimitRulePage,
@@ -36,6 +38,12 @@ const [registerTable, { getForm, reload }] = useTable({
     title: t('common.action'),
     dataIndex: 'action',
     fixed: 'right',
+  },
+  rowSelection: {
+    type: 'radio',
+    onChange(record, selectedRows) {
+      tableSelectedRows.value = selectedRows;
+    },
   },
 });
 
@@ -62,7 +70,9 @@ async function handleDelete(record: Recordable) {
 }
 const [versionModal, { openModal: openVersionModalModal }] = useModal();
 function handleVersion() {
-  openVersionModalModal(true, { isUpdate: false });
+  openVersionModalModal(true, {
+    tableSelectedRows: unref(tableSelectedRows),
+  });
 }
 
 const [paramDetailModal, { openModal: openParamDetailModal }] = useModal();
@@ -87,6 +97,7 @@ function handleParamDetail(record) {
         <a-button
           v-auth="['base:rcp-param:create']"
           :preIcon="IconEnum.VIEW"
+          :disabled="!tableSelectedRows?.length"
           @click="handleVersion"
         >
           版本对比

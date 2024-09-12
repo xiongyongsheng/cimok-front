@@ -10,14 +10,19 @@ import { IconEnum } from '@/enums/appEnum';
 import { BasicTable, TableAction, useTable } from '@/components/Table';
 
 import { rcpOpLogPage } from '@/api/base/recipe';
+import { useRoute } from 'vue-router';
 
 defineOptions({ name: 'RecipeActionLog' });
 
+const route = useRoute();
+
 const { t } = useI18n();
 
-const [registerTable] = useTable({
+const [registerTable, { setTableData }] = useTable({
   title: 'Recipe操作记录',
-  api: rcpOpLogPage,
+  api: () => {
+    return rcpOpLogPage(route.query);
+  },
   columns,
   formConfig: { labelWidth: 120, schemas: searchFormSchema },
   useSearchForm: true,
