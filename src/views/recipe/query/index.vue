@@ -197,6 +197,7 @@ function handleActionLog(record: Recordable) {
                 icon: IconEnum.TEST,
                 label: '锁定',
                 auth: 'base:rcp-param:update',
+                disabled: record.status != '6',
                 popConfirm: {
                   title: '是否确定锁定Recipe?',
                   placement: 'left',

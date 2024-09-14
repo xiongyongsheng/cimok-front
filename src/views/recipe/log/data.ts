@@ -1,4 +1,6 @@
-import type { BasicColumn } from '@/components/Table';
+import type { BasicColumn, FormSchema } from '@/components/Table';
+import { handleSearchFormSchema } from '@/views/recipe/utils/index';
+import { DICT_TYPE, getDictOptions } from '@/utils/dict';
 
 export const columns: BasicColumn[] = [
   {
@@ -43,3 +45,34 @@ export const columns: BasicColumn[] = [
     width: 160,
   },
 ];
+
+export const searchFormSchema: FormSchema[] = [
+  {
+    label: 'Recipe名称',
+    field: 'rcpName',
+    component: 'Input',
+    colProps: { span: 8 },
+  },
+  {
+    label: '操作类型',
+    field: 'rcpHisId',
+    component: 'Select',
+    componentProps: {
+      options: getDictOptions(DICT_TYPE.RECIPE_ACTION_TYPE),
+    },
+    colProps: { span: 8 },
+  },
+  {
+    label: '设备号',
+    field: 'paramName',
+    component: 'Input',
+    colProps: { span: 8 },
+  },
+  {
+    label: '选择时间',
+    field: 'paramName',
+    component: 'RangePicker',
+    colProps: { span: 8 },
+  },
+  //@ts-ignore
+].map(handleSearchFormSchema);

@@ -1,5 +1,29 @@
 import { defHttp } from '@/utils/http/axios';
 
+export function rcpLimitRuleSubmit(data) {
+  return defHttp.post({
+    url: '/base/rcp-limit-rule/submit',
+    data,
+  });
+}
+export function createRcpRule(data) {
+  return defHttp.post({
+    url: '/base/rcp-limit-rule/create',
+    data,
+  });
+}
+export function upgradeRcp(data) {
+  return defHttp.post({
+    url: '/base/rcp-index/upgrade',
+    data,
+  });
+}
+export function saveRcpIndexSuitEqpt(data) {
+  return defHttp.post({
+    url: '/base/rcp-index/save/suit/eqpt',
+    data,
+  });
+}
 export function rcpIndexSuitRecipe(params) {
   return defHttp.get({
     url: '/base/rcp-index/suit/recipe',

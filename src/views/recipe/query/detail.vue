@@ -62,7 +62,7 @@ const data = reactive({
     },
     {
       label: '创建人',
-      dataIndex: '',
+      dataIndex: 'creator',
     },
   ],
   fileList: {

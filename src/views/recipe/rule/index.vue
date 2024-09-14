@@ -16,7 +16,7 @@ import {
   exportRcpParam,
   getRcpParamPage,
 } from '@/api/base/rcpparam';
-import { rcpLimitRulePage } from '@/api/base/recipe';
+import { rcpLimitRulePage, rcpLimitRuleSubmit } from '@/api/base/recipe';
 import { ref, unref } from 'vue';
 
 defineOptions({ name: 'RecipeRule' });
@@ -63,9 +63,9 @@ async function handleExport() {
   });
 }
 
-async function handleDelete(record: Recordable) {
-  await deleteRcpParam(record.id);
-  createMessage.success(t('common.delSuccessText'));
+async function handleSubmit(record: Recordable) {
+  await rcpLimitRuleSubmit({ id: record.id });
+  createMessage.success(t('common.submitSuccessText'));
   reload();
 }
 const [versionModal, { openModal: openVersionModalModal }] = useModal();
@@ -123,7 +123,7 @@ function handleParamDetail(record) {
                 popConfirm: {
                   title: '是否确定审批通过xxx规则？',
                   placement: 'left',
-                  confirm: handleDelete.bind(null, record),
+                  confirm: handleSubmit.bind(null, record),
                 },
               },
             ]"
