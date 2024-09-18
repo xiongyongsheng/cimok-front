@@ -72,8 +72,7 @@ async function handleDelete(record: Recordable) {
 
 <template>
   <div>
-    <DocAlert title="功能权限" url="https://doc.iocoder.cn/resource-permission" />
-    <DocAlert title="数据权限" url="https://doc.iocoder.cn/data-permission" />
+
 
     <BasicTable @register="registerTable">
       <template #toolbar>

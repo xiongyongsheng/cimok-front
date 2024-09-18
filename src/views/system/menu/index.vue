@@ -75,8 +75,7 @@ function refreshMenu() {
 
 <template>
   <div>
-    <DocAlert title="功能权限" url="https://doc.iocoder.cn/resource-permission" />
-    <DocAlert title="菜单路由" url="https://doc.iocoder.cn/vue3/route/" />
+
 
     <BasicTable @register="register">
       <template #toolbar>

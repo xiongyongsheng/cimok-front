@@ -61,7 +61,6 @@ async function handleDelete(record: Recordable) {
 
 <template>
   <div>
-    <DocAlert title="配置中心" url="https://doc.iocoder.cn/config-center/" />
 
     <BasicTable @register="registerTable">
       <template #toolbar>

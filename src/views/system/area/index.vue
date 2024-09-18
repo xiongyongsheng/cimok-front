@@ -36,7 +36,6 @@ function handleCreate() {
 
 <template>
   <div>
-    <DocAlert title="地区 & IP" url="https://doc.iocoder.cn/area-and-ip/" />
 
     <BasicTable class="p-4" @register="register">
       <template #toolbar>

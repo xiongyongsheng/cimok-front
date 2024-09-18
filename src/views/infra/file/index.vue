@@ -55,7 +55,6 @@ async function handleDelete(record: Recordable) {
 
 <template>
   <div>
-    <DocAlert title="上传下载" url="https://doc.iocoder.cn/file/" />
 
     <BasicTable @register="registerTable">
       <template #toolbar>

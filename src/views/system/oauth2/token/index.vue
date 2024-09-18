@@ -36,7 +36,6 @@ async function handleDelete(record: Recordable) {
 
 <template>
   <div>
-    <DocAlert title="OAuth 2.0（SSO 单点登录)" url="https://doc.iocoder.cn/oauth2/" />
 
     <BasicTable @register="registerTable">
       <template #bodyCell="{ column, record }">
