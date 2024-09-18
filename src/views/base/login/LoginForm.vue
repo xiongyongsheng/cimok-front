@@ -176,54 +176,54 @@ async function handleLogin(params) {
         {{ t('sys.login.registerButton') }}
       </a-button> -->
     </FormItem>
-    <Row class="enter-x" :gutter="[16, 16]">
-      <Col :md="8" :xs="24">
-        <a-button block @click="setLoginState(LoginStateEnum.MOBILE)">
-          {{ t('sys.login.mobileSignInFormTitle') }}
-        </a-button>
-      </Col>
-      <Col :md="8" :xs="24">
-        <a-button block @click="setLoginState(LoginStateEnum.QR_CODE)">
-          {{ t('sys.login.qrSignInFormTitle') }}
-        </a-button>
-      </Col>
-      <Col :md="8" :xs="24">
-        <a-button block @click="setLoginState(LoginStateEnum.REGISTER)">
-          {{ t('sys.login.registerButton') }}
-        </a-button>
-      </Col>
-    </Row>
+<!--    <Row class="enter-x" :gutter="[16, 16]">-->
+<!--      <Col :md="8" :xs="24">-->
+<!--        <a-button block @click="setLoginState(LoginStateEnum.MOBILE)">-->
+<!--          {{ t('sys.login.mobileSignInFormTitle') }}-->
+<!--        </a-button>-->
+<!--      </Col>-->
+<!--      <Col :md="8" :xs="24">-->
+<!--        <a-button block @click="setLoginState(LoginStateEnum.QR_CODE)">-->
+<!--          {{ t('sys.login.qrSignInFormTitle') }}-->
+<!--        </a-button>-->
+<!--      </Col>-->
+<!--      <Col :md="8" :xs="24">-->
+<!--        <a-button block @click="setLoginState(LoginStateEnum.REGISTER)">-->
+<!--          {{ t('sys.login.registerButton') }}-->
+<!--        </a-button>-->
+<!--      </Col>-->
+<!--    </Row>-->
 
     <Divider class="enter-x">
       {{ t('sys.login.otherSignIn') }}
     </Divider>
 
     <div class="enter-x flex justify-evenly" :class="`${prefixCls}-sign-in-way`">
-      <GithubFilled />
-      <WechatFilled />
-      <AlipayCircleFilled />
+<!--      <GithubFilled />-->
+<!--      <WechatFilled />-->
+<!--      <AlipayCircleFilled />-->
       <!-- <GoogleCircleFilled /> -->
       <!-- <TwitterCircleFilled /> -->
     </div>
 
     <!-- 萌新必读 -->
-    <Divider class="enter-x">
-      萌新必读
-    </Divider>
-    <div class="enter-x flex justify-evenly" :class="`${prefixCls}-sign-in-way`">
-      <a-button href="https://doc.iocoder.cn/" target="_blank" class="w-1/4">
-        📚开发指南
-      </a-button>
-      <a-button href="https://doc.iocoder.cn/video/" target="_blank" class="w-1/4 pl-1">
-        🔥视频教程
-      </a-button>
-      <a-button href="https://www.iocoder.cn/Interview/good-collection/" target="_blank" class="w-1/4 pl-1">
-        ⚡面试手册
-      </a-button>
-      <a-button href="http://static.yudao.iocoder.cn/mp/xinyu370.jpeg" target="_blank" class="w-1/4 pl-1">
-        🤝外包咨询
-      </a-button>
-    </div>
+<!--    <Divider class="enter-x">-->
+<!--      萌新必读-->
+<!--    </Divider>-->
+<!--    <div class="enter-x flex justify-evenly" :class="`${prefixCls}-sign-in-way`">-->
+<!--      <a-button href="https://doc.iocoder.cn/" target="_blank" class="w-1/4">-->
+<!--        📚开发指南-->
+<!--      </a-button>-->
+<!--      <a-button href="https://doc.iocoder.cn/video/" target="_blank" class="w-1/4 pl-1">-->
+<!--        🔥视频教程-->
+<!--      </a-button>-->
+<!--      <a-button href="https://www.iocoder.cn/Interview/good-collection/" target="_blank" class="w-1/4 pl-1">-->
+<!--        ⚡面试手册-->
+<!--      </a-button>-->
+<!--      <a-button href="http://static.yudao.iocoder.cn/mp/xinyu370.jpeg" target="_blank" class="w-1/4 pl-1">-->
+<!--        🤝外包咨询-->
+<!--      </a-button>-->
+<!--    </div>-->
   </Form>
   <Verify ref="verify" mode="pop" :captcha-type="captchaType" :img-size="{ width: '360px', height: '180px' }" @success="handleLogin" />
 </template>
