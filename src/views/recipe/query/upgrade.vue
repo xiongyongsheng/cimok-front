@@ -12,9 +12,10 @@ import {
   Popconfirm,
 } from 'ant-design-vue';
 import { rcpIndexGet, upgradeRcp } from '@/api/base/recipe';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useRender } from '@/components/Table/src/hooks/useRender';
 import { getDictOptions, DICT_TYPE } from '@/utils/dict';
+import { cloneDeep, isEqual } from 'lodash-es';
 
 const customRender = {
   rcpVerType: ({ text }) => {
@@ -22,21 +23,31 @@ const customRender = {
   },
 };
 const isLoading = ref(false);
+const router = useRouter();
 const handleUpgrade = () => {
-  console.log('data.detail', data.detail);
   isLoading.value = true;
-  upgradeRcp(data.detail)
+
+  upgradeRcp({
+    ...data.detail,
+    paramRuleChange: !isEqual(data.detail, data.orgDetail),
+  })
     .finally(() => {
       isLoading.value = false;
     })
     .then((res) => {
-      data.getDetailData();
+      router.back();
+      // data.getDetailData();
     });
 };
 const route = useRoute();
 const data = reactive({
   loading: true,
   detail: {
+    fileRespDTOList: [],
+    rcpEqptSuitDOList: [],
+    rcpParamDOList: [],
+  },
+  orgDetail: {
     fileRespDTOList: [],
     rcpEqptSuitDOList: [],
     rcpParamDOList: [],
@@ -48,6 +59,7 @@ const data = reactive({
     })
       .then((res) => {
         data.detail = res;
+        data.orgDetail = cloneDeep(res);
       })
       .finally(() => {
         data.loading = false;
@@ -59,6 +71,7 @@ const data = reactive({
       dataIndex: 'rcpVerType',
       customRender: ({ text, item }) => {
         return h(Select, {
+          //@ts-ignore
           options: getDictOptions(DICT_TYPE.RECIPE_TYPE_ENUM, 'string'),
           value: text,
           style: {
@@ -215,7 +228,7 @@ data.getDetailData();
       >
         <template #bodyCell="{ text, value, record, column, index }">
           <Input
-            v-if="['minVal', 'maxVal'].includes(column.dataIndex)"
+            v-if="['minVal', 'maxVal'].includes(String(column.dataIndex))"
             :value="text"
             @input="
               (e) => {

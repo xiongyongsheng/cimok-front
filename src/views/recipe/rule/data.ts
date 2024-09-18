@@ -44,7 +44,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'status',
     width: 160,
     customRender: ({ text }) => {
-      return useRender.renderDict(text, DICT_TYPE.RECIPE_STATUS_ENUM);
+      return useRender.renderDict(text, DICT_TYPE.RULE_TYPE_ENUM);
     },
   },
   {

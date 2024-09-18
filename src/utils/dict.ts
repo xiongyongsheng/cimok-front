@@ -75,6 +75,7 @@ export function getDictObj(dictType: string, value: any) {
 
 export enum DICT_TYPE {
   // recipe
+  RULE_TYPE_ENUM = 'RuleTypeEnum',
   RECIPE_TYPE_ENUM = 'RecipeTypeEnum',
   RECIPE_STATUS_ENUM = 'RecipeStatusEnum',
   RECIPE_VERIFICATION_TYPE = 'recipe_verification_type',

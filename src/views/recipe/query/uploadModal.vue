@@ -72,8 +72,8 @@ const uploadFormSchema: FormSchema[] = [
           }
         },
         disabled: !renderCallbackParams.model.eqptTypeCode,
-        labelField: 'id',
-        valueField: 'eqptCode',
+        labelField: 'eqptCode',
+        valueField: 'id',
         placeholder: '请选择',
         immediate: false,
       });
@@ -128,14 +128,8 @@ const [
 const [registerModal, { setModalProps, closeModal }] = useModalInner(
   async (data) => {
     resetFields();
+    rowSelection.value.selectedRowKeys = [];
     dataSource.value = [];
-    setModalProps({ confirmLoading: false });
-    // isUpdate.value = !!data?.isUpdate;
-    // if (unref(isUpdate)) {
-    //   resetSchema(updateFormSchema);
-    //   const res = await getRcpParam(data.record.id);
-    //   setFieldsValue({ ...res });
-    // }
   }
 );
 
@@ -143,8 +137,6 @@ async function handleSubmit() {
   try {
     const values = await validate();
     setModalProps({ confirmLoading: true });
-    // if (unref(isUpdate)) await updateRcpParam(values);
-    // else await createRcpParam(values);
     await eapUploadRecipe(values);
     closeModal();
     emit('success');
