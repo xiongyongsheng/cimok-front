@@ -38,23 +38,3 @@ const getIsFixedSettingDrawer = computed(() => {
 })
 </script>
 
-<template>
-  <LayoutLockPage />
-  <FloatButton.BackTop v-if="getUseOpenBackTop" :target="getTarget" />
-  <FloatButton
-    shape="circle"
-    type="primary"
-    :badge="{ dot: true }"
-    :style="{ right: '64px' }"
-    @click="openWindow(SITE_URL)"
-  >
-    <template #icon>
-      <QuestionCircleOutlined />
-    </template>
-  </FloatButton>
-  <SettingDrawer
-    v-if="getIsFixedSettingDrawer"
-    class="absolute top-[45%] z-10 flex cursor-pointer items-center justify-items-center rounded-l-md rounded-r-none p-2.5"
-  />
-  <SessionTimeoutLogin v-if="getIsSessionTimeout" />
-</template>
