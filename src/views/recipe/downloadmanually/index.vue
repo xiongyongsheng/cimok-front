@@ -7,7 +7,7 @@ import { BasicForm, useForm } from '@/components/Form';
 import { Card, Button } from 'ant-design-vue';
 import { rcpIndexSuitRecipe } from '@/api/base/recipe';
 
-defineOptions({ name: 'RecipeDownload' });
+defineOptions({ name: 'RecipeDownloadManually' });
 
 const { t } = useI18n();
 const { createMessage } = useMessage();
@@ -38,7 +38,6 @@ const handleCheckFieldsValue = () => {
         isGetRecipe.value = true;
       })
       .then((res) => {
-        setFieldsValue({rcpName:res.rcpName})
         // cancelAnimationFrame(reqFrameId);
       });
   }
