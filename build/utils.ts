@@ -1,6 +1,6 @@
 import path, { join } from 'node:path'
 import dotenv from 'dotenv'
-import { readFile } from 'fs-extra'
+import fs  from 'fs'
 
 export function isDevFn(mode: string): boolean {
   return mode === 'development'
@@ -65,30 +65,29 @@ function getConfFiles() {
  * @param match prefix
  * @param confFiles ext
  */
-export async function getEnvConfig(
-  match = 'VITE_GLOB_',
-  confFiles = getConfFiles(),
-): Promise<{
-  [key: string]: string
-}> {
-  let envConfig = {}
+export function getEnvConfig(match = 'VITE_GLOB_', confFiles = getConfFiles()) {
+  let envConfig = {};
 
   for (const confFile of confFiles) {
     try {
-      const envPath = await readFile(join(process.cwd(), confFile), { encoding: 'utf8' })
-      const env = dotenv.parse(envPath)
-      envConfig = { ...envConfig, ...env }
-    }
-    catch (e) {
-      console.error(`Error in parsing ${confFile}`, e)
+      const envPath = fs.readFileSync(join(process.cwd(), confFile), { encoding: 'utf8' });
+      const env = dotenv.parse(envPath); // 解析环境变量
+      envConfig = { ...envConfig, ...env }; // 合并对象
+    } catch (e) {
+      console.error(`Error in parsing ${confFile}`, e);
     }
   }
-  const reg = new RegExp(`^(${match})`)
+
+  // 过滤以指定前缀开头的环境变量
+  const reg = new RegExp(`^(${match})`);
   Object.keys(envConfig).forEach((key) => {
-    if (!reg.test(key))
-      Reflect.deleteProperty(envConfig, key)
-  })
-  return envConfig
+    if (!reg.test(key)) {
+      Reflect.deleteProperty(envConfig, key);
+    }
+  });
+
+  console.log(envConfig); // 输出配置
+  return envConfig; // 返回最终配置
 }
 
 /**
