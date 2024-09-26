@@ -5,7 +5,7 @@ import { useI18n } from '@/hooks/web/useI18n';
 import { useMessage } from '@/hooks/web/useMessage';
 import { BasicForm, useForm } from '@/components/Form';
 import { Card, Button } from 'ant-design-vue';
-import { rcpIndexSuitRecipe } from '@/api/base/recipe';
+import { rcpIndexSuitRecipe ,downloadRecipe} from '@/api/base/recipe';
 
 defineOptions({ name: 'RecipeDownload' });
 
@@ -50,10 +50,13 @@ onMounted(() => {
 async function handleSubmit() {
   try {
     const values = await validate();
-    createMessage.success(t('common.saveSuccessText'));
+    await downloadRecipe({downloadRecipeDetailReqDtoList:[values]}).then(() => {
+      createMessage.success(t('common.saveSuccessText'));
+    })
   } finally {
   }
 }
+
 </script>
 <template>
   <Card title="Recipe下载">

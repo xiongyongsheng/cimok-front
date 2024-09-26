@@ -113,3 +113,7 @@ export function exportRcpParam(params) {
     'Recipe参数.xls'
   );
 }
+// 手动下载recipe
+export function downloadRecipe(data) {
+  return defHttp.post({ url: '/base/rcp-index/download/recipe', data });
+}
