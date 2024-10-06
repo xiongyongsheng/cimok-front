@@ -1,0 +1,14 @@
+.c-transition-group-card-move, /* 对移动中的元素应用的过渡 */
+.c-transition-group-card-enter-active,
+.c-transition-group-card-leave-active {
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.c-transition-group-card-enter-from,
+.c-transition-group-card-leave-to {
+  opacity: 0;
+  transform: translateY(50px);
+}
+.c-transition-group-card-leave-active {
+  position: absolute;
+}
