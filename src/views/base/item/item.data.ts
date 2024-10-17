@@ -23,8 +23,7 @@ export const columns: BasicColumn[] = [
           width: 160,
         },
         {
-          title: '来源ID;如果是下拉单选，下拉多选，枚举选择，则关联系统中数据字典查询的唯一标识；
-如果是URL获取到的参数，则需要填写Url，后加?param=xxx,xxx则是需要在接口中获取到的具体数据。',
+          title: '来源ID;如果是下拉单选，下拉多选，枚举选择，则关联系统中数据字典查询的唯一标识；如果是URL获取到的参数，则需要填写Url，后加?param=xxx,xxx则是需要在接口中获取到的具体数据。',
           dataIndex: 'sourceId',
           width: 160,
         },
@@ -66,8 +65,7 @@ export const searchFormSchema: FormSchema[] = [
         colProps: { span: 8 },
       },
       {
-        label: '来源ID;如果是下拉单选，下拉多选，枚举选择，则关联系统中数据字典查询的唯一标识；
-如果是URL获取到的参数，则需要填写Url，后加?param=xxx,xxx则是需要在接口中获取到的具体数据。',
+        label: '来源ID;如果是下拉单选，下拉多选，枚举选择，则关联系统中数据字典查询的唯一标识；如果是URL获取到的参数，则需要填写Url，后加?param=xxx,xxx则是需要在接口中获取到的具体数据。',
         field: 'sourceId',
           component: 'Input',
         colProps: { span: 8 },
@@ -130,8 +128,7 @@ export const createFormSchema: FormSchema[] = [
             },
         },
         {
-          label: '来源ID;如果是下拉单选，下拉多选，枚举选择，则关联系统中数据字典查询的唯一标识；
-如果是URL获取到的参数，则需要填写Url，后加?param=xxx,xxx则是需要在接口中获取到的具体数据。',
+          label: '来源ID;如果是下拉单选，下拉多选，枚举选择，则关联系统中数据字典查询的唯一标识；如果是URL获取到的参数，则需要填写Url，后加?param=xxx,xxx则是需要在接口中获取到的具体数据。',
           field: 'sourceId',
             component: 'Input',
         },
@@ -168,8 +165,7 @@ export const updateFormSchema: FormSchema[] = [
             },
         },
         {
-          label: '来源ID;如果是下拉单选，下拉多选，枚举选择，则关联系统中数据字典查询的唯一标识；
-如果是URL获取到的参数，则需要填写Url，后加?param=xxx,xxx则是需要在接口中获取到的具体数据。',
+          label: '来源ID;如果是下拉单选，下拉多选，枚举选择，则关联系统中数据字典查询的唯一标识；如果是URL获取到的参数，则需要填写Url，后加?param=xxx,xxx则是需要在接口中获取到的具体数据。',
           field: 'sourceId',
             component: 'Input',
         },
