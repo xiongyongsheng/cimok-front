@@ -118,7 +118,7 @@
             <h4 class="c-card-group-detail-card-title">生产履历</h4>
             <div class="w-full py-5">
               <div
-                v-for="item in Array.from({ length: 20 }).map(() => ({
+                v-for="item in Array.from({ length: 10 }).map(() => ({
                   label: '2022-9-1 10:00:00',
                   value: '点检',
                 }))"
