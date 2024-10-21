@@ -29,3 +29,12 @@ export function deleteEqpt(id: number) {
 export function exportEqpt(params) {
   return defHttp.download({ url: '/base/eqpt/export-excel', params }, '设备台账.xls')
 }
+
+// 获取设备总览
+export function getEqptStatusTotal(params) {
+  return defHttp.get({ url: `/base/eqpt/status/get/total` ,params})
+}
+// 获取设备实时状态
+export function getEqptStatusReal(params) {
+  return defHttp.get({ url: `/base/eqpt/status/get/eqp/real`,params })
+}

@@ -12,12 +12,45 @@ import { getEqptTypeList } from '@/api/base/alarm'
 defineOptions({ name: 'AlarmRuleModal' })
 
 const emit = defineEmits(['success', 'register'])
-
+// {
+//   "id": "4576",
+//   "eqptTypeCode": "",
+//   "ruleId": "17362",
+//   "alid": "30660",
+//   "mngLevel": "",
+//   "windowTime": "",
+//   "occurTimes": "",
+//   "mailNoti": 0,
+//   "mailGroup": "",
+//   "checkTask": 0,
+//   "checkTaskType": "1",
+//   "holdLot": 0,
+//   "holdEqpt": 0,
+//   "repairTask": 0,
+//   "deptId": 23474,
+//   "enable": 0,
+//   "saveEmailGroupFlag": true,
+//   "emailGroupDO": {
+//     "id": "26842",
+//     "groupCode": "",
+//     "groupName": "王五",
+//     "deptId": 24302,
+//     "emailGroupDetailSaveReqVOList": [
+//       {
+//         "id": "4040",
+//         "groupId": "6294",
+//         "userId": 21596,
+//         "deptId": 23200
+//       }
+//     ]
+//   }
+// }
 const { t } = useI18n()
 const { createMessage } = useMessage()
 const isUpdate = ref(true)
 const eqptTypeList = ref([])
 const alarmInfoList = ref([])
+const actionList = ref([{id:'1',name:'邮件通知',key:'mailNoti',value:0},{id:'1',name:'设备停机',key:'holdEqpt',value:0},{id:'1',name:'扣押批次',key:'holdLot',value:0},{id:'1',name:'触发检验任务',key:'checkTask',value:0},{id:'1',name:'叫修工单',key:'repairTask',value:0},])
 const createFormSchema: FormSchema[] = [
   {
     label: '设备类型',
@@ -146,8 +179,9 @@ async function handleSubmit() {
     </Card>
 
     <Card title="处置措施" size="small" class="mb-10px">
-      <BasicForm :schemas="CheckboxFormSchema" :showActionButtonGroup="false" :labelWidth="90"
-        :baseColProps="{ span: 24 }" />
+      <!-- <BasicForm :schemas="CheckboxFormSchema" :showActionButtonGroup="false" :labelWidth="90"
+        :baseColProps="{ span: 24 }" /> -->
+
     </Card>
 
     <Card title="邮件通知" size="small" class="mb-10px">

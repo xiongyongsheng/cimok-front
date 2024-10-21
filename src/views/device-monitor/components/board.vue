@@ -82,6 +82,10 @@ const props = defineProps({
     type: [Number, String],
     default: () => null,
   },
+  boardData: {
+    type: Object,
+    default: () => {},
+  }
 });
 const emit = defineEmits(['update:modelValue']);
 
@@ -249,13 +253,13 @@ class Gauge {
       },
     ],
   };
-  constructor({ el, theme }) {
+  constructor({ el, theme , data}) {
     const random = +(Math.random() * 60).toFixed(0);
     this.option.series[0].itemStyle.color = theme.color[0];
     this.option.series[1].itemStyle.color = theme.color[0];
     this.option.series[2].itemStyle.color = theme.color[1];
-    this.option.series[0].data[0].value = random;
-    this.option.series[1].detail.formatter = 'Idle 25';
+    this.option.series[0].data[0].value = (data.number*100 / data.totalNum).toFixed(0);
+    this.option.series[1].detail.formatter = data.name;
   }
 }
 
@@ -348,12 +352,14 @@ class DeviceWatch {
 
 onMounted(() => {
   nextTick(() => {
+    console.log('----------------------------------------------------------------')
+    console.log(props.boardData)
     gaugeGroup.value.list.forEach((item, index) => {
       const chartDom = document.getElementById(
         `${gaugeGroup.value.id}${index}`
       );
       const myChart = echarts.init(chartDom);
-      const gauge = new Gauge({ el: chartDom, theme: item.theme });
+      const gauge = new Gauge({ el: chartDom, theme: item.theme ,data:props.boardData.boardEqptNumList[index]});
       gauge.option && myChart.setOption(gauge.option);
     });
 
