@@ -11,36 +11,53 @@
             v-c-transition-delay="20"
             key="status"
           >
-            <h4 class="c-card-group-detail-card-title w-full">设备状态</h4>
+            <h4 class="c-card-group-detail-card-title w-full">生产批次</h4>
             <div class="flex flex-wrap w-full">
-              <div class="w-50%" v-for="item in 4">
-                <h6 class="font-size-4 m-0 text-center">腔体2</h6>
-                <div class="w-full">
-                  <div
-                    v-for="item in [
-                      {
-                        label: '是否开启',
-                        value: 'Processing',
-                      },
-                      {
-                        label: '温度(℃)',
-                        value: 'Communicating',
-                      },
-                      {
-                        label: '压力(T)',
-                        value: 'Online-Remote',
-                      },
-                      {
-                        label: '速度(m/s)',
-                        value: 'P-12',
-                      },
-                    ]"
-                    class="w-full flex justify-center items-center gap-5 font-size-3"
-                  >
-                    <span class="w-50% flex-shrink-0 text-right"
-                      >{{ item.label }}:</span
-                    ><span class="w-50% flex-shrink-0">{{ item.value }}</span>
-                  </div>
+              <div class="w-full py-5">
+                <div
+                  v-for="item in [
+                    {
+                      label: '客户代码',
+                      value: 'Processing',
+                    },
+                    {
+                      label: '测试程序',
+                      value: 'Communicating',
+                    },
+                    {
+                      label: '工单',
+                      value: 'Online-Remote',
+                    },
+                    {
+                      label: 'TestStep',
+                      value: 'P-12',
+                    },
+                    {
+                      label: '批次',
+                      value: 'P-12',
+                    },
+                    {
+                      label: 'TestMode',
+                      value: 'P-12',
+                    },
+                    {
+                      label: '产品类型',
+                      value: 'P-12',
+                    },
+                    {
+                      label: 'HandlerID',
+                      value: 'P-12',
+                    },
+                    {
+                      label: '数量',
+                      value: 'P-12',
+                    },
+                  ]"
+                  class="w-full flex justify-center items-center gap-5 font-size-4.5"
+                >
+                  <span class="w-50% flex-shrink-0 text-right"
+                    >{{ item.label }}:</span
+                  ><span class="w-50% flex-shrink-0">{{ item.value }}</span>
                 </div>
               </div>
             </div>
@@ -51,28 +68,7 @@
             key="project"
             v-c-transition-delay="20"
           >
-            <h4 class="c-card-group-detail-card-title">Buyoff项目</h4>
-            <div class="w-full py-5">
-              <div
-                v-for="item in Array.from({ length: 10 }).map(() => ({
-                  label: '2022-9-1 10:00:00',
-                  value: '点检',
-                }))"
-                class="w-full flex justify-center items-center gap-5 font-size-3"
-              >
-                <span class="w-50% flex-shrink-0 text-right"
-                  >{{ item.label }}:</span
-                ><span class="w-50% flex-shrink-0">{{ item.value }}</span>
-              </div>
-            </div>
-          </div>
-          <div
-            class="c-card-group-detail-card"
-            style="grid-area: batch"
-            key="batch"
-            v-c-transition-delay="20"
-          >
-            <h4 class="c-card-group-detail-card-title">生产批次</h4>
+            <h4 class="c-card-group-detail-card-title">工治具</h4>
             <div class="w-full py-5">
               <div
                 v-for="item in [
@@ -111,8 +107,8 @@
           </div>
           <div
             class="c-card-group-detail-card"
-            style="grid-area: vitae"
-            key="vitae"
+            style="grid-area: batch"
+            key="batch"
             v-c-transition-delay="20"
           >
             <h4 class="c-card-group-detail-card-title">生产履历</h4>
@@ -132,47 +128,11 @@
           </div>
           <div
             class="c-card-group-detail-card"
-            style="grid-area: raw"
-            key="raw"
+            style="grid-area: vitae"
+            key="vitae"
             v-c-transition-delay="20"
           >
-            <h4 class="c-card-group-detail-card-title">原材料</h4>
-            <div class="c-table py-4">
-              <Table
-                size="small"
-                :bordered="false"
-                :pagination="false"
-                :columns="columns"
-                :data-source="data"
-              >
-              </Table>
-            </div>
-          </div>
-          <div
-            class="c-card-group-detail-card"
-            style="grid-area: tool"
-            key="tool"
-            v-c-transition-delay="20"
-          >
-            <h4 class="c-card-group-detail-card-title">工治具</h4>
-            <div class="c-table py-4">
-              <Table
-                size="small"
-                :bordered="false"
-                :pagination="false"
-                :columns="columns"
-                :data-source="data"
-              >
-              </Table>
-            </div>
-          </div>
-          <div
-            class="c-card-group-detail-card"
-            style="grid-area: log"
-            key="log"
-            v-c-transition-delay="20"
-          >
-            <h4 class="c-card-group-detail-card-title">通信日志</h4>
+            <h4 class="c-card-group-detail-card-title">实时良率</h4>
             <div class="w-full py-5">
               <div
                 v-for="item in Array.from({ length: 10 }).map(() => ({
@@ -250,14 +210,16 @@ const data = [
 </script>
 <style lang="less" scoped>
 .c-card-group-detail {
+  width: 2000px;
+  height: 1000px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  // grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
 
   grid-template-areas:
-    'status status project'
-    'batch vitae log'
-    'raw tool log';
+    'status project batch'
+    'vitae vitae vitae'
+    'vitae vitae vitae';
   > div {
     position: relative;
     &::after {
