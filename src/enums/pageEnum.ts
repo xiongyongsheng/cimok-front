@@ -8,6 +8,7 @@ export enum PageEnum {
   // error log page path
   ERROR_LOG_PAGE = '/error-log/list',
   MESSAGE_PAGE = '/profile/notify-message',
+  RecipeDownloadManuallyMobile = '/recipe/recipeDownloadManuallyMobile'
 }
 
 export const PageWrapperFixedHeightKey = 'PageWrapperFixedHeight'

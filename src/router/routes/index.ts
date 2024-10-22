@@ -262,6 +262,14 @@ export const BpmRoute: AppRouteRecordRaw = {
 }
 
 
+export const RecipeDownloadManuallyMobileRoute: AppRouteRecordRaw = {
+  path: '/recipe/recipeDownloadManuallyMobile',
+  name: 'RecipeDownloadManuallyMobile',
+  component: () => import('@/views/recipe/downloadmanually/mobile.vue'),
+  meta: {
+    title:'手动下载',
+  },
+}
 
 // Basic routing without permission
 // 未经许可的基本路由
@@ -276,4 +284,5 @@ export const basicRoutes = [
   BpmRoute,
   REDIRECT_ROUTE,
   PAGE_NOT_FOUND_ROUTE,
+  RecipeDownloadManuallyMobileRoute,
 ]

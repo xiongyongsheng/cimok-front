@@ -11,10 +11,11 @@ import { PAGE_NOT_FOUND_ROUTE } from '@/router/routes/basic'
 // import { RootRoute } from '@/router/routes'
 
 const LOGIN_PATH = PageEnum.BASE_LOGIN
+const RecipeDownloadManuallyMobile = PageEnum.RecipeDownloadManuallyMobile
 
 // const ROOT_PATH = RootRoute.path
 
-const whitePathList = [LOGIN_PATH]
+const whitePathList = [LOGIN_PATH,RecipeDownloadManuallyMobile]
 
 export function createPermissionGuard(router: Router) {
   const dictStore = useDictStoreWithOut()
