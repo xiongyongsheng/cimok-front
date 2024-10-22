@@ -107,13 +107,23 @@ const transform: AxiosTransform = {
 
   // 请求之前处理config
   beforeRequestHook: (config, options) => {
-    const { apiUrl, joinPrefix, joinParamsToUrl, formatDate, joinTime = true, urlPrefix } = options
+    const { apiUrl, apiAppUrl, isApp,joinPrefix, joinParamsToUrl, formatDate, joinTime = true, urlPrefix } = options
 
     if (joinPrefix)
       config.url = `${urlPrefix}${config.url}`
-
     if (apiUrl && isString(apiUrl))
-      config.url = `${apiUrl}${config.url}`
+            config.url = `${apiUrl}${config.url}`
+    // console.log(isApp)
+    // if(isApp &&isApp == 'yes'){
+    //   console.log('111')
+    //   if (apiAppUrl && isString(apiAppUrl))
+    //               config.url = `${apiAppUrl}${config.url}`
+    // }else{
+    //   console.log('222')
+    //   if (apiUrl && isString(apiUrl))
+    //         config.url = `${apiUrl}${config.url}`
+    // }
+   
 
     const params = config.params || {}
     const data = config.data || false
