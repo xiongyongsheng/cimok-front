@@ -27,12 +27,12 @@
     <div class="flex justify-between items-center">
       <div
         class="c-box w-30 h-30 my-3 text-center flex justify-center items-center flex-col"
-        v-for="item in 3"
+        v-for="item in eqptTypeListData"
       >
         <h3 class="board-text-color font-700 font-size-12 m-0 line-height-none">
-          <CountTo :start-val="0" :end-val="32" />
+          <CountTo :start-val="0" :end-val="item.eqptCount" />
         </h3>
-        <span class="text-white font-size-5">TSK</span>
+        <span class="text-white font-size-5">{{item.eqptType}}</span>
         <div :id="`c-u148-${i}`" v-for="i in 4"></div>
       </div>
     </div>
@@ -85,6 +85,10 @@ const props = defineProps({
   boardData: {
     type: Object,
     default: () => {},
+  },
+  eqptTypeListData: {
+    type: Array,
+    defualt:()=>[]
   }
 });
 const emit = defineEmits(['update:modelValue']);

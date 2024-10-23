@@ -111,19 +111,17 @@ const transform: AxiosTransform = {
 
     if (joinPrefix)
       config.url = `${urlPrefix}${config.url}`
-    if (apiUrl && isString(apiUrl))
-            config.url = `${apiUrl}${config.url}`
-    // console.log(isApp)
-    // if(isApp &&isApp == 'yes'){
-    //   console.log('111')
-    //   console.log(apiAppUrl)
-    //   if (apiAppUrl && isString(apiAppUrl))
-    //               config.url = `${apiAppUrl}${config.url}`
-    // }else{
-    //   console.log('222')
-    //   if (apiUrl && isString(apiUrl))
+    // if (apiUrl && isString(apiUrl))
     //         config.url = `${apiUrl}${config.url}`
-    // }
+    // console.log(isApp)
+    if(isApp &&isApp == 'yes'){
+      console.log(apiAppUrl)
+      if (apiAppUrl && isString(apiAppUrl))
+                  config.url = `${apiAppUrl}${config.url}`
+    }else{
+      if (apiUrl && isString(apiUrl))
+            config.url = `${apiUrl}${config.url}`
+    }
    
 
     const params = config.params || {}
