@@ -3,14 +3,13 @@
     class="h-full overflow-y-auto flex-shrink-0 w-md text-white device-monitor-bg-color py-7 px-4"
   >
     <div>
-      <h3 class="text-white font-size-5 m-0">磨片工艺设备联网情况</h3>
-      <p class="text-white m-0 opacity-80">
+      <h3 class="text-white font-size-5 m-0">{{activeMenu.label}}工艺设备联网情况</h3>
+      <p class="text-white m-0 opacity-80" v-if="eqptTotalNumber>0">
         设备总数
         <span
           id="c-total-number"
           class="font-size-7 font-500 sider-active-color"
-          ><CountTo :start-val="0" :end-val="1000"
-        /></span>
+          ><CountTo :start-val="0" :end-val="eqptTotalNumber"/></span>
         台
       </p>
     </div>
@@ -20,11 +19,12 @@
         class="w-33%"
         style="height: 140px"
         v-for="(item, index) in gaugeGroup.list"
+        :key="`${gaugeGroup.id}${index}`"
         :id="`${gaugeGroup.id}${index}`"
       ></div>
     </div>
     <Divider class="divider-color my-4" />
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center" v-if="eqptTypeListData&&eqptTypeListData.length&&eqptTypeListData.length>0">
       <div
         class="c-box w-30 h-30 my-3 text-center flex justify-center items-center flex-col"
         v-for="item in eqptTypeListData"
@@ -50,19 +50,19 @@
           delay: 2500,
           disableOnInteraction: false,
         }"
-        :speed="1000"
+        :speed="800"
         loop
         :modules="swiperModules"
         direction="vertical"
         class="h-50"
       >
-        <swiper-slide v-for="i in 10">
+        <swiper-slide v-for="(item,index) in eqptRealListData">
           <div class="flex justify-between items-stretch p-2">
-            <span class="w-10">{{ i }}</span>
-            <span class="flex-1 text-blueGray">DB-01</span>
-            <span class="flex-1 board-text-color">10:10:21</span>
-            <span class="flex-1 text-light">暂无异常</span>
-            <Tag color="#108ee9">运行</Tag>
+            <span class="w-10">{{ (index+1) }}</span>
+            <span class="flex-1 text-blueGray">{{item.eqptCode}}</span>
+            <span class="flex-1 board-text-color">{{DayJs(item.reportTime).format('HH:mm')}}</span>
+            <span class="flex-1 text-light">{{item.msg}}</span>
+            <Tag color="#70b604">{{item.status}}</Tag>
           </div>
         </swiper-slide>
       </swiper>
@@ -74,9 +74,10 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 const swiperModules = [Autoplay];
-import { ref, onMounted, nextTick } from 'vue';
+import { watch,ref, onMounted, nextTick } from 'vue';
 import { Divider, Tag } from 'ant-design-vue';
 import { CountTo } from '@/components/CountTo';
+import DayJs from 'dayjs';
 const props = defineProps({
   modelValue: {
     type: [Number, String],
@@ -89,8 +90,32 @@ const props = defineProps({
   eqptTypeListData: {
     type: Array,
     defualt:()=>[]
-  }
+  },
+  eqptRealListData: {
+    type: Array,
+    defualt:()=>[]
+  },
+  eqptTotalNumber: {
+    type: Number,
+    default: 0,
+  },
+  activeMenu: {
+    type: Object,
+    default: () => {label:''},
+  },
+  eqptAllList: {
+    type: Array,
+    defualt:()=>[]
+  },
 });
+watch(
+  () => props,
+  () => {
+    console.log('---****---')
+    console.log(props.eqptTypeListData)
+    console.log(props.eqptTotalNumber)
+  }
+);
 const emit = defineEmits(['update:modelValue']);
 
 const data = ref({});
@@ -358,6 +383,8 @@ onMounted(() => {
   nextTick(() => {
     console.log('----------------------------------------------------------------')
     console.log(props.boardData)
+    console.log(props.eqptTotalNumber)
+    
     gaugeGroup.value.list.forEach((item, index) => {
       const chartDom = document.getElementById(
         `${gaugeGroup.value.id}${index}`

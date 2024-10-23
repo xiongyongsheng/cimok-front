@@ -38,3 +38,34 @@ export function getEqptStatusTotal(params) {
 export function getEqptStatusReal(params) {
   return defHttp.get({ url: `/base/eqpt/status/get/eqp/real`,params })
 }
+export function getEqptTraffic(params) {
+  return defHttp.get({ url: `/base/eqpt/status/get/communication/traffic`,params })
+}
+export function getEqptAllList(params) {
+  return defHttp.get({ url: `/base/eqpt/status/get/detail/eqp`,params })
+}
+
+// 设备冶具信息
+export function getEqptEqptfixture(params) {
+  return defHttp.get({ url: `/base/eqpt/status/fixture`,params })
+}
+// 设备buyoff信息
+export function getEqptEqptBuyoffInfo(params) {
+  return defHttp.get({ url: `/base/eqpt/status/getBuyoffInfo`,params })
+}
+// 设备通信信息
+export function getEqptEqptCommInfo(params) {
+  return defHttp.get({ url: `/base/eqpt/status/getEqptCommInfo`,params })
+}
+// 设备材料信息
+export function getEqptEqptMaterialInfo(params) {
+  return defHttp.get({ url: `/base/eqpt/status/getEqptMaterialInfo`,params })
+}
+// 设备履历信息
+export function getEqptStatusResume(params) {
+  return defHttp.get({ url: `/base/eqpt/status/resume`,params })
+}
+// 设备状态信息
+export function getEqptStatusList(params) {
+  return defHttp.get({ url: `/base/eqpt/status/getEqptStatus`,params })
+}

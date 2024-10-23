@@ -39,40 +39,39 @@
             :to="{
               name: 'DeviceRealTimeStatusDetail',
               params: {
-                id: item.eqptCode,
+                id: i,
               },
-  query: { info: JSON.stringify(item) }
             }"
             v-c-transition-delay="20"
-            v-for="(item,i) in eqptAllList"
+            v-for="i in 10"
             :key="i"
           >
             <div
               class="flex flex-col w-60 gap-2 bg-card-normal-outer rounded-1.5 p-1.5 cursor-pointer shadow-cyan hover:shadow-lg transition-all duration-300"
               :class="{
-                'bg-card-normal-outer':item.status !== 'RUN',
-                'bg-card-warning-outer': item.statue === 'RUN',
+                'bg-card-normal-outer': i % 2 === 0,
+                'bg-card-warning-outer': i % 2 !== 0,
               }"
             >
               <h6 class="text-center font-size-3 m-0 line-height-3">
-                {{ item.eqptCode }}
+                TH01-01 (WB-C-6)
               </h6>
               <div class="flex justify-between items-stretch gap-10">
                 <Image class="flex-shrink-0" :width="80" :src="productImage" />
                 <div class="flex-1">
-                  <h7 class="font-size-3 m-0"> {{item.status}} </h7>
+                  <h7 class="font-size-3 m-0"> Online Remote </h7>
                   <div
                     class="flex flex-col gap-1 font-size-2 bg-card-normal-inner px-1 py-1 rounded-1.2 shadow-inner shadow-dark"
                     :class="{
-                      'bg-card-normal-inner': item.status === 'RUN',
-                      'bg-card-warning-inner': item.status !== 'RUN',
+                      'bg-card-normal-inner': i % 2 === 0,
+                      'bg-card-warning-inner': i % 2 !== 0,
                     }"
                   >
                     <span
                       v-for="item in [
-                        `Lot：${item.produceMap.Lot}`,
-                        `Pre-Lot：${item.produceMap['Pre-Lot']}`,
-                        `Recipe：${item.produceMap['Recipe']}`,
+                        'Lot：TH02',
+                        'Pre-Lot：TH01',
+                        'Recipe：TX-12312',
                       ]"
                       >{{ item }}</span
                     >
@@ -82,24 +81,24 @@
               <div
                 class="flex flex-wrap gap-1 font-size-2.5 bg-card-normal-inner px-1.5 py-3 rounded-1.2 shadow-inner shadow-dark"
                 :class="{
-                  'bg-card-normal-inner': item.status !== 'RUN',
-                  'bg-card-warning-inner': item.status !== 'RUN',
+                  'bg-card-normal-inner': i % 2 === 0,
+                  'bg-card-warning-inner': i % 2 !== 0,
                 }"
               >
                 <span
                   class="w-45%"
                   v-for="item in [
-                    `OEE：${item.produceMap['OEE']}`,
-                    `UPH：${item.produceMap['UPH']}`,
-                    `MTBA：${item.produceMap['MTBA']}`,
-                    `Buyoff：${item.produceMap['Buyoff']}`,
-                    `锁机：${item.produceMap['锁机']}`,
+                    'Lot：TH02',
+                    'Pre-Lot：TH01',
+                    'Recipe：TX-12312',
+                    '锁机：RepeatAlarm',
+                    'Buyoff：开班点检',
                   ]"
                   >{{ item }}</span
                 >
               </div>
               <p class="font-size-2.5 mb-1">
-                Tooling Expire Time：{{item.produceMap['Tooling Expire Time']}}
+                Tooling Expire Time：2022-9-16 10:20
               </p>
             </div>
           </RouterLink>
@@ -108,25 +107,6 @@
     </div>
   </div>
 </template>
-<!-- {
-  "eqptCode": "S200-090",
-  "eqptImgPath": "http://localhost:8080/eqpt/img/S200-090.png",
-  "status": "RUN",
-  "produceMap": {
-      "Lot": "TH02",
-      "Buyoff": "开班点检",
-      "Tooling Expire Time": "2022-9-16 10:20",
-      "MTBA": "TH02",
-      "Recipe": "TH02-01",
-      "Pre-Lot": "TH02-01",
-      "锁机": "Repeat ALARM",
-      "UPH": "TH02",
-      "OEE": "TH02",
-      "MTBF": "TH02"
-  },
-  "ownMap": {},
-  "tipMap": {}
-} -->
 <script setup lang="ts">
 import { Button, Image } from 'ant-design-vue';
 import DayJs from 'dayjs';

@@ -13,26 +13,26 @@
           >
             <h4 class="c-card-group-detail-card-title w-full">设备状态</h4>
             <div class="flex flex-wrap w-full">
-              <div class="w-50%" v-for="item in 4">
-                <h6 class="font-size-4 m-0 text-center">腔体2</h6>
+              <div class="w-50%" v-for="item in eqptStatusList">
+                <h6 class="font-size-4 m-0 text-center">{{item.cavityId}}</h6>
                 <div class="w-full">
                   <div
                     v-for="item in [
                       {
                         label: '是否开启',
-                        value: 'Processing',
+                        value: item.openFlag=='true'?'是':'否',
                       },
                       {
                         label: '温度(℃)',
-                        value: 'Communicating',
+                        value: item.temperature,
                       },
                       {
                         label: '压力(T)',
-                        value: 'Online-Remote',
+                        value: item.pressure,
                       },
                       {
                         label: '速度(m/s)',
-                        value: 'P-12',
+                        value: item.speed,
                       },
                     ]"
                     class="w-full flex justify-center items-center gap-5 font-size-3"
@@ -54,15 +54,12 @@
             <h4 class="c-card-group-detail-card-title">Buyoff项目</h4>
             <div class="w-full py-5">
               <div
-                v-for="item in Array.from({ length: 10 }).map(() => ({
-                  label: '2022-9-1 10:00:00',
-                  value: '点检',
-                }))"
+                v-for="item in eqptBuyoffInfo"
                 class="w-full flex justify-center items-center gap-5 font-size-3"
               >
                 <span class="w-50% flex-shrink-0 text-right"
-                  >{{ item.label }}:</span
-                ><span class="w-50% flex-shrink-0">{{ item.value }}</span>
+                  >{{ item.buyoffName }}:</span
+                ><span class="w-50% flex-shrink-0">{{ item.buyoffTime.slice(0,16) }}</span>
               </div>
             </div>
           </div>
@@ -118,15 +115,12 @@
             <h4 class="c-card-group-detail-card-title">生产履历</h4>
             <div class="w-full py-5">
               <div
-                v-for="item in Array.from({ length: 20 }).map(() => ({
-                  label: '2022-9-1 10:00:00',
-                  value: '点检',
-                }))"
+                v-for="item in eqptStatusResume"
                 class="w-full flex justify-center items-center gap-5 font-size-3"
               >
                 <span class="w-50% flex-shrink-0 text-right"
-                  >{{ item.label }}:</span
-                ><span class="w-50% flex-shrink-0">{{ item.value }}</span>
+                  >{{ item.opTime }}:</span
+                ><span class="w-50% flex-shrink-0">{{ item.lotId }} &nbsp; {{ item.opType }}</span>
               </div>
             </div>
           </div>
@@ -143,7 +137,7 @@
                 :bordered="false"
                 :pagination="false"
                 :columns="columns"
-                :data-source="data"
+                :data-source="eqptMaterialInfo"
               >
               </Table>
             </div>
@@ -160,8 +154,8 @@
                 size="small"
                 :bordered="false"
                 :pagination="false"
-                :columns="columns"
-                :data-source="data"
+                :columns="columnsFixture"
+                :data-source="eqptFixture"
               >
               </Table>
             </div>
@@ -175,15 +169,12 @@
             <h4 class="c-card-group-detail-card-title">通信日志</h4>
             <div class="w-full py-5">
               <div
-                v-for="item in Array.from({ length: 10 }).map(() => ({
-                  label: '2022-9-1 10:00:00',
-                  value: '点检',
-                }))"
+                v-for="item in eqptCommInfo"
                 class="w-full flex justify-center items-center gap-5 font-size-3"
               >
                 <span class="w-50% flex-shrink-0 text-right"
-                  >{{ item.label }}:</span
-                ><span class="w-50% flex-shrink-0">{{ item.value }}</span>
+                  >{{ item.commTime }}:</span
+                ><span class="w-50% flex-shrink-0">{{ item.commInfo }}</span>
               </div>
             </div>
           </div>
@@ -196,57 +187,100 @@
 import { Button, Image, Table } from 'ant-design-vue';
 import DayJs from 'dayjs';
 import { inject, nextTick, onMounted, onUnmounted, ref } from 'vue';
+import { getEqptEqptfixture,getEqptEqptBuyoffInfo,getEqptEqptCommInfo,getEqptEqptMaterialInfo,getEqptStatusResume,getEqptStatusList } from '@/api/base/eqpt/index'
 
 import productImage from '@/assets/images/u557.png';
-
+const props = defineProps({
+  eqptCode: {
+    type: String,
+    default: () => '',
+  }
+});
+const eqptFixture = ref([]);
+const eqptBuyoffInfo = ref([]);
+const eqptCommInfo = ref([]);
+const eqptMaterialInfo = ref([]);
+const eqptStatusResume = ref([]);
+const eqptStatusList = ref([]);
 const columns = [
   {
     title: '物料类型',
-    dataIndex: 'name',
+    dataIndex: 'materialType',
     align: 'center',
   },
   {
     title: '批号',
-    dataIndex: 'age',
+    dataIndex: 'lotId',
     align: 'center',
   },
   {
     title: '位置',
-    dataIndex: 'address',
+    dataIndex: 'location',
     align: 'center',
   },
   {
     title: '上机时间',
-    dataIndex: 'address',
+    dataIndex: 'setupTime',
     align: 'center',
   },
   {
     title: '时效时间',
-    dataIndex: 'address',
+    dataIndex: 'expireTime',
     align: 'center',
   },
 ];
-
-const data = [
+const columnsFixture = [
   {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No',
+    title: '治具类型',
+    dataIndex: 'type',
+    align: 'center',
   },
   {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'New York No',
+    title: '治具编码',
+    dataIndex: 'code',
+    align: 'center',
   },
   {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'New York No',
+    title: '位置',
+    dataIndex: 'location',
+    align: 'center',
+  },
+  {
+    title: '上机时间',
+    dataIndex: 'setUptime',
+    align: 'center',
+  },
+  {
+    title: '寿命',
+    dataIndex: 'life',
+    align: 'center',
   },
 ];
+onMounted(() => {
+  nextTick(() => {
+    getEqptAllInfo()
+  })
+});
+const getEqptAllInfo = () => {
+  getEqptEqptfixture({ eqptCode: props.eqptCode }).then(res => { 
+    eqptFixture.value = res
+  })
+  getEqptEqptBuyoffInfo({ eqptCode: props.eqptCode }).then(res => { 
+    eqptBuyoffInfo.value = res
+  })
+  getEqptEqptCommInfo({ eqptCode: props.eqptCode }).then(res => { 
+    eqptCommInfo.value = res
+  })
+  getEqptEqptMaterialInfo({ eqptCode: props.eqptCode }).then(res => { 
+    eqptMaterialInfo.value = res
+  })
+  getEqptStatusResume({ eqptCode: props.eqptCode }).then(res => { 
+    eqptStatusResume.value = res
+  })
+  getEqptStatusList({eqptCode:props.eqptCode}).then(res => { 
+    eqptStatusList.value = res.cavityRespVOList??[]
+  })
+}
 </script>
 <style lang="less" scoped>
 .c-card-group-detail {

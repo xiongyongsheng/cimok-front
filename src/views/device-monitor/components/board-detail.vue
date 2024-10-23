@@ -3,7 +3,7 @@
     class="h-full overflow-y-auto flex-shrink-0 w-md text-white device-monitor-bg-color py-3 px-4"
   >
     <div class="flex flex-col items-center">
-      <h4 class="board-text-color font-size-10 m-0">TH01-01</h4>
+      <h4 class="board-text-color font-size-10 m-0">{{eqptInfo.eqptCode}}</h4>
       <Image :width="170" :src="productImage" />
     </div>
     <Divider class="divider-color my-4" />
@@ -24,7 +24,7 @@
           },
           {
             label: '设备型号',
-            value: 'P-12',
+            value: eqptInfo.eqptCode,
           },
           {
             label: '生产厂商',
@@ -32,7 +32,7 @@
           },
           {
             label: '下次维保时间',
-            value: '2022-9-20',
+            value: eqptInfo.eqptCodes
           },
         ]"
         class="flex justify-center items-center gap-5 font-size-5"
@@ -58,7 +58,32 @@ import { ref, onMounted, nextTick } from 'vue';
 import { Divider, Tag, Image } from 'ant-design-vue';
 import productImage from '@/assets/images/u557.png';
 const emit = defineEmits(['update:modelValue']);
-
+const props = defineProps({
+  eqptInfo: {
+    type: Object,
+    default: () => {},
+  },
+  eqptTypeListData: {
+    type: Array,
+    defualt:()=>[]
+  },
+  eqptRealListData: {
+    type: Array,
+    defualt:()=>[]
+  },
+  eqptTotalNumber: {
+    type: Number,
+    default: 0,
+  },
+  activeMenu: {
+    type: Object,
+    default: () => {label:''},
+  },
+  eqptAllList: {
+    type: Array,
+    defualt:()=>[]
+  },
+});
 import * as echarts from 'echarts';
 
 const deviceWatch = ref({
@@ -72,13 +97,14 @@ const deviceWatch = ref({
 class DeviceWatch {
   option: any;
   constructor() {
-    let base = +new Date(1988, 9, 3);
+    let base = +new Date(2024, 10, 20);
     let oneDay = 24 * 3600 * 1000;
     let data = [[base, Math.random() * 300]];
-    for (let i = 1; i < 5000; i++) {
+    for (let i = 1; i < 10; i++) {
       let now = new Date((base += oneDay));
       data.push([+now, Math.round((Math.random() - 0.5) * 5 + data[i - 1][1])]);
     }
+    console.log(data)
     this.option = {
       grid: {
         top: '10%',

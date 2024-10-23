@@ -1,8 +1,8 @@
 <template>
   <div class="c-page" ref="pageRef">
     <Sider v-model:model-value="activeSider" :sider-list="siderList" />
-    <Board v-if="showComponent" :boardData="boardData" :eqptTypeListData="eqptTypeListData"/>
-    <CardGroup v-if="showComponent" />
+    <Board v-if="showComponent" :eqptTotalNumber="eqptTotalNumber" :activeMenu="siderList[parseInt(activeSider)-1]" :boardData="boardData" :eqptTypeListData="eqptTypeListData" :eqptRealListData="eqptRealListData"/>
+    <CardGroup v-if="showComponent"  :eqptAllList="eqptAllList"/>
   </div>
 </template>
 <script lang="ts" setup name="DeviceRealTimeStatus">
@@ -13,7 +13,7 @@ import {
   BorderlessTableOutlined,
   ScheduleOutlined,
 } from '@ant-design/icons-vue';
-import { getEqptStatusTotal,getEqptStatusReal } from '@/api/base/eqpt/index'
+import { getEqptStatusTotal,getEqptStatusReal,getEqptTraffic,getEqptAllList } from '@/api/base/eqpt/index'
 // 全屏控制
 const pageRef = ref();
 const fullScreen = reactive({
@@ -33,24 +33,40 @@ const fullScreen = reactive({
 });
 const boardData = ref({});
 const eqptTypeListData = ref([]);
+const eqptRealListData = ref([]);
+const eqptTotalNumber = ref(0);
+const eqptAllList = ref([]);
 const getEqptStatus = ()=>{ 
-  getEqptStatusTotal({ deptId: activeSider.value }).then((res) => {
+  getEqptStatusTotal({ deptId: siderList.value[parseInt(activeSider.value)-1].id }).then((res) => {
     if (res) {
       let boardEqptNumList = []
       let totalNum = parseInt(res.idleCount ?? 0) + parseInt(res.runCount ?? 0) + parseInt(res.alarmCount ?? 0)
-      console.log(totalNum)
+      eqptTotalNumber.value = totalNum
+      console.log(eqptTotalNumber.value)
       boardEqptNumList.push({ name: 'Idle', number: res.idleCount ?? 0 ,totalNum: totalNum})
       boardEqptNumList.push({ name: 'Run', number: res.runCount ?? 0 ,totalNum: totalNum})
       boardEqptNumList.push({ name: '警报', number: res.alarmCount ?? 0 ,totalNum: totalNum})
       boardData.value['boardEqptNumList'] = boardEqptNumList
-      eqptTypeListData.value = res.eqptTypeTotalRespVOList??[]
+      eqptTypeListData.value = res.eqptTypeTotalRespVOList ?? []
+      reloadComponent();
     }
     console.log(boardData.value)
   })
-  getEqptStatusReal({deptId:activeSider.value})
+  getEqptStatusReal({ deptId: siderList.value[parseInt(activeSider.value)-1].id }).then(res => { 
+    eqptRealListData.value = res
+  })
+  getEqptTraffic({ deptId: siderList.value[parseInt(activeSider.value)-1].id }).then(res => { 
+
+  })
+  getEqptAllList({ deptId: siderList.value[parseInt(activeSider.value) - 1].id }).then(res => {
+    eqptAllList.value = res
+  })
 }
 onMounted(() => {
-  getEqptStatus()
+  nextTick(() => {
+    activeSider.value = 1
+  })
+  // getEqptStatus()
 });
 provide('fullScreen', fullScreen);
 
@@ -97,12 +113,13 @@ const siderList = ref([
     icon: ScheduleOutlined,
   },
 ]);
-const activeSider = ref(1);
+const activeSider = ref(2);
 const showComponent = ref(true);
 watch(
   () => activeSider.value,
   () => {
-    reloadComponent();
+    console.log('------')
+    console.log(activeSider.value)
     getEqptStatus();
   }
 );
