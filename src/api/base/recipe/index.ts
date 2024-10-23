@@ -117,3 +117,6 @@ export function exportRcpParam(params) {
 export function downloadRecipe(data) {
   return defHttp.post({ url: '/base/rcp-index/download/recipe', data });
 }
+export function downloadRecipeMobile(data) {
+  return defHttp.post({ url: '/rcp/download/recipe/pda', data }, {isApp:'yes'});
+}

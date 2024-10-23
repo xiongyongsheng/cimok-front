@@ -5,7 +5,7 @@ import { useI18n } from '@/hooks/web/useI18n';
 import { useMessage } from '@/hooks/web/useMessage';
 import { BasicForm, useForm } from '@/components/Form';
 import { Card, Button } from 'ant-design-vue';
-import { rcpIndexSuitRecipe,downloadRecipe } from '@/api/base/recipe';
+import { rcpIndexSuitRecipe,downloadRecipeMobile } from '@/api/base/recipe';
 
 defineOptions({ name: 'RecipeDownloadManually' });
 
@@ -49,7 +49,7 @@ onMounted(() => {
 async function handleSubmit() {
   try {
     const values = await validate();
-    await downloadRecipe({downloadRecipeDetailReqDtoList:[values]}).then(() => {
+    await downloadRecipeMobile({downloadRecipeDetailReqDtoList:[values]}).then(() => {
       createMessage.success(t('common.saveSuccessText'));
     })
   } finally {

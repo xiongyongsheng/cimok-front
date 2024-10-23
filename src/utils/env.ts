@@ -17,8 +17,6 @@ export function getStorageShortName() {
 export function getAppEnvConfig() {
   const ENV_NAME = getConfigFileName(import.meta.env)
   const ENV = (import.meta.env.DEV ? (import.meta.env as unknown as any) : window[ENV_NAME as any]) as unknown as any
-  console.log(ENV)
-
   const {
     VITE_GLOB_APP_TITLE,
     VITE_GLOB_BASE_URL,

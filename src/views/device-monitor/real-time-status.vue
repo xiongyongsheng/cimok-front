@@ -51,24 +51,44 @@ provide('fullScreen', fullScreen);
 
 import Sider from './components/sider.vue';
 const siderList = ref([
+  // {
+  //   id: 1,
+  //   label: '设备监控',
+  //   icon: AlertOutlined,
+  // },
+  // {
+  //   id: 2,
+  //   label: '设备管理',
+  //   icon: BookOutlined,
+  // },
+  // {
+  //   id: 3,
+  //   label: '设备报警',
+  //   icon: BorderlessTableOutlined,
+  // },
+  // {
+  //   id: 4,
+  //   label: '设备日志',
+  //   icon: ScheduleOutlined,
+  // },
   {
     id: 1,
-    label: '设备监控',
+    label: '磨片',
     icon: AlertOutlined,
   },
   {
     id: 2,
-    label: '设备管理',
+    label: '划片',
     icon: BookOutlined,
   },
   {
     id: 3,
-    label: '设备报警',
+    label: '装片',
     icon: BorderlessTableOutlined,
   },
   {
     id: 4,
-    label: '设备日志',
+    label: '测试',
     icon: ScheduleOutlined,
   },
 ]);

@@ -116,6 +116,7 @@ const transform: AxiosTransform = {
     // console.log(isApp)
     // if(isApp &&isApp == 'yes'){
     //   console.log('111')
+    //   console.log(apiAppUrl)
     //   if (apiAppUrl && isString(apiAppUrl))
     //               config.url = `${apiAppUrl}${config.url}`
     // }else{
@@ -312,6 +313,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           errorMessageMode: 'message',
           // 接口地址
           apiUrl: globSetting.apiUrl,
+          apiAppUrl: globSetting.apiAppUrl,
           // 接口拼接地址
           urlPrefix,
           //  是否加入时间戳
