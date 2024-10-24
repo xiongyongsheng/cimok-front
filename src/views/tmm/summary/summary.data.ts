@@ -15,7 +15,7 @@ export const columns: BasicColumn[] = [
   {
     title: '批次号',
     dataIndex: 'subLotId',
-    width: 220,
+    width: 300,
   },
   {
     title: '测试步骤',
@@ -43,7 +43,7 @@ export const columns: BasicColumn[] = [
   {
     title: '测试程序',
     dataIndex: 'testProgram',
-    width: 160,
+    width: 200,
   },
   {
     title: '总数',

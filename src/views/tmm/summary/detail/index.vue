@@ -358,7 +358,7 @@ onMounted(() => {
           </div>
           <div class="summary-detail-total-card-right">
             <div class="summary-detail-total-card-right-number">
-              {{ detail?.highestSiteYield || 0 }}%
+              {{ detail?.initialTestYield || 0 }}%
             </div>
             <div class="summary-detail-total-card-right-text">
               初测良率
@@ -371,7 +371,7 @@ onMounted(() => {
           </div>
           <div class="summary-detail-total-card-right">
             <div class="summary-detail-total-card-right-number">
-              {{ detail?.lowestSiteYield || 0 }}%
+              {{ detail?.recoverYield || 0 }}%
             </div>
             <div class="summary-detail-total-card-right-text">
               Recover良率
@@ -422,10 +422,10 @@ onMounted(() => {
             <div class="summary-detail-site-gap-box-card">
               <div class="summary-detail-site-gap-box-card-left">
                 <div class="summary-detail-site-gap-box-card-left-text">Min</div>
-                <div class="summary-detail-site-gap-box-card-left-number">{{ detail?.lowestSiterield || 0 }}%</div>
+                <div class="summary-detail-site-gap-box-card-left-number">{{ detail?.lowestSiteYield || 0 }}%</div>
               </div>
               <div class="summary-detail-site-gap-box-card-right">
-                <Progress type="circle" :percent="detail?.lowestSiterield || 0" :width="70" size="small" strokeColor="#ec808d"/>
+                <Progress type="circle" :percent="detail?.lowestSiteYield || 0" :width="70" size="small" strokeColor="#ec808d"/>
               </div>
             </div>
 
