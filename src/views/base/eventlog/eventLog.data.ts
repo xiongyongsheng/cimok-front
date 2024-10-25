@@ -4,38 +4,43 @@ import { useRender } from '@/components/Table'
 export const columns: BasicColumn[] = [
 
   {
-    title: '控制号',
-    dataIndex: 'eventId',
-    width: 160,
+    title: '设备号',
+    dataIndex: 'eqptCode',
+    width: 130,
+  },
+  // {
+  //   title: '设备类型',
+  //   dataIndex: '',
+  //   width: 160,
+  // },
+  {
+    title: '事件编码',
+    dataIndex: 'eventCode',
+    width: 130,
   },
   {
-    title: '异常措施',
-    dataIndex: '',
-    width: 160,
-  },
-  {
-    title: '触发类型',
+    title: '类型',
     dataIndex: 'eventType',
+    width: 130,
+  },
+  {
+    title: '事件详情',
+    dataIndex: 'eventDesc',
     width: 160,
   },
   {
-    title: '来源',
-    dataIndex: '',
+    title: '作业批次',
+    dataIndex: 'lotId	',
     width: 160,
   },
   {
-    title: '执行结果',
-    dataIndex: '',
+    title: '数据',
+    dataIndex: 'eventData',
     width: 160,
   },
   {
-    title: '创建人员',
-    dataIndex: 'creator',
-    width: 160,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createTime',
+    title: '发生时间',
+    dataIndex: 'occrTime',
     width: 180,
     customRender: ({ text }) => {
       return useRender.renderDate(text)
@@ -45,42 +50,59 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    label: ' ',
+    label: '',
     labelWidth: 15,
-    field: '',
+    field: 'eventCode',
     component: 'Input',
     componentProps: {
-      placeholder: '项目名称'
+      placeholder: '事件代码'
     },
     colProps: { span: 5 },
   },
   {
     label: ' ',
     labelWidth: 15,
-    field: '',
+    field: 'eqptCode',
     component: 'Input',
     componentProps: {
-      placeholder: '项目代码'
+      placeholder: '设备号'
     },
     colProps: { span: 5 },
   },
+  // {
+  //   label: ' ',
+  //   labelWidth: 15,
+  //   field: '',
+  //   component: 'Select',
+  //   componentProps: {
+  //     placeholder: '设备类型',
+  //     options: [],
+  //   },
+  //   colProps: { span: 5 },
+  // },
+  // {
+  //   label: ' ',
+  //   labelWidth: 15,
+  //   field: '',
+  //   component: 'Select',
+  //   componentProps: {
+  //     placeholder: '选择类型',
+  //     options: [],
+  //   },
+  //   colProps: { span: 5 },
+  // },
 ]
 
 export const createFormSchema: FormSchema[] = [
   {
-    label: '编号',
-    field: 'id',
-    show: false,
-    component: 'Input'
-  },
-  {
-    label: '设备编码',
+    label: '设备号',
     field: 'eqptCode',
+    show: true,
     component: 'Input',
   },
   {
-    label: '事件ID',
-    field: 'eventId',
+    label: '事件详情',
+    field: 'eventDesc',
     component: 'Input',
   },
   {
@@ -89,83 +111,100 @@ export const createFormSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-    label: '全局事件代码',
-    field: 'eventGlobaleCode',
-    component: 'Input',
-  },
-  {
-    label: '事件类型',
-    field: 'eventType',
-    component: 'Select',
-    componentProps: {
-      options: [],
-    },
-  },
-  {
-    label: '发生时间',
+    label: '时间',
     field: 'occrTime',
-    component: 'DatePicker',
-    componentProps: {
-      showTime: true,
-      format: 'YYYY-MM-DD HH:mm:ss',
-      valueFormat: 'x',
-    },
-  },
-  {
-    label: '部门id',
-    field: 'deptId',
     component: 'Input',
   },
+  // {
+  //   label: '全局事件代码',
+  //   field: 'eventGlobaleCode',
+  //   component: 'Input',
+  // },
+  // {
+  //   label: '事件类型',
+  //   field: 'eventType',
+  //   component: 'Select',
+  //   componentProps: {
+  //     options: [],
+  //   },
+  // },
+  // {
+  //   label: '发生时间',
+  //   field: 'occrTime',
+  //   component: 'DatePicker',
+  //   componentProps: {
+  //     showTime: true,
+  //     format: 'YYYY-MM-DD HH:mm:ss',
+  //     valueFormat: 'x',
+  //   },
+  // },
+  // {
+  //   label: '部门id',
+  //   field: 'deptId',
+  //   component: 'Input',
+  // },
 ]
 
 export const updateFormSchema: FormSchema[] = [
   {
-    label: '编号',
-    field: 'id',
-    show: false,
-    component: 'Input'
-  },
-  {
-    label: '设备编码',
+    label: '设备号',
     field: 'eqptCode',
+    show: true,
     component: 'Input',
+    componentProps: {
+      disabled: true,
+    },
   },
   {
-    label: '事件ID',
-    field: 'eventId',
+    label: '事件详情',
+    field: 'eventDesc',
     component: 'Input',
+    componentProps: {
+      disabled: true,
+    },
   },
   {
     label: '事件代码',
     field: 'eventCode',
     component: 'Input',
-  },
-  {
-    label: '全局事件代码',
-    field: 'eventGlobaleCode',
-    component: 'Input',
-  },
-  {
-    label: '事件类型',
-    field: 'eventType',
-    component: 'Select',
     componentProps: {
-      options: [],
+      disabled: true,
     },
   },
   {
-    label: '发生时间',
+    label: '时间',
     field: 'occrTime',
-    component: 'DatePicker',
+    component: 'Input',
     componentProps: {
-      showTime: true,
-      format: 'YYYY-MM-DD HH:mm:ss',
-      valueFormat: 'x',
+      disabled: true,
     },
   },
-  {
-    label: '部门id',
-    field: 'deptId',
-    component: 'Input',
-  },
+  // {
+  //   label: '全局事件代码',
+  //   field: 'eventGlobaleCode',
+  //   component: 'Input',
+  // },
+  // {
+  //   label: '事件类型',
+  //   field: 'eventType',
+  //   component: 'Select',
+  //   componentProps: {
+  //     options: [],
+  //   },
+  // },
+  // {
+  //   label: '发生时间',
+  //   field: 'occrTime',
+  //   component: 'DatePicker',
+  //   componentProps: {
+  //     showTime: true,
+  //     format: 'YYYY-MM-DD HH:mm:ss',
+  //     valueFormat: 'x',
+  //   },
+  // },
+  // {
+  //   label: '部门id',
+  //   field: 'deptId',
+  //   component: 'Input',
+  // },
 ]

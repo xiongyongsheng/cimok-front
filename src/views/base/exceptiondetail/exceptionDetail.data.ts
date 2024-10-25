@@ -3,28 +3,18 @@ import {useRender} from '@/components/Table'
 
 export const columns: BasicColumn[] = [
         {
-          title: 'ID',
-          dataIndex: 'id',
-          width: 160,
-        },
-        {
-          title: '设备编码',
-          dataIndex: 'eqptCode',
-          width: 160,
-        },
-        {
-          title: '异常代码',
+          title: '控制号',
           dataIndex: 'excCode',
           width: 160,
         },
         {
-          title: '异常类型',
-          dataIndex: 'excType',
+          title: '异常措施',
+          dataIndex: 'excRuleAction',
           width: 160,
         },
         {
-          title: '异常描述',
-          dataIndex: 'excDesc',
+          title: '触发类型',
+          dataIndex: 'excType',
           width: 160,
         },
         {
@@ -33,23 +23,13 @@ export const columns: BasicColumn[] = [
           width: 160,
         },
         {
-          title: '异常管控行动',
-          dataIndex: 'excRuleAction',
-          width: 160,
-        },
-        {
-          title: '异常管控行动目标;如果是点检单，或者其他可关联系统，放在此字段',
-          dataIndex: 'excRuleActionTarget',
-          width: 160,
-        },
-        {
-          title: '处理状态',
+          title: '执行结果',
           dataIndex: 'handleState',
           width: 160,
         },
         {
-          title: '部门id',
-          dataIndex: 'deptId',
+          title: '创建人员',
+          dataIndex: 'creator',
           width: 160,
         },
         {
@@ -64,85 +44,24 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
       {
-        label: '设备编码',
-        field: 'eqptCode',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '异常代码',
-        field: 'excCode',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '异常类型',
+        label: '',
+        labelWidth: 15,
         field: 'excType',
-          component: 'Select',
-          componentProps: {
-              options: [],
-          },
-        colProps: { span: 8 },
+        component: 'Input',
+        componentProps: {
+          placeholder: '触发类型'
+        },
+        colProps: { span: 5 },
       },
       {
-        label: '异常描述',
-        field: 'excDesc',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '来源',
+        label: ' ',
+        labelWidth: 15,
         field: 'source',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '异常管控行动',
-        field: 'excRuleAction',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '异常管控行动目标;如果是点检单，或者其他可关联系统，放在此字段',
-        field: 'excRuleActionTarget',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '处理状态',
-        field: 'handleState',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '部门id',
-        field: 'deptId',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '创建人',
-        field: 'creator',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '创建时间',
-        field: 'createTime',
-          component: 'RangePicker',
-        colProps: { span: 8 },
-      },
-      {
-        label: '更新人',
-        field: 'updater',
-          component: 'Input',
-        colProps: { span: 8 },
-      },
-      {
-        label: '更新时间',
-        field: 'updateTime',
-          component: 'RangePicker',
-        colProps: { span: 8 },
+        component: 'Input',
+        componentProps: {
+          placeholder: '来源'
+        },
+        colProps: { span: 5 },
       },
 ]
 
@@ -205,57 +124,29 @@ export const createFormSchema: FormSchema[] = [
 
 export const updateFormSchema: FormSchema[] = [
   {
-    label: '编号',
-    field: 'id',
-    show: false,
-    component: 'Input'
+    label: '管控号',
+    field: 'excCode',
+    
+    component: 'Input',
+    componentProps: {
+      disabled: true,
+    },
   },
-        {
-          label: '设备编码',
-          field: 'eqptCode',
-            component: 'Input',
-        },
-        {
-          label: '异常代码',
-          field: 'excCode',
-            component: 'Input',
-        },
-        {
-          label: '异常类型',
-          field: 'excType',
-            component: 'Select',
-            componentProps: {
-                options:[],
-            },
-        },
-        {
-          label: '异常描述',
-          field: 'excDesc',
-            component: 'Input',
-        },
-        {
-          label: '来源',
-          field: 'source',
-            component: 'Input',
-        },
-        {
-          label: '异常管控行动',
-          field: 'excRuleAction',
-            component: 'Input',
-        },
-        {
-          label: '异常管控行动目标;如果是点检单，或者其他可关联系统，放在此字段',
-          field: 'excRuleActionTarget',
-            component: 'Input',
-        },
-        {
-          label: '处理状态',
-          field: 'handleState',
-            component: 'Input',
-        },
-        {
-          label: '部门id',
-          field: 'deptId',
-            component: 'Input',
-        },
+  {
+    label: '触发来源',
+    field: 'source',
+      component: 'Input',
+      componentProps: {
+        disabled: true,
+      },
+  },
+  {
+    label: '触发场景',
+    field: 'excType',
+    component: 'Input',
+    componentProps: {
+      disabled: true,
+    },
+  },
+  
 ]
