@@ -5,7 +5,7 @@ export const columns: BasicColumn[] = [
 
   {
     title: '设备号',
-    dataIndex: 'eventId',
+    dataIndex: 'eqptCode',
     width: 160,
   },
   {
@@ -15,43 +15,45 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '切割参数',
-    dataIndex: 'eventType',
+    dataIndex: 'rcpName',
     width: 160,
   },
   {
     title: '刀片ID',
-    dataIndex: '',
+    dataIndex: 'bladeId',
     width: 160,
   },
   {
     title: '刀片类型',
-    dataIndex: '',
+    dataIndex: 'bladeType',
     width: 160,
   },
   {
     title: '使用主轴',
-    dataIndex: 'creator',
+    dataIndex: 'spinder',
     width: 160,
   },
   {
-    title: '使用开始时间',
-    dataIndex: 'createTime',
+    title: '时间',
+    dataIndex: 'occrTime',
     width: 180,
     customRender: ({ text }) => {
       return useRender.renderDate(text)
     },
   },
   {
-    title: '使用结束时间',
-    dataIndex: 'createTime',
-    width: 180,
-    customRender: ({ text }) => {
-      return useRender.renderDate(text)
-    },
+    title: '刀刃暴露量',
+    dataIndex: 'bladeExp',
+    width: 160,
   },
   {
     title: '切割片数',
-    dataIndex: 'creator',
+    dataIndex: 'waferCut',
+    width: 160,
+  },
+  {
+    title: '切割距离',
+    dataIndex: 'cutDistance',
     width: 160,
   },
 ]
@@ -60,17 +62,17 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: ' ',
     labelWidth: 15,
-    field: '',
+    field: 'eqptCode',
     component: 'Input',
     componentProps: {
-      placeholder: '设备数'
+      placeholder: '设备编码'
     },
     colProps: { span: 5 },
   },
   {
     label: ' ',
     labelWidth: 15,
-    field: '',
+    field: 'rcpName',
     component: 'Input',
     componentProps: {
       placeholder: '切割参数'
@@ -80,10 +82,10 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: ' ',
     labelWidth: 15,
-    field: '',
+    field: 'bladeType',
     component: 'Input',
     componentProps: {
-      placeholder: '刀片ID'
+      placeholder: '刀片型号'
     },
     colProps: { span: 5 },
   },

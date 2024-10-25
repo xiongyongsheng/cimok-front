@@ -5,7 +5,7 @@ import LoginFormTitle from './LoginFormTitle.vue'
 import { LoginStateEnum, useLoginState } from './useLogin'
 import { useI18n } from '@/hooks/web/useI18n'
 
-import loginImg from '@/assets/images/logo.png'
+import loginImg from '@/assets/images/login_logo.png'
 
 const qrCodeUrl = 'https://vben.xingyuv.com/login'
 

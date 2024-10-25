@@ -36,7 +36,7 @@ function goHome() {
 
 <template>
   <div class="anticon" :class="getAppLogoClass" @click="goHome">
-    <img src="@/assets/images/logo.png">
+    <img src="@/assets/images/login_logo.png">
     <div v-show="showTitle" class="ml-2 truncate md:opacity-100" :class="getTitleClass">
       {{ title }}
     </div>

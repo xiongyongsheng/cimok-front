@@ -33,3 +33,6 @@ export function exportAlarm(params) {
 export function getEqptTypeList() {
   return defHttp.get({ url: '/base/eqpt-type/get-simple-list' })
 }
+export function getAlarmTotalPage(data) {
+  return defHttp.post({ url: '/base/alarm-record/total-page' ,data})
+}

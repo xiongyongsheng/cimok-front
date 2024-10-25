@@ -6,7 +6,7 @@ import { useMessage } from '@/hooks/web/useMessage'
 import { useModal } from '@/components/Modal'
 import { IconEnum } from '@/enums/appEnum'
 import { BasicTable, TableAction, useTable } from '@/components/Table'
-import { deleteEventLog, exportEventLog, getEventLogPage } from '@/api/base/eventlog'
+import { getDSEqptPage } from '@/api/base/dseqpt'
 
 defineOptions({ name: 'ScriberEqpt' })
 
@@ -16,7 +16,7 @@ const [registerModal, { openModal }] = useModal()
 
 const [registerTable, { getForm, reload }] = useTable({
   title: '划片设备',
-  api: getEventLogPage,
+  api: getDSEqptPage,
   columns,
   formConfig: { labelWidth: 120, schemas: searchFormSchema },
   useSearchForm: true,
@@ -43,17 +43,12 @@ async function handleExport() {
     iconType: 'warning',
     content: t('common.exportMessage'),
     async onOk() {
-      await exportEventLog(getForm().getFieldsValue())
+      await getDSEqptPage(getForm().getFieldsValue())
       createMessage.success(t('common.exportSuccessText'))
     },
   })
 }
 
-async function handleDelete(record: Recordable) {
-  await deleteEventLog(record.id)
-  createMessage.success(t('common.delSuccessText'))
-  reload()
-}
 </script>
 <template>
   <div>
@@ -61,17 +56,6 @@ async function handleDelete(record: Recordable) {
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
           <TableAction :actions="[
-            { icon: IconEnum.EDIT, label: t('action.edit'),  onClick: handleEdit.bind(null, record) },
-            {
-              icon: IconEnum.DELETE,
-              danger: true,
-              label: t('action.delete'),
-              popConfirm: {
-                title: t('common.delMessage'),
-                placement: 'left',
-                confirm: handleDelete.bind(null, record),
-              },
-            },
           ]" />
         </template>
       </template>
