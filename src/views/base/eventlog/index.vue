@@ -34,6 +34,8 @@ function handleCreate() {
 }
 
 function handleEdit(record: Recordable) {
+  console.log('handleEdit', record);
+  
   openModal(true, { record, isUpdate: true })
 }
 
@@ -67,6 +69,9 @@ async function handleDelete(record: Recordable) {
         </a-button>
       </template> -->
       <template #bodyCell="{ column, record }">
+        <a-button type="link" v-if="column.key === 'eventData'" @click="handleEdit(record)">
+          {{ record.eventData }}
+        </a-button>
         <template v-if="column.key === 'action'">
           <TableAction :actions="[
             { icon: IconEnum.EDIT, label: t('action.edit'), auth: 'base:event-log:update', onClick: handleEdit.bind(null, record) },

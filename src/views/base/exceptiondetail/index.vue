@@ -21,12 +21,12 @@
     formConfig: { labelWidth: 120, schemas: searchFormSchema },
     useSearchForm: true,
     showTableSetting: true,
-    actionColumn: {
-      width: 140,
-      title: t('common.action'),
-      dataIndex: 'action',
-      fixed: 'right',
-    }
+    // actionColumn: {
+    //   width: 140,
+    //   title: t('common.action'),
+    //   dataIndex: 'action',
+    //   fixed: 'right',
+    // }
   })
 
   function handleCreate() {
@@ -58,15 +58,18 @@
 <template>
   <div>
     <BasicTable @register="registerTable">
-      <template #toolbar>
+      <!-- <template #toolbar>
         <a-button type="primary" v-auth="['base:exception-detail:create']" :preIcon="IconEnum.ADD" @click="handleCreate">
           {{ t('action.create') }}
         </a-button>
         <a-button v-auth="['base:exception-detail:export']" :preIcon="IconEnum.EXPORT" @click="handleExport">
           {{ t('action.export') }}
         </a-button>
-      </template>
+      </template> -->
       <template #bodyCell="{ column, record }">
+        <a-button type="link" v-if="column.key === 'excCode'" @click="handleEdit(record)">
+          {{ record.excCode }}
+        </a-button>
         <template v-if="column.key === 'action'">
           <TableAction
                   :actions="[
