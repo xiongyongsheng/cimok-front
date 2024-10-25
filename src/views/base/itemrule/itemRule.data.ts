@@ -6,50 +6,50 @@ export const columns: BasicColumn[] = [
           title: 'ID',
           dataIndex: 'id',
           width: 160,
+          ifShow: false,
         },
         {
           title: '项目编码',
           dataIndex: 'itemCode',
-          width: 160,
+          ifShow: false,
+
         },
         {
           title: '客户代码',
           dataIndex: 'custCode',
-          width: 160,
+          editRow: true,
+          editRule: true,
+          editComponent: 'Input',
+          width: 60,
         },
         {
           title: '产品名称',
           dataIndex: 'productCode',
-          width: 160,
+          editRow: true,
+          editComponent: 'Input',
+          width: 60,
         },
         {
           title: '设备型号',
           dataIndex: 'eqptType',
+          editRow: true,
+          editComponent: 'Input',
           width: 160,
         },
         {
           title: '理论上限',
           dataIndex: 'upperLimit',
-          width: 160,
+          editRow: true,
+          editComponent: 'Input',
+          width: 60,
         },
         {
           title: '理论下限',
           dataIndex: 'lowerLimit',
-          width: 160,
-        },
-        {
-          title: '部门id',
-          dataIndex: 'deptId',
-          width: 160,
-        },
-        {
-          title: '创建时间',
-          dataIndex: 'createTime',
-          width: 180,
-          customRender: ({ text }) => {
-            return useRender.renderDate(text)
-          },
-        },
+          editRow: true,
+          editComponent: 'Input',
+          width: 60,
+        }
 ]
 
 export const searchFormSchema: FormSchema[] = [
@@ -172,13 +172,13 @@ export const createFormSchema: FormSchema[] = [
 ]
 
 export const updateFormSchema: FormSchema[] = [
-  {
+   {
     label: '编号',
     field: 'id',
     show: false,
     component: 'Input'
   },
-        {
+       {
           label: '项目编码',
           field: 'itemCode',
             component: 'Input',
@@ -216,4 +216,19 @@ export const updateFormSchema: FormSchema[] = [
           field: 'deptId',
             component: 'Input',
         },
+]
+
+export const ruleListFormSchema: FormSchema[] = [
+  {
+    label: '项目名称',
+    field: 'itemName',
+    dynamicDisabled: true,
+    component: 'Input',
+  },
+  {
+    label: '项目编码',
+    field: 'itemCode',
+    dynamicDisabled: true,
+    component: 'Input',
+  },
 ]

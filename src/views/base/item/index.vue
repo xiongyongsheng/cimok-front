@@ -1,5 +1,7 @@
 <script lang="ts" setup>
   import ItemModal from './ItemModal.vue'
+  import ItemRuleListModal from '../itemrule/itemRuleListModal.vue'
+
   import { columns, searchFormSchema } from './item.data'
   import { useI18n } from '@/hooks/web/useI18n'
   import { useMessage } from '@/hooks/web/useMessage'
@@ -13,7 +15,7 @@
   const { t } = useI18n()
   const { createConfirm, createMessage } = useMessage()
   const [registerModal, { openModal }] = useModal()
-
+  const [registerRuleModal, { openModal: openRuleModal }] = useModal()
   const [registerTable, { getForm, reload }] = useTable({
     title: '点检项目定义列表',
     api: getItemPage,
@@ -35,6 +37,10 @@
 
   function handleEdit(record: Recordable) {
     openModal(true, { record, isUpdate: true })
+  }
+
+  function handleRule(record: Recordable) {
+    openRuleModal(true, {record, isUpdate: false })
   }
 
   async function handleExport() {
@@ -70,6 +76,8 @@
         <template v-if="column.key === 'action'">
           <TableAction
                   :actions="[
+                          { icon: IconEnum.EDIT, 
+                            label: '分配规则', auth: 'base:item:update', onClick: handleRule.bind(null, record) },
                           { icon: IconEnum.EDIT, label: t('action.edit'), auth: 'base:item:update', onClick: handleEdit.bind(null, record) },
                           {
                           icon: IconEnum.DELETE,
@@ -88,5 +96,6 @@
       </template>
     </BasicTable>
     <ItemModal @register="registerModal" @success="reload()" />
+    <itemRuleListModal @register="registerRuleModal" @success="reload()" />
   </div>
 </template>

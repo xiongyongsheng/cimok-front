@@ -193,4 +193,6 @@ export enum DICT_TYPE {
   STRIP_BIN_CODE_SCENE = 'strip_bin_code_scene',
   // BIN类型字典: strip_bin_code_type
   STRIP_BIN_CODE_TYPE = 'strip_bin_code_type',
+  //数据类型
+  ELOG_ITEM_SOURCE = 'elog_item_source',
 }
