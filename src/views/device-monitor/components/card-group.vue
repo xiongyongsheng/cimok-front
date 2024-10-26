@@ -54,9 +54,15 @@
                 'bg-card-warning-outer': item.statue === 'RUN',
               }"
             >
+            <div class="flex justify-between">
               <h6 class="text-center font-size-3 m-0 line-height-3">
                 {{ item.eqptCode }}
               </h6>
+              <h6 class="text-right font-size-3 m-0 line-height-3" @click="openLink(item)">
+              远程控制
+              </h6>
+            </div>
+              
               <div class="flex justify-between items-stretch gap-10">
                 <Image class="flex-shrink-0" :width="80" :src="productImage" />
                 <div class="flex-1">
@@ -152,5 +158,10 @@ onMounted(() => {
 onUnmounted(() => {
   timer && clearInterval(timer);
 });
+const openLink = (item) =>{
+  if(item.vncUrl){
+    window.open(item.vncUrl,'_blank')
+  }
+}
 </script>
 <style></style>
