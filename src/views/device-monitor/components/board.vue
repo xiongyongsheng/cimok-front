@@ -9,7 +9,7 @@
         <span
           id="c-total-number"
           class="font-size-7 font-500 sider-active-color"
-          ><CountTo :start-val="0" :end-val="eqptTotalNumber"/></span>
+          ><CountTo :start-val="0" :end-val="parseInt(eqptTotalNumber)"/></span>
         台
       </p>
     </div>
@@ -24,9 +24,9 @@
       ></div>
     </div>
     <Divider class="divider-color my-4" />
-    <div class="flex justify-between items-center" v-if="eqptTypeListData&&eqptTypeListData.length&&eqptTypeListData.length>0">
+    <div class="flex justify-between items-center overflow-x-auto" v-if="eqptTypeListData&&eqptTypeListData.length&&eqptTypeListData.length>0">
       <div
-        class="c-box w-30 h-30 my-3 text-center flex justify-center items-center flex-col"
+        class="c-box ml-3 w-30 h-30 my-3 text-center flex justify-center items-center flex-col"
         v-for="item in eqptTypeListData"
       >
         <h3 class="board-text-color font-700 font-size-12 m-0 line-height-none">
@@ -62,7 +62,7 @@
             <span class="flex-1 text-blueGray">{{item.eqptCode}}</span>
             <span class="flex-1 board-text-color">{{DayJs(item.reportTime).format('HH:mm')}}</span>
             <span class="flex-1 text-light">{{item.msg}}</span>
-            <Tag color="#70b604">{{item.status}}</Tag>
+            <Tag :color="statusColor[item.status?.toLowerCase()]">{{item.status}}</Tag>
           </div>
         </swiper-slide>
       </swiper>
@@ -74,7 +74,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 const swiperModules = [Autoplay];
-import { watch,ref, onMounted, nextTick } from 'vue';
+import { watch,ref, onMounted, nextTick, reactive } from 'vue';
 import { Divider, Tag } from 'ant-design-vue';
 import { CountTo } from '@/components/CountTo';
 import DayJs from 'dayjs';
@@ -103,6 +103,10 @@ const props = defineProps({
     type: Object,
     default: () => {label:''},
   },
+  eqptCommListData: {
+    type: Array,
+    defualt:()=>[]
+  },
   eqptAllList: {
     type: Array,
     defualt:()=>[]
@@ -117,7 +121,12 @@ watch(
   }
 );
 const emit = defineEmits(['update:modelValue']);
-
+const statusColor = reactive({
+  run:'#70b604',
+  idle:'#65b8f8',
+  alarm:'#eda44e',
+  down:'#b3c9da'
+})
 const data = ref({});
 
 import * as echarts from 'echarts';
@@ -318,13 +327,19 @@ const deviceWatch = ref({
 });
 class DeviceWatch {
   constructor() {
-    let base = +new Date(1988, 9, 3);
-    let oneDay = 24 * 3600 * 1000;
-    let data = [[base, Math.random() * 300]];
-    for (let i = 1; i < 5000; i++) {
-      let now = new Date((base += oneDay));
-      data.push([+now, Math.round((Math.random() - 0.5) * 5 + data[i - 1][1])]);
-    }
+    // let base = +new Date(2024, 9, 3);
+    // let oneDay = 24 * 3600 * 1000;
+    // let data = [[base, Math.random() * 30]];
+    // for (let i = 1; i < 30; i++) {
+    //   let now = new Date((base += oneDay));
+    //   data.push([+now, Math.round((Math.random() - 0.5) * 5 + data[i - 1][1])]);
+    // }
+    // console.log(data)
+    let data =[] 
+    Object.keys(props.eqptCommListData).map(element => {
+      data.push([element,props.eqptCommListData[element]])
+    });
+    console.log(data)
     this.option = {
       grid: {
         top: '10%',
@@ -333,24 +348,14 @@ class DeviceWatch {
         bottom: '30%',
       },
       xAxis: {
-        type: 'time',
+        type: 'category',
         boundaryGap: false,
       },
       yAxis: {
         type: 'value',
         boundaryGap: [0, '100%'],
       },
-      dataZoom: [
-        {
-          type: 'inside',
-          start: 0,
-          end: 20,
-        },
-        {
-          start: 0,
-          end: 20,
-        },
-      ],
+    
       series: [
         {
           name: 'Fake Data',
@@ -398,8 +403,8 @@ onMounted(() => {
     const myChart = echarts.init(chartDom);
     const deviceWatchClass = new DeviceWatch();
     deviceWatchClass.option && myChart.setOption(deviceWatchClass.option);
-    countUp = new CountUp('c-total-number', 1000);
-    countUp.start();
+    // countUp = new CountUp('c-total-number', 1000);
+    // countUp.start();
   });
 });
 
