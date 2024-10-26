@@ -1,7 +1,5 @@
 import type { BasicColumn, FormSchema } from '@/components/Table';
-import { useRender } from '@/components/Table';
 import { handleSearchFormSchema } from '@/views/recipe/utils/index';
-import { selectOptions } from '../mock/api/common';
 import { DICT_TYPE, getDictOptions } from '@/utils/dict';
 import { h, ref, unref } from 'vue';
 import { Input, Table } from 'ant-design-vue';
@@ -9,13 +7,13 @@ import { Input, Table } from 'ant-design-vue';
 export const columns: BasicColumn[] = [
   {
     title: 'Recipe名称',
-    dataIndex: 'rcpHisId',
+    dataIndex: 'rcpName',
     width: 160,
     key: 'name',
   },
   {
     title: '版本类型',
-    dataIndex: 'rcpName',
+    dataIndex: 'rcpVerType',
     width: 160,
   },
   {
@@ -30,7 +28,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '来源设备',
-    dataIndex: 'paramCode',
+    dataIndex: 'source',
     width: 160,
   },
   {

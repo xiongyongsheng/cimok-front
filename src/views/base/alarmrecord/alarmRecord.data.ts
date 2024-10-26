@@ -9,14 +9,14 @@ export const columns: BasicColumn[] = [
     width: 160,
   },
   {
-    title: 'AlramCode',
+    title: 'AlarmCode',
     dataIndex: 'alcd',
     width: 160,
   },
   {
     title: 'Alarm名称',
     dataIndex: 'altx',
-    width: 160,
+    width: 260,
   },
   {
     title: '触发管控',
@@ -25,12 +25,12 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '设备号',
-    dataIndex: '',
+    dataIndex: 'eqptCode',
     width: 160,
   },
   {
     title: '设备类型',
-    dataIndex: '',
+    dataIndex: 'eqptTypeCode',
     width: 160,
   },
   {

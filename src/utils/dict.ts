@@ -84,6 +84,7 @@ export enum DICT_TYPE {
   RECIPE_APPROVAL_STATUS = 'recipe_approval_status',
   RECIPE_VERSION_TYPE = 'recipe_version_type',
   RECIPE_DEVICE_TYPE = 'recipe_device_type',
+  RECIPE_ESCUTE_RES = 'exec_excute_res',
 
   USER_TYPE = 'user_type',
   COMMON_STATUS = 'common_status',

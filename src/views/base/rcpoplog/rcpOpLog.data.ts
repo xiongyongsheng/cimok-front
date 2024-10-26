@@ -8,7 +8,7 @@ export const columns: BasicColumn[] = [
         width: 160,
     },
         {
-          title: 'Recipe名称',
+          title: '22111',
           dataIndex: 'rcpName',
           width: 160,
         },

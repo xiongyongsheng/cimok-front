@@ -31,7 +31,7 @@ const searchFormSchema: FormSchema[] = [
   {
     label: ' ',
     labelWidth: 15,
-    field: '',
+    field: 'eqptCode',
     component: 'Input',
     componentProps: {
       placeholder: '设备号',

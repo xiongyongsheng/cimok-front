@@ -1,7 +1,6 @@
 import type { BasicColumn, FormSchema } from '@/components/Table';
 import { handleSearchFormSchema } from '@/views/recipe/utils/index';
 import { DICT_TYPE, getDictOptions } from '@/utils/dict';
-import dayjs from 'dayjs'
 
 export const columns: BasicColumn[] = [
   {
@@ -42,12 +41,12 @@ export const columns: BasicColumn[] = [
   },
   {
     title: 'MTBA(小时)',
-    dataIndex: 'opResult',
+    dataIndex: 'mtbaByHour',
     width: 160,
   },
   {
     title: 'MTBA(分钟)',
-    dataIndex: 'opResult',
+    dataIndex: 'mtbaByMin',
     width: 160,
   },
 ];

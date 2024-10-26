@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { ref, unref } from 'vue'
-  import { createFormSchema, updateFormSchema } from './eventLog.data'
+  import { createFormSchema, updateFormSchema } from './scriber.data'
   import { useI18n } from '@/hooks/web/useI18n'
   import { useMessage } from '@/hooks/web/useMessage'
   import { BasicForm, useForm } from '@/components/Form'

@@ -2,13 +2,14 @@
 import {
   BasicColumn,
   BasicTable,
-  FormSchema,
+  FormSchema, useRender,
   useTable,
 } from '@/components/Table';
 
 import { rcpOpLogPage } from '@/api/base/recipe';
 import { useRoute } from 'vue-router';
 import { handleSearchFormSchema } from '../utils';
+import { DICT_TYPE } from '@/utils/dict';
 
 defineOptions({ name: 'RecipeActionLog' });
 
@@ -21,38 +22,46 @@ const actionLogColumns: BasicColumn[] = [
     width: 160,
   },
   {
+
+
     title: 'Recipe类型',
-    dataIndex: 'rcpHisId',
+    dataIndex: 'rcpVerType',
+    customRender: ({ text }) => {
+      return useRender.renderDict(text, DICT_TYPE.RECIPE_TYPE_ENUM)
+    },
     width: 160,
   },
   {
     title: '文件标识',
-    dataIndex: 'paramName',
+    dataIndex: 'rcpIdentId',
     width: 160,
   },
   {
     title: '操作类型',
-    dataIndex: 'paramCode',
+    dataIndex: 'rcpOpType',
     width: 160,
   },
   {
     title: '时间',
-    dataIndex: 'paramNick',
+    dataIndex: 'createTime',
     width: 160,
   },
   {
     title: 'Source',
-    dataIndex: 'realVal',
+    dataIndex: 'source',
     width: 160,
   },
   {
     title: 'Target',
-    dataIndex: 'sortCode',
+    dataIndex: 'target',
     width: 160,
   },
   {
     title: '结果',
-    dataIndex: 'deptId',
+    dataIndex: 'opResult',
+    customRender: ({ text }) => {
+      return useRender.renderDict(text, DICT_TYPE.RECIPE_ESCUTE_RES)
+    },
     width: 160,
   },
 ];
