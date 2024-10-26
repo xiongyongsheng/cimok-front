@@ -13,7 +13,7 @@
           >
             <h4 class="c-card-group-detail-card-title w-full">设备状态</h4>
             <div class="flex flex-wrap w-full">
-              <div class="w-50%" v-for="item in eqptStatusList">
+              <div class="w-20% ml-4% mt-2 pt-1 pb-1 status-border" v-for="item in eqptStatusList">
                 <h6 class="font-size-4 m-0 text-center">{{item.cavityId}}</h6>
                 <div class="w-full">
                   <div
@@ -75,34 +75,34 @@
                 v-for="item in [
                   {
                     label: '工单',
-                    value: 'P-12',
+                    value: eqptStatusLot?.workOrderNo,
                   },
                   {
                     label: '批次',
-                    value: 'TEL',
+                    value: eqptStatusLot.lotId,
                   },
                   {
                     label: '产品类型',
-                    value: '2022-9-20',
+                    value: eqptStatusLot.deviceType,
                   },
                   {
                     label: '数量',
-                    value: 'P-12',
+                    value: eqptStatusLot.cnt,
                   },
                   {
                     label: '入站时间',
-                    value: 'P-12',
+                    value: eqptStatusLot.moveInTime,
                   },
                   {
                     label: '预计出站时间',
-                    value: 'P-12',
+                    value: eqptStatusLot.moveOutTime,
                   },
                 ]"
-                class="w-full flex justify-center items-center gap-5 font-size-4.5"
+                class="w-full flex justify-center items-center gap-5 font-size-3.5"
               >
-                <span class="w-50% flex-shrink-0 text-right"
+                <span class="w-30% flex-shrink-0 text-right"
                   >{{ item.label }}:</span
-                ><span class="w-50% flex-shrink-0">{{ item.value }}</span>
+                ><span class="w-60% flex-shrink-0">{{ item.value }}</span>
               </div>
             </div>
           </div>
@@ -187,7 +187,7 @@
 import { Button, Image, Table } from 'ant-design-vue';
 import DayJs from 'dayjs';
 import { inject, nextTick, onMounted, onUnmounted, ref } from 'vue';
-import { getEqptEqptfixture,getEqptEqptBuyoffInfo,getEqptEqptCommInfo,getEqptEqptMaterialInfo,getEqptStatusResume,getEqptStatusList } from '@/api/base/eqpt/index'
+import { getEqptEqptfixture,getEqptEqptBuyoffInfo,getEqptEqptCommInfo,getEqptEqptMaterialInfo,getEqptStatusResume,getEqptStatusList,getEqptLotStatus } from '@/api/base/eqpt/index'
 
 import productImage from '@/assets/images/u557.png';
 const props = defineProps({
@@ -202,6 +202,7 @@ const eqptCommInfo = ref([]);
 const eqptMaterialInfo = ref([]);
 const eqptStatusResume = ref([]);
 const eqptStatusList = ref([]);
+const eqptStatusLot = ref({});
 const columns = [
   {
     title: '物料类型',
@@ -280,6 +281,9 @@ const getEqptAllInfo = () => {
   getEqptStatusList({eqptCode:props.eqptCode}).then(res => { 
     eqptStatusList.value = res.cavityRespVOList??[]
   })
+  getEqptLotStatus({eqptCode:props.eqptCode}).then(res => { 
+    eqptStatusLot.value = res
+  })
 }
 </script>
 <style lang="less" scoped>
@@ -336,6 +340,10 @@ const getEqptAllInfo = () => {
         z-index: 11;
       }
     }
+  }
+  .status-border{
+    border: 2px solid rgb(174, 208, 223);
+    border-radius: 4px;
   }
 }
 .c-table {

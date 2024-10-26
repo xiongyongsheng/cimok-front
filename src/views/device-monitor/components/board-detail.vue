@@ -4,7 +4,7 @@
   >
     <div class="flex flex-col items-center">
       <h4 class="board-text-color font-size-10 m-0">{{eqptInfo.eqptCode}}</h4>
-      <Image :width="170" :src="productImage" />
+      <Image :width="170" :src="eqptInfo.eqptImgPath" />
     </div>
     <Divider class="divider-color my-4" />
     <ul>
@@ -12,27 +12,27 @@
         v-for="item in [
           {
             label: '作业状态',
-            value: 'Processing',
+            value: eqptStatusDetail.status,
           },
           {
             label: '通信状态',
-            value: 'Communicating',
+            value: eqptStatusDetail.communicationStatus,
           },
           {
             label: '控制状态',
-            value: 'Online-Remote',
+            value: eqptStatusDetail.controlStatus,
           },
           {
             label: '设备型号',
-            value: eqptInfo.eqptCode,
+            value: eqptStatusDetail.eqptTypeCode,
           },
           {
             label: '生产厂商',
-            value: 'TEL',
+            value: eqptStatusDetail.manufacturer,
           },
           {
             label: '下次维保时间',
-            value: eqptInfo.eqptCodes
+            value: eqptStatusDetail.nextPmTime??''
           },
         ]"
         class="flex justify-center items-center gap-5 font-size-5"
@@ -56,7 +56,10 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue';
 import { Divider, Tag, Image } from 'ant-design-vue';
+import { getEqptStatusDetail } from '@/api/base/eqpt/index'
+import { useRoute } from 'vue-router'
 import productImage from '@/assets/images/u557.png';
+const route = useRoute();
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
   eqptInfo: {
@@ -85,7 +88,9 @@ const props = defineProps({
   },
 });
 import * as echarts from 'echarts';
-
+const eqptStatusDetail = ref({})
+const eqptStatusOee = ref([])
+const eqptStatusUph = ref([])
 const deviceWatch = ref({
   OEE: {
     id: 'device-watch-OEE',
@@ -96,14 +101,18 @@ const deviceWatch = ref({
 });
 class DeviceWatch {
   option: any;
-  constructor() {
-    let base = +new Date(2024, 10, 20);
-    let oneDay = 24 * 3600 * 1000;
-    let data = [[base, Math.random() * 300]];
-    for (let i = 1; i < 10; i++) {
-      let now = new Date((base += oneDay));
-      data.push([+now, Math.round((Math.random() - 0.5) * 5 + data[i - 1][1])]);
-    }
+  constructor(dataSource) {
+    // let base = +new Date(2024, 10, 20);
+    // let oneDay = 24 * 3600 * 1000;
+    // let data = [[base, Math.random() * 300]];
+    // for (let i = 1; i < 10; i++) {
+    //   let now = new Date((base += oneDay));
+    //   data.push([+now, Math.round((Math.random() - 0.5) * 5 + data[i - 1][1])]);
+    // }
+    let data =[] 
+    Object.keys(dataSource).map(element => {
+      data.push([element,dataSource[element]])
+    });
     console.log(data)
     this.option = {
       grid: {
@@ -114,23 +123,12 @@ class DeviceWatch {
       },
       xAxis: {
         type: 'time',
-        boundaryGap: false,
+        boundaryGap:  [0, '20%'],
       },
       yAxis: {
         type: 'value',
         boundaryGap: [0, '100%'],
       },
-      dataZoom: [
-        {
-          type: 'inside',
-          start: 0,
-          end: 20,
-        },
-        {
-          start: 0,
-          end: 20,
-        },
-      ],
       series: [
         {
           name: 'Fake Data',
@@ -159,14 +157,31 @@ class DeviceWatch {
   }
 }
 onMounted(() => {
+  let eqptCode = route.params.id
   nextTick(() => {
-    for (let key in deviceWatch.value) {
+    getEqptStatusDetail({ eqptCode: eqptCode }).then(res=>{
+      eqptStatusDetail.value = res
+      if(res.oee){
+        eqptStatusOee.value = res.oee
+      }
+      if(res.uph){
+        eqptStatusUph.value = res.uph
+      }
+      for (let key in deviceWatch.value) {
       let target = deviceWatch.value[key];
       const chartDom = document.getElementById(target.id);
       const myChart = echarts.init(chartDom);
-      const deviceWatchClass = new DeviceWatch();
+      let data = []
+      if(target.id == 'device-watch-OEE'){
+        data = eqptStatusOee.value
+      }else if(target.id == 'device-watch-UPH'){
+        data = eqptStatusUph.value
+      }
+      const deviceWatchClass = new DeviceWatch(data);
       deviceWatchClass.option && myChart.setOption(deviceWatchClass.option);
     }
+    })
+    
   });
 });
 </script>

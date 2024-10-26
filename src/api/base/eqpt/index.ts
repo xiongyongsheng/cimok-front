@@ -69,3 +69,9 @@ export function getEqptStatusResume(params) {
 export function getEqptStatusList(params) {
   return defHttp.get({ url: `/base/eqpt/status/getEqptStatus`,params })
 }
+export function getEqptLotStatus(params) {
+  return defHttp.get({ url: `/base/eqpt/status/eqpt/lot`,params })
+}
+export function getEqptStatusDetail(params) {
+  return defHttp.get({ url: `/base/eqpt/status/detail`,params })
+}

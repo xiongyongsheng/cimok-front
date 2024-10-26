@@ -1,7 +1,7 @@
 <template>
   <div class="c-page" ref="pageRef">
     <Sider v-model:model-value="activeSider" :sider-list="siderList" />
-    <Board v-if="showComponent" :eqptTotalNumber="eqptTotalNumber" :activeMenu="siderList[parseInt(activeSider)-1]" :boardData="boardData" :eqptTypeListData="eqptTypeListData" :eqptRealListData="eqptRealListData"/>
+    <Board v-if="showComponent" :eqptTotalNumber="eqptTotalNumber" :activeMenu="siderList[parseInt(activeSider)-1]" :boardData="boardData" :eqptTypeListData="eqptTypeListData" :eqptRealListData="eqptRealListData" :eqptCommListData="eqptCommListData"/>
     <CardGroup v-if="showComponent"  :eqptAllList="eqptAllList"/>
   </div>
 </template>
@@ -35,6 +35,7 @@ const boardData = ref({});
 const eqptTypeListData = ref([]);
 const eqptRealListData = ref([]);
 const eqptTotalNumber = ref(0);
+const eqptCommListData = ref([]);
 const eqptAllList = ref([]);
 const getEqptStatus = ()=>{ 
   getEqptStatusTotal({ deptId: siderList.value[parseInt(activeSider.value)-1].id }).then((res) => {
@@ -56,7 +57,7 @@ const getEqptStatus = ()=>{
     eqptRealListData.value = res
   })
   getEqptTraffic({ deptId: siderList.value[parseInt(activeSider.value)-1].id }).then(res => { 
-
+    eqptCommListData.value = res
   })
   getEqptAllList({ deptId: siderList.value[parseInt(activeSider.value) - 1].id }).then(res => {
     eqptAllList.value = res
@@ -64,7 +65,7 @@ const getEqptStatus = ()=>{
 }
 onMounted(() => {
   nextTick(() => {
-    activeSider.value = 1
+    activeSider.value = 2
   })
   // getEqptStatus()
 });
@@ -113,7 +114,7 @@ const siderList = ref([
     icon: ScheduleOutlined,
   },
 ]);
-const activeSider = ref(2);
+const activeSider = ref(1);
 const showComponent = ref(true);
 watch(
   () => activeSider.value,

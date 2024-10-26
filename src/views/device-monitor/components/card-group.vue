@@ -52,19 +52,21 @@
               :class="{
                 'bg-card-normal-outer':item.status !== 'RUN',
                 'bg-card-warning-outer': item.statue === 'RUN',
+                
               }"
+              :style="'background-color:'+statusColor[item.status?.toLowerCase()]"
             >
             <div class="flex justify-between">
               <h6 class="text-center font-size-3 m-0 line-height-3">
                 {{ item.eqptCode }}
               </h6>
-              <h6 class="text-right font-size-3 m-0 line-height-3" @click="openLink(item)">
+              <h6 class="text-right font-size-3 m-0 line-height-3" @click.prevent="openLink(item)">
               远程控制
               </h6>
             </div>
               
               <div class="flex justify-between items-stretch gap-10">
-                <Image class="flex-shrink-0" :width="80" :src="productImage" />
+                <Image class="flex-shrink-0" :width="80" :src="item.eqptImgPath??productImage" />
                 <div class="flex-1">
                   <h7 class="font-size-3 m-0"> {{item.status}} </h7>
                   <div
@@ -75,12 +77,8 @@
                     }"
                   >
                     <span
-                      v-for="item in [
-                        `Lot：${item.produceMap.Lot}`,
-                        `Pre-Lot：${item.produceMap['Pre-Lot']}`,
-                        `Recipe：${item.produceMap['Recipe']}`,
-                      ]"
-                      >{{ item }}</span
+                      v-for="keyString in Object.keys(item.produceMap)"
+                      >{{ keyString }}：{{ item.produceMap[keyString] }}</span
                     >
                   </div>
                 </div>
@@ -92,20 +90,13 @@
                   'bg-card-warning-inner': item.status !== 'RUN',
                 }"
               >
-                <span
-                  class="w-45%"
-                  v-for="item in [
-                    `OEE：${item.produceMap['OEE']}`,
-                    `UPH：${item.produceMap['UPH']}`,
-                    `MTBA：${item.produceMap['MTBA']}`,
-                    `Buyoff：${item.produceMap['Buyoff']}`,
-                    `锁机：${item.produceMap['锁机']}`,
-                  ]"
-                  >{{ item }}</span
-                >
+              <span  class="w-45%"
+                      v-for="keyString in Object.keys(item.ownMap)"
+                      >{{ keyString }}：{{ item.ownMap[keyString] }}</span
+                    >
               </div>
-              <p class="font-size-2.5 mb-1">
-                Tooling Expire Time：{{item.produceMap['Tooling Expire Time']}}
+              <p class="font-size-2.5 mb-1" v-for="keyString in Object.keys(item.tipMap)">
+                {{keyString}}：{{item.tipMap[keyString]}}
               </p>
             </div>
           </RouterLink>
@@ -136,7 +127,7 @@
 <script setup lang="ts">
 import { Button, Image } from 'ant-design-vue';
 import DayJs from 'dayjs';
-import { inject, nextTick, onMounted, onUnmounted, ref } from 'vue';
+import { inject, nextTick, onMounted, onUnmounted, ref,reactive } from 'vue';
 
 import productImage from '@/assets/images/u557.png';
 const props = defineProps({
@@ -146,7 +137,12 @@ const props = defineProps({
   },
 });
 const fullScreen = inject('fullScreen');
-
+const statusColor = reactive({
+  run:'#70b604',
+  idle:'#65b8f8',
+  alarm:'#eda44e',
+  down:'#b3c9da'
+})
 let nowDate = ref(DayJs().format('YYYY-MM-DD HH:mm:ss'));
 let timer;
 onMounted(() => {
