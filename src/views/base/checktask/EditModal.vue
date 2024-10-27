@@ -137,7 +137,7 @@
                     :show-upload-list="false"
                     :headers="headers"
                     accept=".jpg,.png,.jpeg"
-                    action="/upload"
+                    :action="uploadUrl"
                     @change="(info) => handleChange(info, index)"
                   >
                     <img
@@ -178,7 +178,8 @@ import {
   Upload,
   InputNumber,
 } from 'ant-design-vue';
-import axios from 'axios';
+import { useGlobSetting } from '@/hooks/setting'
+
 import Icon from '@/components/Icon';
 import {
   createChecktask,
@@ -188,14 +189,12 @@ import {
   invokeApi,
 } from '@/api/base/checktask';
 import { getDictOptions } from '@/utils/dict';
-import { defHttp } from '@/utils/http/axios';
 
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { getAccessToken, getTenantId } from '@/utils/auth';
-import { custom } from 'vue-types';
-import { info } from 'console';
 defineOptions({ name: 'EditModal' });
 const emit = defineEmits(['close', 'refreshTable']);
+const { uploadUrl } = useGlobSetting();
 const props = defineProps({
   visible: {
     type: Boolean,
