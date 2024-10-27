@@ -9,7 +9,9 @@ export function getChecktaskItemPage(params) {
 export function getChecktaskItem(id: number) {
   return defHttp.get({ url: `/base/checktask-item/get?id=${id}` });
 }
-
+export function getChecktaskItems() {
+  return defHttp.get({ url: `/base/item/list` });
+}
 // 新增校验任务的具体项目
 export function createChecktaskItem(data) {
   return defHttp.post({ url: '/base/checktask-item/create', data });

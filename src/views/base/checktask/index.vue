@@ -21,7 +21,7 @@
             <a-input placeholder="设备号" v-model:value="form.eqptCode" />
           </FormItem>
           <FormItem>
-            <a-input placeholder="批次号" v-model:value="form.lotld" />
+            <a-input placeholder="批次号" v-model:value="form.lotId" />
           </FormItem>
           <FormItem>
             <a-input placeholder="作业站点" v-model:value="form.jobSite" />
@@ -79,6 +79,7 @@
       :visible="editModalVisible"
       @close="closeEditModal"
       :basicForm="editForm"
+      :checktaskDetails="checktaskDetails"
       @refreshTable="queryData"
       :mode="mode"
     ></EditModal>
@@ -95,6 +96,8 @@ import {
   getChecktaskPage,
   getChecktask,
   deleteChecktask,
+  getChecktaskId,
+  getListDetail,
 } from '@/api/base/checktask';
 // import ImportModal from './ImportModal.vue';
 import { ref, reactive, onMounted } from 'vue';
@@ -104,7 +107,7 @@ const form = ref({
   checktaskCode: '',
   checktaskTypeCode: '',
   eqptCode: '',
-  lotld: '',
+  lotId: '',
   jobSite: '',
 });
 // 生命周期
@@ -133,8 +136,8 @@ let columns = [
   },
   {
     title: '批次号',
-    dataIndex: 'lotld',
-    key: 'lotld',
+    dataIndex: 'lotId',
+    key: 'lotId',
     align: 'center',
   },
   {
@@ -188,12 +191,13 @@ const editModalVisible = ref(false);
 const importModalVisible = ref(false);
 
 const editForm = ref({});
+const checktaskDetails = ref([]);
 let tableData = ref([
   // {
   //   checktaskCode: '11',
   //   checktaskTypeCode: '11',
   //   eqptCode: '11',
-  //   lotld: '11',
+  //   lotId: '11',
   //   created: '11',
   //   checktaskState: '11',
   //   createTime: '11',
@@ -203,30 +207,36 @@ let tableData = ref([
   // },
 ]);
 let taskStateOptions = reactive(getDictOptions('CheckTaskState'));
-const pagination = reactive({
+const pagination = ref({
   defaultCurrent: 1,
   defaultPageSize: 10,
   current: 1,
   total: 0,
   pageSize: 10,
+  showSizeChanger: true,
+  showQuickJumper: true,
+  showTotal: (total) => `共${total}条数据`,
 });
 let mode = ref('');
 const loading = ref(false);
 // 编辑
-const editData = (record) => {
+const editData = async (record) => {
+  let res = await getListDetail(record.id);
+  console.log('res111', res);
+  checktaskDetails.value = res.checktaskDetails;
   editModalVisible.value = true;
   mode.value = 'edit';
   editForm.value = record;
 };
 // 新建
-const addData = () => {
+const addData = async () => {
   editModalVisible.value = true;
+  let res = await getChecktaskId();
   editForm.value = {
-    checktaskCode: '',
+    checktaskCode: res,
     checktaskTypeCode: '',
     eqptCode: '',
-    lotld: '',
-    jobSite: '',
+    lotId: '',
   };
   mode.value = 'add';
 };
@@ -250,13 +260,17 @@ const deleteData = async (record) => {
 const openImportModal = (record) => {
   importModalVisible.value = true;
 };
-const handleTableChange = (pagination) => {};
+const handleTableChange = (page) => {
+  pagination.value.current = page.current;
+  pagination.value.pageSize = page.pageSize;
+  queryData();
+};
 const resetData = () => {
   form.value = {
     checktaskCode: '',
     checktaskTypeCode: '',
     eqptCode: '',
-    lotld: '',
+    lotId: '',
     jobSite: '',
   };
   queryData();
@@ -264,11 +278,12 @@ const resetData = () => {
 const queryData = async () => {
   // 请求表格数据
   let params = Object.assign(
-    { pageSize: pagination.pageSize, pageNo: pagination.current },
+    { pageSize: pagination.value.pageSize, pageNo: pagination.value.current },
     form.value
   );
   let res = await getChecktaskPage(params);
   tableData.value = res.list;
+  pagination.value.total = res.total;
   console.log('tableData', tableData);
 };
 /**
@@ -315,7 +330,38 @@ const getDictTypeText = (dictList, value) => {
     }
     .table {
       width: 100%;
-      height: 80%;
+      height: calc(100% - 166px);
+      background: #fff;
+      :deep(.ant-table-wrapper) {
+        height: 100%;
+        .ant-spin-nested-loading {
+          height: 100%;
+          .ant-spin-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+          }
+          .ant-table-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            .ant-table-body {
+              position: relative;
+              flex: 1;
+              table {
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+              }
+            }
+          }
+          .ant-table {
+            flex: 1;
+          }
+        }
+      }
     }
   }
 }

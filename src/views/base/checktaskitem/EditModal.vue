@@ -11,31 +11,45 @@
     >
       <div class="info-container">
         <Form
-          :form="form"
+          :form="pageForm"
           :label-col="{ span: 6 }"
           :wrapper-col="{ span: 16, offset: 1 }"
         >
           <FormItem label="类型名称">
             <a-input
               placeholder="请输入"
-              v-model:value="form.checktaskTypeName"
+              v-model:value="pageForm.checktaskTypeName"
             />
           </FormItem>
           <FormItem label="类型代码">
             <a-input
               placeholder="请输入"
-              v-model:value="form.checktaskTypeCode"
-            /> </FormItem
-          ><FormItem label="项目名称">
-            <a-input placeholder="请输入" v-model:value="form.projectName" />
+              v-model:value="pageForm.checktaskTypeCode"
+            />
+          </FormItem>
+          <FormItem label="项目名称">
+            <Select
+              :allowClear="true"
+              v-model:value="pageForm.itemName"
+              @change="itemNameChange"
+              placeholder="请选择"
+            >
+              <SelectOption
+                :value="item.itemName"
+                v-for="(item, index) in checktaskItems"
+                :key="index"
+              >
+                {{ item.itemName }}
+              </SelectOption>
+            </Select>
           </FormItem>
           <FormItem label="项目代码">
-            <a-input placeholder="请输入" v-model:value="form.itemCode" />
+            <a-input disabled v-model:value="pageForm.itemCode" />
           </FormItem>
           <FormItem label="必填">
             <Select
               :allowClear="true"
-              v-model:value="form.itemIsNecessary"
+              v-model:value="pageForm.itemIsNecessary"
               placeholder="请选择"
             >
               <SelectOption
@@ -67,8 +81,9 @@ import { ResultEnum } from '@/enums/httpEnum';
 import {
   createChecktaskItem,
   updateChecktaskItem,
+  getChecktaskItems,
 } from '@/api/base/checktaskitem';
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, onMounted, watch } from 'vue';
 defineOptions({ name: 'EditModal' });
 const emit = defineEmits(['close', 'refreshTable']);
 const props = defineProps({
@@ -83,7 +98,7 @@ const props = defineProps({
       return {
         checktaskTypeName: '',
         checktaskTypeCode: '',
-        projectName: '',
+        itemName: '',
         itemCode: '',
         itemIsNecessary: '',
       };
@@ -100,24 +115,46 @@ const props = defineProps({
     },
   },
 });
-const modalVisible = computed(() => props.visible);
 
+let pageForm = ref({
+  checktaskTypeName: '',
+  checktaskTypeCode: '',
+  itemName: '',
+  itemCode: '',
+  itemIsNecessary: '',
+});
+const modalVisible = computed(() => props.visible);
+let checktaskItems = ref([]);
+
+onMounted(async () => {
+  let res = await getChecktaskItems();
+  checktaskItems.value = res;
+  console.log('checktaskItems', checktaskItems);
+});
+watch(
+  () => props.form,
+  (newV) => {
+    pageForm.value = newV;
+    console.log('newV', newV);
+  },
+  { deep: true, immediate: true }
+);
 const returnTo = () => {
   emit('close');
 };
 const saveData = async () => {
   if (
-    !props.form.checktaskTypeName ||
-    !props.form.checktaskTypeCode ||
-    !props.form.projectName ||
-    !props.form.itemCode ||
-    !props.form.itemIsNecessary
+    !pageForm.value.checktaskTypeName ||
+    !pageForm.value.checktaskTypeCode ||
+    !pageForm.value.itemName ||
+    !pageForm.value.itemCode ||
+    !pageForm.value.itemIsNecessary
   ) {
     message.info('请将表单填写完整！');
     return;
   }
   if (props.mode === 'add') {
-    let res = await createChecktaskItem(props.form);
+    let res = await createChecktaskItem(pageForm.value);
     console.log('res', res);
     if (res) {
       message.success('新增成功！');
@@ -127,7 +164,7 @@ const saveData = async () => {
       message.error('新增失败！');
     }
   } else {
-    let res = await updateChecktaskItem(props.form);
+    let res = await updateChecktaskItem(pageForm.value);
     console.log('res', res);
     if (res) {
       message.success('更新成功！');
@@ -137,6 +174,11 @@ const saveData = async () => {
       message.error('更新失败！');
     }
   }
+};
+const itemNameChange = (val) => {
+  console.log('val', val);
+  const data = checktaskItems.value.filter((item) => item.itemName === val);
+  pageForm.value.itemCode = data[0].itemCode;
 };
 </script>
 

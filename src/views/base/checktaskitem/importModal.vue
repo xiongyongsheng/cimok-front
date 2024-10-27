@@ -24,7 +24,7 @@
               />
             </div>
             <div class="text">
-              <div style="font-size: 19px; font-weight: bold">
+              <div style="font-size: 19px; font-weight: bold; margin-top: 50px">
                 上传填好的信息表
               </div>
               <div>
@@ -39,7 +39,7 @@
                   action="/dev-api/base/checktask-item/import-excel"
                   @change="handleFileChange"
                 >
-                  <span>上传文件</span>
+                  <span>导入文件</span>
                 </Upload>
               </div>
             </div>
@@ -52,7 +52,7 @@
               />
             </div>
             <div class="text">
-              <div>特别提示</div>
+              <div style="margin-top: 50px">特别提示</div>
               <div>
                 导入过程中如发现同名客户，且对该客户数据有更新权限，则更新这条客户数据
               </div>
@@ -112,15 +112,13 @@
         </template>
       </div>
       <template #footer>
-        <a-button type="primary" v-if="uploadPercent == 100" @click="returnTo"
+        <a-button type="primary" @click="returnTo" v-if="currentPage == 2"
           >完成</a-button
         >
-        <a-button v-if="uploadPercent != 100 && currentPage != 1" @click="toPre"
+        <!-- <a-button v-if="uploadPercent != 100 && currentPage != 1" @click="toPre"
           >上一步</a-button
-        >
-        <a-button v-if="uploadPercent != 100" @click="toNext" type="primary"
-          >下一步</a-button
-        >
+        > -->
+        <a-button v-else @click="toNext" type="primary">下一步</a-button>
       </template>
     </Modal>
   </div>
@@ -146,7 +144,7 @@ const props = defineProps({
       return {
         checktaskTypeName: '',
         checktaskTypeCode: '',
-        projectName: '',
+        itemName: '',
         itemCode: '',
         itemIsNecessary: '',
       };
@@ -157,19 +155,14 @@ const modalVisible = computed(() => props.visible);
 const currentPage = ref(1);
 // 上传进度
 const uploadPercent = ref(0);
-
+// 上传状态
+let uploadStatus = ref('uploading');
 // 上传文件数据状态
 const dataStatus = ref('error');
-const errorData = reactive({
-  rightNum: 100,
-  errorNum: 100,
-  warningInfo: [
-    '第1行：  已存在名称为【 深圳市亿恩科技有限公司 】的客户，如果继续导入将会更新这条客户的数据',
-    '第2行：【客户名称】字段不能为空',
-    '第2行：【所属行业】字段不能为空',
-    '第2行：【客户类型】字段不能为空',
-    '第2行：【手机号】已关联其他联系人',
-  ],
+let errorData = ref({
+  rightNum: 0,
+  errorNum: 0,
+  warningInfo: [],
 });
 let columns = [
   {
@@ -187,8 +180,8 @@ let columns = [
   },
   {
     title: '参数范围-小',
-    dataIndex: 'projectName',
-    key: 'projectName',
+    dataIndex: 'itemName',
+    key: 'itemName',
     align: 'center',
   },
   {
@@ -206,7 +199,7 @@ const tableData = reactive([
   {
     checktaskTypeName: '11',
     checktaskTypeCode: '11',
-    projectName: '11',
+    itemName: '11',
     itemCode: '11',
   },
 ]);
@@ -233,7 +226,7 @@ const toNext = () => {
         return;
       }
       uploadPercent.value = uploadPercent.value + 1;
-    }, 100);
+    }, 50);
   }
 };
 const toPre = () => {
@@ -243,6 +236,20 @@ const handleFileChange = async (info) => {
   console.log('info', info);
   // let res = await importChecktaskItem({ file: info.file.originFileObj });
   // console.log('res', res);
+  if (info.file.status == 'done') {
+    let response = info.file.response.data;
+    console.log('response', response);
+    let rightNum: number =
+      response.createBinCodes.length + response.updateBinCodes.length;
+    let errorArr = Object.keys(response.failureBinCodes);
+    let warningInfo: string[] = [];
+    errorArr.forEach((item) => {
+      warningInfo.push(`第${item}行：${response.failureBinCodes[item]} `);
+    });
+    errorData = { rightNum, errorNum: errorArr.length, warningInfo };
+    uploadStatus.value = 'done';
+    toNext();
+  }
 };
 </script>
 
@@ -272,7 +279,8 @@ const handleFileChange = async (info) => {
         flex-direction: column;
         color: grey;
         > div {
-          flex: 1;
+          // flex: 1;
+          margin-bottom: 10px;
           display: flex;
           align-items: center;
         }
@@ -302,7 +310,8 @@ const handleFileChange = async (info) => {
         flex-direction: column;
         color: grey;
         > div {
-          flex: 1;
+          // flex: 1;
+          margin-bottom: 10px;
           display: flex;
           align-items: center;
         }

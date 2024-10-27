@@ -19,7 +19,7 @@
             <a-input
               style="width: 250px"
               placeholder="项目名称"
-              v-model:value="form.projectName"
+              v-model:value="form.itemName"
             />
           </FormItem>
           <FormItem>
@@ -122,7 +122,7 @@ import { getDictOptions, DictDataType } from '@/utils/dict';
 // 表单数据
 const form = ref({
   checktaskTypeName: '',
-  projectName: '',
+  itemName: '',
   itemCode: '',
 });
 let columns = [
@@ -141,8 +141,8 @@ let columns = [
   },
   {
     title: '项目名称',
-    dataIndex: 'projectName',
-    key: 'projectName',
+    dataIndex: 'itemName',
+    key: 'itemName',
     align: 'center',
   },
   {
@@ -184,12 +184,15 @@ const importModalVisible = ref(false);
 let mode = ref('');
 const editForm = ref({});
 let tableData = ref([]);
-const pagination = reactive({
+const pagination = ref({
   defaultCurrent: 1,
   defaultPageSize: 10,
   current: 1,
   total: 0,
   pageSize: 10,
+  showSizeChanger: true,
+  showQuickJumper: true,
+  showTotal: (total) => `共${total}条数据`,
 });
 const loading = ref(false);
 let itemIsNecessaryOptions = reactive(getDictOptions('CheckITemNecessary'));
@@ -208,8 +211,10 @@ const addData = () => {
   editModalVisible.value = true;
   editForm.value = {
     checktaskTypeName: '',
-    projectName: '',
+    checktaskTypeCode: '',
+    itemName: '',
     itemCode: '',
+    itemIsNecessary: '',
   };
   mode.value = 'add';
 };
@@ -233,15 +238,15 @@ const deleteData = async (record) => {
 const openImportModal = (record) => {
   importModalVisible.value = true;
 };
-const handleTableChange = (pagination) => {
-  pagination.current = pagination.current;
-  pagination.pageSize = pagination.pageSize;
+const handleTableChange = (page) => {
+  pagination.value.current = page.current;
+  pagination.value.pageSize = page.pageSize;
   queryData();
 };
 const resetData = () => {
   form.value = {
     checktaskTypeName: '',
-    projectName: '',
+    itemName: '',
     itemCode: '',
   };
   queryData();
@@ -249,12 +254,12 @@ const resetData = () => {
 const queryData = async () => {
   // 请求表格数据
   let params = Object.assign(
-    { pageSize: pagination.pageSize, pageNo: pagination.current },
+    { pageSize: pagination.value.pageSize, pageNo: pagination.value.current },
     form.value
   );
   let res = await getChecktaskItemPage(params);
   tableData.value = res.list;
-  pagination.total = res.total;
+  pagination.value.total = res.total;
   console.log('tableData', tableData);
 };
 
@@ -302,7 +307,38 @@ const getDictTypeText = (dictList, value) => {
     }
     .table {
       width: 100%;
-      height: 80%;
+      height: calc(100% - 166px);
+      background: #fff;
+      :deep(.ant-table-wrapper) {
+        height: 100%;
+        .ant-spin-nested-loading {
+          height: 100%;
+          .ant-spin-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+          }
+          .ant-table-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            .ant-table-body {
+              position: relative;
+              flex: 1;
+              table {
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+              }
+            }
+          }
+          .ant-table {
+            flex: 1;
+          }
+        }
+      }
     }
   }
 }
