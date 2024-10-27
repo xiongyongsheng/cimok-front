@@ -6,11 +6,7 @@ import { DICT_TYPE, getDictOptions } from '@/utils/dict';
 const sourceList = await getSourceList();
 
 export const columns: BasicColumn[] = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    width: 160,
-  },
+
 
   {
     title: '项目名称',
