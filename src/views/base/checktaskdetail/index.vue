@@ -63,14 +63,14 @@
         </Table>
       </div>
     </div>
-    <EditModal
+    <!-- <EditModal
       v-if="editModalVisible"
       :visible="editModalVisible"
       @close="closeEditModal"
       :basicForm="editForm"
       @refreshTable="queryData"
       :mode="mode"
-    ></EditModal>
+    ></EditModal> -->
   </div>
 </template>
 
@@ -78,7 +78,7 @@
 import { Table, Form, FormItem, Popconfirm, message } from 'ant-design-vue';
 import { IconEnum } from '@/enums/appEnum';
 import Icon from '@/components/Icon';
-import EditModal from './EditModal.vue';
+// import EditModal from './EditModal.vue';
 import { getDictOptions, DictDataType } from '@/utils/dict';
 import {
   getChecktaskPage,

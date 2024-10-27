@@ -88,13 +88,11 @@
 
 <script lang="ts" setup>
 import { Table, Form, FormItem, Popconfirm, message } from 'ant-design-vue';
-import { IconEnum } from '@/enums/appEnum';
 import Icon from '@/components/Icon';
 import EditModal from './EditModal.vue';
-import { getDictOptions, DictDataType } from '@/utils/dict';
+import { getDictOptions } from '@/utils/dict';
 import {
   getChecktaskPage,
-  getChecktask,
   deleteChecktask,
   getChecktaskId,
   getListDetail,
