@@ -179,7 +179,7 @@ data.getDetailData();
 </script>
 <template>
   <div v-loading="data.loading">
-    <Card title="BGA-HISILICON-2401">
+    <Card :title="route.query.name">
       <template #extra>
         <Popconfirm title="是否确认提交?" @confirm="handleUpgrade">
           <Button type="primary" :loadding="isLoading">升级</Button>
