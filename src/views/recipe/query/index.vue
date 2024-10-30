@@ -122,6 +122,7 @@ function handleUpgrade(record: Recordable) {
     name: 'RecipeQueryUpgrade',
     query: {
       id: record.id,
+      name:record.rcpName,
     },
   });
 }
