@@ -98,6 +98,7 @@
                     value: eqptStatusLot.moveOutTime,
                   },
                 ]"
+                
                 class="w-full flex justify-center items-center gap-5 font-size-3.5"
               >
                 <span class="w-30% flex-shrink-0 text-right"

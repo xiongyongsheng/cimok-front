@@ -127,7 +127,7 @@
 <script setup lang="ts">
 import { Button, Image } from 'ant-design-vue';
 import DayJs from 'dayjs';
-import { inject, nextTick, onMounted, onUnmounted, ref,reactive } from 'vue';
+import { inject, nextTick, onMounted, onUnmounted, ref,reactive,watch } from 'vue';
 
 import productImage from '@/assets/images/u557.png';
 const props = defineProps({
@@ -135,6 +135,10 @@ const props = defineProps({
     type: Array,
     defualt:()=>[]
   },
+  eqptUpdateItem:{
+    type: Object,
+    defualt:()=>{}
+  }
 });
 const fullScreen = inject('fullScreen');
 const statusColor = reactive({
@@ -145,6 +149,13 @@ const statusColor = reactive({
 })
 let nowDate = ref(DayJs().format('YYYY-MM-DD HH:mm:ss'));
 let timer;
+watch(
+    () => props.eqptUpdateItem,
+    () => {
+      changeItem(JSON.parse(props.eqptUpdateItem.content))
+    },
+    // { immediate: true },
+  )
 onMounted(() => {
   timer = setInterval(() => {
     nowDate.value = DayJs().format('YYYY-MM-DD HH:mm:ss');
@@ -154,6 +165,15 @@ onMounted(() => {
 onUnmounted(() => {
   timer && clearInterval(timer);
 });
+async function changeItem(item){
+  
+  props.eqptAllList?.forEach((e:Object,index)=>{
+    if(e.eqptCode == item.eqptCode){
+      let newE  = {...e,...item}
+      props.eqptAllList[index] = newE
+    }
+  })
+}
 const openLink = (item) =>{
   if(item.vncUrl){
     window.open(item.vncUrl,'_blank')
