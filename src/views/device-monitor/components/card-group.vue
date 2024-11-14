@@ -142,9 +142,13 @@ const props = defineProps({
 });
 const fullScreen = inject('fullScreen');
 const statusColor = reactive({
+  initial:'#04b69b',
+  ready:'#70b604',
   run:'#70b604',
-  idle:'#65b8f8',
-  alarm:'#eda44e',
+  idle:'#f8ce65',
+  alarm:'#ed4e53',
+  pausing:'#ed4e4e',
+  paused:'#ed4e4e',
   down:'#b3c9da'
 })
 let nowDate = ref(DayJs().format('YYYY-MM-DD HH:mm:ss'));

@@ -155,6 +155,7 @@ export interface GlobConfig {
   title: string
   // Service interface url
   apiUrl: string
+  wsUrl: string
   apiAppUrl: string
   // Upload url
   uploadUrl?: string

@@ -16,13 +16,13 @@ import {
 import { getAccessToken } from '@/utils/auth'
 import { useWebSocket } from '@vueuse/core'
 import { getEqptStatusTotal,getEqptStatusReal,getEqptTraffic,getEqptAllList } from '@/api/base/eqpt/index'
-
+const { wsUrl = '' } = useGlobSetting()
 
 const state = reactive({
   sendValue: '',
 })
 const wsserver = ref(
-  `${(`${import.meta.env.VITE_WS_URL}/base/ws/eqpt?token=Bearer `)}${getAccessToken()}`,
+  `${(`${wsUrl}/base/ws/eqpt?token=Bearer `)}${getAccessToken()}`,
 )
 const { status, data, send, close, open } = useWebSocket(wsserver.value, {
   autoReconnect: false,
@@ -186,6 +186,7 @@ const reloadComponent = () => {
 import Board from './components/board.vue';
 import CardGroup from './components/card-group.vue';
 import { random } from 'lodash-es';
+import { useGlobSetting } from '@/hooks/setting';
 </script>
 <style lang="less">
 @import './style/index.less';

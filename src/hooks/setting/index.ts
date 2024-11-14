@@ -7,6 +7,7 @@ export function useGlobSetting(): Readonly<GlobConfig> {
   const {
     VITE_GLOB_APP_TITLE,
     VITE_GLOB_API_URL,
+    VITE_GLOB_WS_URL,
     VITE_GLOB_API_APP_URL,
     VITE_GLOB_APP_SHORT_NAME,
     VITE_GLOB_API_URL_PREFIX,
@@ -25,6 +26,7 @@ export function useGlobSetting(): Readonly<GlobConfig> {
   const glob: Readonly<GlobConfig> = {
     title: VITE_GLOB_APP_TITLE,
     apiUrl: VITE_GLOB_API_URL,
+    wsUrl: VITE_GLOB_WS_URL,
     apiAppUrl:VITE_GLOB_API_APP_URL,
     shortName: VITE_GLOB_APP_SHORT_NAME,
     urlPrefix: VITE_GLOB_API_URL_PREFIX,

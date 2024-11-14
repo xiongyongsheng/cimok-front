@@ -1,5 +1,4 @@
 import pkg from '../../package.json'
-import type { GlobEnvConfig } from '@/types/config'
 import { getConfigFileName } from '../../build/getConfigFileName'
 
 import { warn } from '@/utils/log'
@@ -20,6 +19,7 @@ export function getAppEnvConfig() {
   const {
     VITE_GLOB_APP_TITLE,
     VITE_GLOB_BASE_URL,
+    VITE_GLOB_WS_URL,
     VITE_GLOB_API_URL,
     VITE_GLOB_API_APP_URL,
     VITE_GLOB_APP_SHORT_NAME,
@@ -38,6 +38,7 @@ export function getAppEnvConfig() {
   return {
     VITE_GLOB_APP_TITLE,
     VITE_GLOB_BASE_URL,
+    VITE_GLOB_WS_URL,
     VITE_GLOB_API_URL,
     VITE_GLOB_API_APP_URL,
     VITE_GLOB_APP_SHORT_NAME,
