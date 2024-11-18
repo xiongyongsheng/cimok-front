@@ -34,16 +34,10 @@
         class="flex justify-start items-start flex-wrap gap-5 flex-1 device-monitor-bg-color py-4 px-7"
       >
         <TransitionGroup appear name="c-transition-group-card">
-          <RouterLink
+          <div
             class="text-white hover:text-white"
-            :to="{
-              name: 'DeviceRealTimeStatusDetail',
-              params: {
-                id: item.eqptCode,
-              },
-  query: { info: JSON.stringify(item) }
-            }"
             v-c-transition-delay="20"
+            @click="openLink(item)"
             v-for="(item,i) in eqptAllList"
             :key="i"
           >
@@ -60,9 +54,9 @@
               <h6 class="text-center font-size-3 m-0 line-height-3">
                 {{ item.eqptCode }}
               </h6>
-              <h6 class="text-right font-size-3 m-0 line-height-3" @click.prevent="openLink(item)">
-              远程控制
-              </h6>
+              <h6 @click.stop="handelDetail(item)" class="text-right font-size-3 m-0 line-height-3" >
+                详情
+                </h6>
             </div>
               
               <div class="flex justify-between items-stretch gap-10">
@@ -99,7 +93,7 @@
                 {{keyString}}：{{item.tipMap[keyString]}}
               </p>
             </div>
-          </RouterLink>
+          </div>
         </TransitionGroup>
       </div>
     </div>
@@ -127,8 +121,8 @@
 <script setup lang="ts">
 import { Button, Image } from 'ant-design-vue';
 import DayJs from 'dayjs';
-import { inject, nextTick, onMounted, onUnmounted, ref,reactive,watch } from 'vue';
-
+import { inject, nextTick, onMounted, onUnmounted, ref,reactive,watch ,defineEmits} from 'vue';
+import { useRouter } from 'vue-router';
 import productImage from '@/assets/images/u557.png';
 const props = defineProps({
   eqptAllList: {
@@ -140,6 +134,9 @@ const props = defineProps({
     defualt:()=>{}
   }
 });
+const router = useRouter();
+
+const emit = defineEmits(["openWeb"])
 const fullScreen = inject('fullScreen');
 const statusColor = reactive({
   initial:'#04b69b',
@@ -178,9 +175,22 @@ async function changeItem(item){
     }
   })
 }
+const handelDetail = (item) => {
+  router.push({
+                name: 'DeviceRealTimeStatusDetail',
+                params: {
+                  id: item.eqptCode,
+                },
+    query: { info: JSON.stringify(item) }
+              })
+}
 const openLink = (item) =>{
   if(item.vncUrl){
-    window.open(item.vncUrl,'_blank')
+    // 没有使用传参调用iframe的方式来显示远程控制弹窗，因为不确定打卡的网页是不是同源，如果确定同源，调用下面emit("openWeb",item.vncUrl)的方式就行
+    // emit("openWeb",item.vncUrl)
+    // window.open(item.vncUrl, '_blank')
+    window.open(item.vncUrl, 'newWindow', 'width='+(window.screen.width-20)+',height='+(window.screen.height-30)+ ',top=10,left=10,toolbar=no,menubar=no,resizable=yes,scrollbars=yes');
+
   }
 }
 </script>

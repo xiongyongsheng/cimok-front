@@ -1,8 +1,19 @@
 <template>
+  
   <div class="c-page" ref="pageRef">
     <Sider v-model:model-value="activeSider" :sider-list="siderList" />
     <Board v-if="showComponent" :eqptTotalNumber="eqptTotalNumber" :activeMenu="siderList[parseInt(activeSider)-1]" :boardData="boardData" :eqptTypeListData="eqptTypeListData" :eqptRealListData="eqptRealListData" :eqptCommListData="eqptCommListData"/>
-    <CardGroup v-if="showComponent"  :eqptAllList="eqptAllList" :eqptUpdateItem="eqptUpdateItem"/>
+    <CardGroup v-if="showComponent"  :eqptAllList="eqptAllList" :eqptUpdateItem="eqptUpdateItem" @openWeb="showModal"/>
+    <BasicModal
+    width="100%"
+    height="200"
+    wrap-class-name="full-modal"
+    @ok="handleOk"
+    title="远程控制"
+    @register="registerModal"
+  >
+  <IFrame :src="webUrl"></IFrame>
+  </BasicModal>
   </div>
 </template>
 <script lang="ts" setup name="DeviceRealTimeStatus">
@@ -13,11 +24,13 @@ import {
   BorderlessTableOutlined,
   ScheduleOutlined,
 } from '@ant-design/icons-vue';
+import { BasicModal, useModal } from "@/components/Modal";
+import {IFrame} from "@/components/IFrame"
 import { getAccessToken } from '@/utils/auth'
 import { useWebSocket } from '@vueuse/core'
 import { getEqptStatusTotal,getEqptStatusReal,getEqptTraffic,getEqptAllList } from '@/api/base/eqpt/index'
 const { wsUrl = '' } = useGlobSetting()
-
+const [registerModal, { openModal,setModalProps, closeModal }] = useModal();
 const state = reactive({
   sendValue: '',
 })
@@ -29,6 +42,17 @@ const { status, data, send, close, open } = useWebSocket(wsserver.value, {
   heartbeat: true,
 })
 const eqptUpdateItem = ref({})
+const openWeb = ref(true);
+const webUrl = ref('');
+
+const showModal = (url) => {
+  webUrl.value = url
+  openModal(true);
+};
+
+const handleOk = (e: MouseEvent) => {
+  openWeb.value = false;
+};
 watchEffect(() => {
   if (data.value) {
     try {
