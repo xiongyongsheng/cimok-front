@@ -41,8 +41,20 @@
             v-for="(item,i) in eqptAllList"
             :key="i"
           >
+          <!-- 有一部分状态值没有对应颜色 给了默认绿色 需要调整 -->
+          <div class="flex justify-between rounded-t-1.5 p-1.5 bg-card-normal-outer" :style="{backgroundColor:(statusControlColor[item.controlStatus?.toLowerCase()]??statusColor[item.status?.toLowerCase()])}">
+              <h6 class="text-center font-size-3 m-0 line-height-3">
+                {{ item.eqptCode }}
+              </h6>
+              <h6 class="text-center font-size-3 m-0 line-height-3">
+                {{ item.controlStatus ?? '' }}
+              </h6>
+              <h6 @click.stop="handelDetail(item)" class="text-right font-size-3 m-0 line-height-3" >
+                详情
+                </h6>
+            </div>
             <div
-              class="flex flex-col w-60 gap-2 bg-card-normal-outer rounded-1.5 p-1.5 cursor-pointer shadow-cyan hover:shadow-lg transition-all duration-300"
+              class="flex flex-col w-60 gap-2 bg-card-normal-outer rounded-b-1.5  p-1.5 cursor-pointer shadow-cyan hover:shadow-lg transition-all duration-300"
               :class="{
                 'bg-card-normal-outer':item.status !== 'RUN',
                 'bg-card-warning-outer': item.statue === 'RUN',
@@ -50,14 +62,7 @@
               }"
               :style="'background-color:'+statusColor[item.status?.toLowerCase()]"
             >
-            <div class="flex justify-between">
-              <h6 class="text-center font-size-3 m-0 line-height-3">
-                {{ item.eqptCode }}
-              </h6>
-              <h6 @click.stop="handelDetail(item)" class="text-right font-size-3 m-0 line-height-3" >
-                详情
-                </h6>
-            </div>
+            
               
               <div class="flex justify-between items-stretch gap-10">
                 <Image class="flex-shrink-0" :width="80" :src="item.eqptImgPath??productImage" />
@@ -147,6 +152,12 @@ const statusColor = reactive({
   pausing:'#ed4e4e',
   paused:'#ed4e4e',
   down:'#b3c9da'
+})
+const statusControlColor = reactive({
+  Offline:'#b3c9da',
+  OnlineLocal:'#f8ce65',
+  OnlineRemote:'#70b604',
+
 })
 let nowDate = ref(DayJs().format('YYYY-MM-DD HH:mm:ss'));
 let timer;
