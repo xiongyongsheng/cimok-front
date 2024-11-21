@@ -205,4 +205,27 @@ const openLink = (item) =>{
   }
 }
 </script>
-<style></style>
+<style>
+background-image: linear-gradient(
+  109.6deg,
+  rgba(112, 246, 255, 0.33) 11.2%,
+  rgba(221, 108, 241, 0.26) 42%,
+  rgba(229, 106, 253, 0.71) 71.5%,
+  rgba(123, 183, 253, 1) 100.2%
+);
+background-image: radial-gradient(
+  circle farthest-corner at 22.4% 21.7%,
+  rgba(4, 189, 228, 1) 0%,
+  rgba(2, 83, 185, 1) 100.2%
+);
+background-image: linear-gradient(
+  171.8deg,
+  rgba(5, 111, 146, 1) 13.5%,
+  rgba(6, 57, 84, 1) 78.6%
+);
+background-image: linear-gradient(
+  143.3deg,
+  rgba(216, 27, 96, 1) 33.1%,
+  rgba(237, 107, 154, 1) 74.9%
+);
+</style>
